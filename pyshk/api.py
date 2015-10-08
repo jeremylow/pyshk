@@ -20,8 +20,8 @@ from .models import (
 )
 
 from .errors import (
-    MlkShkError,
-    ApiUnauthorized,
+    ApiResponseUnauthorized,
+    ApiInstanceUnauthorized,
     NotFound404
 )
 
@@ -96,12 +96,10 @@ class Api(object):
             {full_token}
             >>> Your access token is: {token}
             >>> Your access secret is: {secret}
-            """.format(
-                full_token=json_resp,
-                token=json_resp['access_token'],
-                secret=json_resp['secret']
-            )
-        )
+            """.format(full_token=json_resp,
+                       token=json_resp['access_token'],
+                       secret=json_resp['secret']))
+
         self.access_token_key = json_resp['access_token']
         self.access_token_secret = json_resp['secret']
 
@@ -132,7 +130,7 @@ class Api(object):
                      access_token_key, access_token_secret]
 
         if not all(auth_list):
-            raise Exception
+            raise ApiInstanceUnauthorized
         self.authenticated = True
 
     def _RequestUrl(self, verb, endpoint=None, data=None):
@@ -172,16 +170,16 @@ class Api(object):
             verify=False)
 
         if req.status_code == 401:
-            raise ApiUnauthorized(req)
+            raise ApiResponseUnauthorized(req)
         elif req.status_code == 404:
             raise NotFound404(req)
         elif req.status_code == 500:
-            raise MlkShkError(req)
+            raise Exception(req)
 
         try:
             data = req.json()
         except:
-            raise MlkShkError(req)
+            raise Exception(req)
         return data
 
     @staticmethod

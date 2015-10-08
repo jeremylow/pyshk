@@ -11,20 +11,7 @@ def get_api_errors(test_str):
     return (error_code, error_description)
 
 
-class MlkShkError(Exception):
-
-    """ Exceptions from the MLKSHK API """
-
-    def __init__(self, reason):
-        self.reason = reason
-        print(self.__dict__)
-        Exception.__init__(self, reason)
-
-    def __str__(self):
-        return "Mlkshk Error: {0}".format(self.reason)
-
-
-class ApiUnauthorized(MlkShkError):
+class ApiResponseUnauthorized(Exception):
 
     """ Handle errors with authenticating the API instance """
 
@@ -45,7 +32,17 @@ class ApiUnauthorized(MlkShkError):
                 errdesc=self.error_description)
 
 
-class NotFound404(MlkShkError):
+class ApiInstanceUnauthorized(Exception):
+    def __init__(self):
+        self.reason = ("API Instance is unauthorized. You must provide "
+                       "a Consumer Key, Consumer Token, Access Key, and "
+                       "Access Secret. You can call DoAuthDance() on your "
+                       "API instance to get the access key and secret after "
+                       "creating your application on mlkshk.com")
+        super(ApiInstanceUnauthorized, self).__init__(self.reason)
+
+
+class NotFound404(Exception):
 
     """ Handle errors with 404 Not Found Status Codes """
 
