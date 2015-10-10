@@ -4,10 +4,10 @@ import base64
 import datetime
 import hmac
 from hashlib import md5, sha1
-import json
+# import json
 import random
 import requests
-from requests_oauthlib import OAuth2
+# from requests_oauthlib import OAuth2
 import time
 import urllib
 import webbrowser
@@ -133,14 +133,17 @@ class Api(object):
             raise ApiInstanceUnauthorized
         self.authenticated = True
 
+    def _get_url_endpoint(self, endpoint):
+        return self.base_url + endpoint
+
     def _RequestUrl(self, verb, endpoint=None, data=None):
         if not self.authenticated:
-            raise Exception
+            raise ApiInstanceUnauthorized
 
         timestamp = int(time.mktime(datetime.datetime.utcnow().timetuple()))
         nonce = self.get_nonce()
 
-        resource_url = self.base_url + endpoint
+        resource_url = self._get_url_endpoint(endpoint)
 
         normalized_string = "{0}\n".format(self.access_token_key)
         normalized_string += "{0}\n".format(timestamp)
@@ -258,8 +261,8 @@ class Api(object):
     def GetShakeSharedFiles(self,
                             shake_id=None):
         endpoint = '/api/shakes/{shake_id}'.format(
-            shake_id=shake_id
-        )
+            shake_id=shake_id)
+
         data = self._RequestUrl(verb="GET", endpoint=endpoint)
         return data
 
