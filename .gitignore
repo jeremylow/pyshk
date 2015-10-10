@@ -11,3 +11,5 @@ __pycache__/
 pyshk.egg-info/
 .coverage
 .cache
+.ipynb_checkpoints/
+*.ipynb
