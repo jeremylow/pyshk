@@ -10,3 +10,4 @@ __pycache__/
 .tox
 pyshk.egg-info/
 .coverage
+.cache
