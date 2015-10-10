@@ -47,13 +47,13 @@ class User(object):
 
     @property
     def MlkShkUrl(self):
-        return "https://mlkshk.com/user/{}".format(self.name)
+        return "https://mlkshk.com/user/{0}".format(self.name)
 
     @property
     def Shakes(self):
         """ Return a list of Shake objects if shakes are given in the response.
-        Shakes are **not** returned with the User if you are getting the user
-        data from an endpoint such as ``/api/sharedfile/[id]``.
+        Shakes are **not** returned with the full User information if you are
+        getting the user data from an endpoint such as ``/api/sharedfile/[id]``
         """
         if self.shakes:
             return self.shakes
@@ -95,6 +95,8 @@ class User(object):
             data['id'] = self.id
         if self.about:
             data['about'] = self.about
+        if self.website:
+            data['website'] = self.Website
         data['shakes'] = self.Shakes
         data['shake_count'] = self.ShakeCount
         return data
