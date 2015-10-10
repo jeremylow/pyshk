@@ -2,3 +2,5 @@ requests
 requests_oauthlib
 pytest
 tox
+coverage
+nose
