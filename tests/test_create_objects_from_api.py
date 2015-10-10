@@ -9,7 +9,7 @@ class ModelTests(unittest.TestCase):
     """ Test that pyshk creates proper models from API responses """
 
     def test_create_user_from_api(self):
-        with open('tests/test_data/api_resp__user_endpoint.json') as f:
+        with open('tests/test_data/api/user') as f:
             data = json.load(f)
             u = models.User.NewFromJSON(data)
             self.assertEqual(u.Id, 67136)
@@ -27,7 +27,7 @@ class ModelTests(unittest.TestCase):
             self.assertEqual(shk.Id, 68435)
 
     def test_create_user_dict(self):
-        with open('tests/test_data/api_resp__user_endpoint.json') as f:
+        with open('tests/test_data/api/user') as f:
             user_dict = {}
             user_dict['name'] = 'jcbl'
             user_dict['mlkshk_url'] = 'https://mlkshk.com/user/jcbl'
