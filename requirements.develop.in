@@ -4,3 +4,5 @@ pytest
 tox
 coverage
 nose
+six
+responses
