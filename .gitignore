@@ -7,3 +7,5 @@ node_modules/
 __pycache__/
 .vagrant/
 .vagrant/**
+.tox
+pyshk.egg-info/
