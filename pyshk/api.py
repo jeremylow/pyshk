@@ -107,10 +107,10 @@ class Api(object):
         self.access_token_secret = json_resp['secret']
 
     def _set_credentials(self,
-                       consumer_key=None,
-                       consumer_secret=None,
-                       access_token_key=None,
-                       access_token_secret=None):
+                         consumer_key=None,
+                         consumer_secret=None,
+                         access_token_key=None,
+                         access_token_secret=None):
         """Set the consumer_key and consumer_secret for this instance
 
         Args:
@@ -195,6 +195,8 @@ class Api(object):
             raise NotFound404(req)
         elif req.status_code == 500:
             raise Exception(req)
+
+        print(req)
 
         try:
             return req.json()
@@ -326,7 +328,6 @@ class Api(object):
             title = os.path.basename(image_file)
 
         f = open(image_file, 'rb')
-
         endpoint = '/api/upload'
 
         files = {'file': (title, f, content_type)}
@@ -336,7 +337,8 @@ class Api(object):
         return data
 
     def like_shared_file(self, sharekey=None):
-        endpoint = '/api/sharedfile/{sharekey}/like'.format(self.base_url)
+        endpoint = '/api/sharedfile/{sharekey}/like'.format(sharekey=sharekey)
+        data = self._make_request("POST", endpoint=endpoint, data=None)
 
     def post_comment(self, comment=None):
         pass
