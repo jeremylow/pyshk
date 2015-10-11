@@ -55,3 +55,19 @@ class TestAPIResponses(unittest.TestCase):
                 status=200)
             shakes = self.api.GetUserShakes()
             self.assertEqual(len(shakes), 1)
+
+    @responses.activate
+    def test_upload(self):
+        with open('tests/test_data/api/upload') as upload:
+            resp_data = upload.read().encode('utf8')
+
+            responses.add(
+                responses.POST,
+                'http://mlkshk.com/api/upload',
+                body=resp_data,
+                status=200
+            )
+            resp = self.api.PostSharedFile(
+                image_file='tests/test_data/like-tiny.gif')
+        expected_resp = {"share_key": "164L4", "name": "like-tiny.gif"}
+        self.assertEqual(resp['share_key'], expected_resp['share_key'])

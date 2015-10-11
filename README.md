@@ -14,6 +14,7 @@ Pyshk is a python client for the mlkshk.com api.
 * `GET /api/sharedfile/(sharekey)`
 * `GET /api/sharedfile/(sharekey)/comments`
 * `GET /api/shakes/(id)`
+* `POST /api/upload`
 
 ## Non-working resources:
 * `POST /api/sharedfile/(sharekey)/like`
@@ -32,4 +33,6 @@ Pyshk is a python client for the mlkshk.com api.
 * `POST /api/sharedfile/(sharekey)`
 * `POST /api/sharedfile/(sharekey)/comments`
 * `POST /api/sharedfile/(sharekey)/save`
-* `POST /api/upload`
+
+## Notes
+* `POST /api/upload` returns a 200 response, not 201 as stated in mlkshk docs.

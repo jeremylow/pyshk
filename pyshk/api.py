@@ -11,6 +11,9 @@ import requests
 import time
 import urllib
 import webbrowser
+import os
+import imghdr
+import six
 
 from .models import (
     SharedFile,
@@ -133,17 +136,19 @@ class Api(object):
             raise ApiInstanceUnauthorized
         self.authenticated = True
 
+    @staticmethod
+    def _get_image_type(image):
+        if imghdr.what(image) == 'jpeg':
+            return 'image/jpeg'
+        elif imghdr.what(image) == 'gif':
+            return 'image/gif'
+
     def _get_url_endpoint(self, endpoint):
         return self.base_url + endpoint
 
-    def _RequestUrl(self, verb, endpoint=None, data=None):
-        if not self.authenticated:
-            raise ApiInstanceUnauthorized
-
+    def _make_headers(self, verb=None, endpoint=None):
         timestamp = int(time.mktime(datetime.datetime.utcnow().timetuple()))
         nonce = self.get_nonce()
-
-        resource_url = self._get_url_endpoint(endpoint)
 
         normalized_string = "{0}\n".format(self.access_token_key)
         normalized_string += "{0}\n".format(timestamp)
@@ -157,7 +162,10 @@ class Api(object):
             self.access_token_secret.encode('ascii'),
             normalized_string.encode('ascii'),
             sha1).digest()
-        signature = base64.encodestring(digest).strip().decode('utf8')
+        if six.PY3:
+            signature = base64.encodebytes(digest).strip().decode('utf8')
+        elif six.PY2:
+            signature = base64.encodestring(digest).strip().decode('utf8')
         auth_str = (
             'MAC token="{0}", '
             'timestamp="{1}", '
@@ -167,10 +175,26 @@ class Api(object):
                 str(timestamp),
                 nonce,
                 signature)
-        req = requests.get(
-            resource_url,
-            headers={'Authorization': auth_str},
-            verify=False)
+        return auth_str
+
+    def _RequestUrl(self, verb, endpoint=None, data=None):
+        if not self.authenticated:
+            raise ApiInstanceUnauthorized
+
+        resource_url = self._get_url_endpoint(endpoint)
+
+        authorization_header = self._make_headers(verb=verb, endpoint=endpoint)
+
+        if verb == "GET":
+            req = requests.get(
+                resource_url,
+                headers={'Authorization': authorization_header},
+                verify=False)
+        elif verb == "POST":
+            req = requests.post(
+                resource_url,
+                headers={'Authorization': authorization_header},
+                files=data)
 
         if req.status_code == 401:
             raise ApiResponseUnauthorized(req)
@@ -180,10 +204,9 @@ class Api(object):
             raise Exception(req)
 
         try:
-            data = req.json()
+            return req.json()
         except:
-            raise Exception(req)
-        return data
+            return req
 
     @staticmethod
     def get_nonce():
@@ -278,8 +301,46 @@ class Api(object):
                        shake_id=None,
                        title=None,
                        description=None):
-        endpoint = '/api/upload'.format(self.base_url)
-        pass
+        """ Upload an image.
+
+        Args:
+            image_file (str): path to an image (jpg/gif) on your computer.
+            source_link (str): URL of a source (youtube/vine/etc.)
+            shake_id (int): shake to which to upload the file or
+                source_link [optional]
+            title (str): title of the SharedFile [optional]
+            description (str): description of the SharedFile
+
+        Returns:
+            SharedFile key.
+        """
+        if image_file and source_link:
+            raise Exception("You can only specify an image file or "
+                            "a source link, not both.")
+        if not image_file and not source_link:
+            raise Exception("You must specify an image file or a source "
+                            "link")
+
+        content_type = self._get_image_type(image_file)
+
+        if not title:
+            title = os.path.basename(image_file)
+
+        f = open(image_file, 'rb')
+
+        endpoint = '/api/upload'
+
+        files = {
+            'file': (
+                title,
+                f,
+                content_type
+            )
+        }
+
+        data = self._RequestUrl("POST", endpoint=endpoint, data=files)
+        f.close()
+        return data
 
     def LikeSharedFile(self,
                        sharekey=None):
