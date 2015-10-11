@@ -40,7 +40,7 @@ class TestAPIResponses(unittest.TestCase):
                 'http://mlkshk.com/api/user',
                 body=resp_data,
                 status=200)
-            user = self.api.GetUser()
+            user = self.api.get_user()
             print(user.Name)
 
     @responses.activate
@@ -53,7 +53,7 @@ class TestAPIResponses(unittest.TestCase):
                 'http://mlkshk.com/api/shakes',
                 body=resp_data,
                 status=200)
-            shakes = self.api.GetUserShakes()
+            shakes = self.api.get_user_shakes()
             self.assertEqual(len(shakes), 1)
 
     @responses.activate
@@ -67,7 +67,7 @@ class TestAPIResponses(unittest.TestCase):
                 body=resp_data,
                 status=200
             )
-            resp = self.api.PostSharedFile(
+            resp = self.api.post_shared_file(
                 image_file='tests/test_data/like-tiny.gif')
         expected_resp = {"share_key": "164L4", "name": "like-tiny.gif"}
         self.assertEqual(resp['share_key'], expected_resp['share_key'])
