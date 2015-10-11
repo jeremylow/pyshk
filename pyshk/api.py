@@ -2,18 +2,18 @@
 
 import base64
 import datetime
-import hmac
 from hashlib import md5, sha1
+import hmac
 # import json
+# from requests_oauthlib import OAuth2
+import imghdr
+import os
 import random
 import requests
-# from requests_oauthlib import OAuth2
+import six
 import time
 import urllib
 import webbrowser
-import os
-import imghdr
-import six
 
 from .models import (
     SharedFile,
@@ -67,10 +67,6 @@ class Api(object):
             consumer_secret,
             access_token_key,
             access_token_secret)
-
-    ####################################################################
-    # Helper Functions
-    ####################################################################
 
     def DoAuthDance(self,
                     redirect_uri=None):
@@ -177,7 +173,7 @@ class Api(object):
                 signature)
         return auth_str
 
-    def _RequestUrl(self, verb, endpoint=None, data=None):
+    def _make_request(self, verb, endpoint=None, data=None):
         if not self.authenticated:
             raise ApiInstanceUnauthorized
 
@@ -215,11 +211,7 @@ class Api(object):
         ).hexdigest()
         return nonce
 
-    ####################################################################
-    # Users
-    ####################################################################
-
-    def GetUser(self,
+    def get_user(self,
                 user_id=None,
                 user_name=None):
         """ Get a user object from the API. If no ``user_id`` or ``user_name``
@@ -246,18 +238,14 @@ class Api(object):
             # Return currently authorized user
             endpoint = '/api/user'
 
-        data = self._RequestUrl(verb="GET", endpoint=endpoint)
+        data = self._make_request(verb="GET", endpoint=endpoint)
 
         try:
             return User.NewFromJSON(data)
         except:
             return data
 
-    ####################################################################
-    # Shakes
-    ####################################################################
-
-    def GetUserShakes(self,
+    def get_user_shakes(self,
                       user_id=None,
                       user_name=None):
         """ Get a list of Shake objects for a user. If no ``user_id`` or
@@ -277,25 +265,25 @@ class Api(object):
             endpoint = '/api/user_name/{0}'.format(user_name)
         else:
             endpoint = '/api/shakes'
-        data = self._RequestUrl(verb="GET", endpoint=endpoint)
+        data = self._make_request(verb="GET", endpoint=endpoint)
         shakes = [Shake.NewFromJSON(shk) for shk in data['shakes']]
         return shakes
 
-    def GetShakeSharedFiles(self,
+    def get_shared_files_from_shake(self,
                             shake_id=None):
         endpoint = '/api/shakes/{shake_id}'.format(
             shake_id=shake_id)
 
-        data = self._RequestUrl(verb="GET", endpoint=endpoint)
+        data = self._make_request(verb="GET", endpoint=endpoint)
         return data
 
-    def GetSharedFile(self,
+    def get_shared_file(self,
                       sharekey=None):
         endpoint = '/api/sharedfile/{0}'.format(sharekey)
-        data = self._RequestUrl('GET', endpoint)
+        data = self._make_request('GET', endpoint)
         return SharedFile.NewFromJSON(data)
 
-    def PostSharedFile(self,
+    def post_shared_file(self,
                        image_file=None,
                        source_link=None,
                        shake_id=None,
@@ -330,21 +318,15 @@ class Api(object):
 
         endpoint = '/api/upload'
 
-        files = {
-            'file': (
-                title,
-                f,
-                content_type
-            )
-        }
+        files = {'file': (title, f, content_type)}
+        data = self._make_request("POST", endpoint=endpoint, data=files)
 
-        data = self._RequestUrl("POST", endpoint=endpoint, data=files)
         f.close()
         return data
 
-    def LikeSharedFile(self,
+    def like_shared_file(self,
                        sharekey=None):
         endpoint = '/api/sharedfile/{sharekey}/like'.format(self.base_url)
 
-    def PostComment():
+    def post_comment(self, comment=None):
         pass
