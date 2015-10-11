@@ -12,7 +12,12 @@ import random
 import requests
 import six
 import time
-import urllib
+
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
+
 import webbrowser
 
 from .models import (
@@ -46,9 +51,9 @@ class Api(object):
         self.port = 80
 
         # Set headers, client info for requests.
-        default_headers = {'User-Agent': 'PyShk v0.0.1'}
-        self.client_args = {}
-        self.client_args['headers'] = default_headers
+        # default_headers = {'User-Agent': 'PyShk v0.0.1'}
+        # self.client_args = {}
+        # self.client_args['headers'] = default_headers
 
         # Set up auth - TODO:
         # self.auth = None
@@ -62,14 +67,13 @@ class Api(object):
         # self.client = requests.Session()
         # self.client.auth = self.auth
 
-        self.SetCredentials(
+        self._set_credentials(
             consumer_key,
             consumer_secret,
             access_token_key,
             access_token_secret)
 
-    def DoAuthDance(self,
-                    redirect_uri=None):
+    def get_auth(self, redirect_uri=None):
         if not redirect_uri:
             redirect_uri = "http://localhost:8000"
         authentication_url = (
@@ -77,7 +81,7 @@ class Api(object):
             "?response_type=code&client_id={key}&redirect_uri={uri}").format(
                 key=self.consumer_key,
                 uri=redirect_uri)
-        print(authentication_url)
+
         access_token_url = 'https://mlkshk.com/api/token'
         webbrowser.open(authentication_url, new=1)
         authorization_code = input("Enter the code from the redirected URL: ")
@@ -88,7 +92,7 @@ class Api(object):
             'client_id': self.consumer_key,
             'client_secret': self.consumer_secret
         }
-        data = urllib.parse.urlencode(message)
+        data = urlencode(message)
         req = requests.post(access_token_url, params=data, verify=False)
         json_resp = req.json()
         print("""
@@ -102,7 +106,7 @@ class Api(object):
         self.access_token_key = json_resp['access_token']
         self.access_token_secret = json_resp['secret']
 
-    def SetCredentials(self,
+    def _set_credentials(self,
                        consumer_key=None,
                        consumer_secret=None,
                        access_token_key=None,
@@ -116,10 +120,10 @@ class Api(object):
             The consumer_secret for the MLKSHK app.
           access_token_key:
             The oAuth access token key value you retrieved
-            from running DoAuthDance().
+            from running get_auth().
           access_token_secret:
             The oAuth access token's secret, also retrieved
-            from the DoAuthDance() run.
+            from the get_auth() run.
         """
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
@@ -131,13 +135,6 @@ class Api(object):
         if not all(auth_list):
             raise ApiInstanceUnauthorized
         self.authenticated = True
-
-    @staticmethod
-    def _get_image_type(image):
-        if imghdr.what(image) == 'jpeg':
-            return 'image/jpeg'
-        elif imghdr.what(image) == 'gif':
-            return 'image/gif'
 
     def _get_url_endpoint(self, endpoint):
         return self.base_url + endpoint
@@ -211,9 +208,14 @@ class Api(object):
         ).hexdigest()
         return nonce
 
-    def get_user(self,
-                user_id=None,
-                user_name=None):
+    @staticmethod
+    def _get_image_type(image):
+        if imghdr.what(image) == 'jpeg':
+            return 'image/jpeg'
+        elif imghdr.what(image) == 'gif':
+            return 'image/gif'
+
+    def get_user(self, user_id=None, user_name=None):
         """ Get a user object from the API. If no ``user_id`` or ``user_name``
         is specified, it will return the User object for the currently
         authenticated user.
@@ -245,9 +247,7 @@ class Api(object):
         except:
             return data
 
-    def get_user_shakes(self,
-                      user_id=None,
-                      user_name=None):
+    def get_user_shakes(self, user_id=None, user_name=None):
         """ Get a list of Shake objects for a user. If no ``user_id`` or
         ``user_name`` is specified, then get a list of shakes for the currently
         authenticated user.
@@ -269,27 +269,38 @@ class Api(object):
         shakes = [Shake.NewFromJSON(shk) for shk in data['shakes']]
         return shakes
 
-    def get_shared_files_from_shake(self,
-                            shake_id=None):
+    def get_shared_files_from_shake(self, shake_id=None):
+        """
+        Returns a list of SharedFile objects from a particular shake.
+
+        Args:
+            shake_id (int): Shake from which to get a list of SharedFiles
+
+        Returns:
+            List (list) of SharedFiles.
+        """
         endpoint = '/api/shakes/{shake_id}'.format(
             shake_id=shake_id)
 
         data = self._make_request(verb="GET", endpoint=endpoint)
         return data
 
-    def get_shared_file(self,
-                      sharekey=None):
+    def get_shared_file(self, sharekey=None):
         endpoint = '/api/sharedfile/{0}'.format(sharekey)
         data = self._make_request('GET', endpoint)
         return SharedFile.NewFromJSON(data)
 
     def post_shared_file(self,
-                       image_file=None,
-                       source_link=None,
-                       shake_id=None,
-                       title=None,
-                       description=None):
+                         image_file=None,
+                         source_link=None,
+                         shake_id=None,
+                         title=None,
+                         description=None):
         """ Upload an image.
+
+        TODO:
+        Don't have a pro account to test (or even write) code to upload a
+        shared filed to a particular shake.
 
         Args:
             image_file (str): path to an image (jpg/gif) on your computer.
@@ -324,8 +335,7 @@ class Api(object):
         f.close()
         return data
 
-    def like_shared_file(self,
-                       sharekey=None):
+    def like_shared_file(self, sharekey=None):
         endpoint = '/api/sharedfile/{sharekey}/like'.format(self.base_url)
 
     def post_comment(self, comment=None):

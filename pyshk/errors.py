@@ -36,7 +36,7 @@ class ApiInstanceUnauthorized(Exception):
     def __init__(self):
         self.reason = ("API Instance is unauthorized. You must provide "
                        "a Consumer Key, Consumer Token, Access Key, and "
-                       "Access Secret. You can call DoAuthDance() on your "
+                       "Access Secret. You can call get_auth() on your "
                        "API instance to get the access key and secret after "
                        "creating your application on mlkshk.com")
         super(ApiInstanceUnauthorized, self).__init__(self.reason)
