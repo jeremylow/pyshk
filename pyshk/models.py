@@ -3,7 +3,8 @@ import json
 
 class User(object):
 
-    """ A class representing a MLKSHK user.
+    """
+    A class representing a MLKSHK user.
 
     Exposes the following properties of a user:
         user.id
@@ -67,10 +68,6 @@ class User(object):
         else:
             return 0
 
-    def __repr__(self):
-        """ String representation of this User instance. """
-        return self.AsJsonString()
-
     def AsJsonString(self):
         """A JSON string representation of this User instance.
 
@@ -80,7 +77,8 @@ class User(object):
         return json.dumps(self.AsDict(), sort_keys=True)
 
     def AsDict(self):
-        """A dict representation of this User instance.
+        """
+        A dict representation of this User instance.
 
         The return value uses the same key names as the JSON representation.
 
@@ -103,7 +101,8 @@ class User(object):
 
     @staticmethod
     def NewFromJSON(data):
-        """ Create a new User instance from a JSON dict.
+        """
+        Create a new User instance from a JSON dict.
 
         Args:
             data (dict): JSON dictionary representing a user.
@@ -123,6 +122,37 @@ class User(object):
             website=data.get('website', None),
             shakes=shakes)
 
+    def __repr__(self):
+        """ String representation of this User instance. """
+        return self.AsJsonString()
+
+    def __eq__(self, other):
+        """
+        Compare two user objects against one another.
+
+        TODO:
+            I have mixed feelings about comparing such things as
+            self.shakes and other.shakes (or, even worse, profile images)
+            because those are not, to be dramatic, intrinsic to the other.
+            If I update my profile picture, I am not ontologically
+            different from myself before the update. My preference
+            is that attributes that cannot be changed, for example,
+            my id and name, should be the basis for equality. I guess
+            that is a question of the library's usage?
+
+            omg worst todo ever.
+        """
+        try:
+            return other and \
+                self.id == other.id  and \
+                self.name == other.name  and \
+                self.profile_image_url == other.profile_image_url  and \
+                self.about == other.about  and \
+                self.website == other.website  and \
+                self.shakes == other.shakes
+        except AttributeError:
+            return False
+
 
 class Comment(object):
     pass
@@ -130,7 +160,8 @@ class Comment(object):
 
 class Shake(object):
 
-    """ A class representing a Shake on MLKSHK.
+    """
+    A class representing a Shake on mlkshk.
 
     Exposes the following properties of a Shake:
         shake.id
@@ -158,48 +189,13 @@ class Shake(object):
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
 
-    @property
-    def Id(self):
-        return self.id
-
-    @property
-    def Name(self):
-        return self.name
-
-    @property
-    def Owner(self):
-        return self.owner
-
-    @property
-    def Url(self):
-        return self.url
-
-    @property
-    def ThumbnailUrl(self):
-        return self.thumbnail_url
-
-    @property
-    def Description(self):
-        return self.description
-
-    @property
-    def Type(self):
-        return self.type
-
-    @property
-    def CreatedAt(self):
-        return self.created_at
-
-    @property
-    def UpdatedAt(self):
-        return self.updated_at
-
     def __repr__(self):
         """ String representation of this Shake instance. """
         return self.AsJsonString()
 
     def AsJsonString(self):
-        """A JSON string representation of this Shake instance.
+        """
+        A JSON string representation of this Shake instance.
 
         Returns:
           A JSON string representation of this Shake instance
@@ -207,7 +203,8 @@ class Shake(object):
         return json.dumps(self.AsDict(), sort_keys=True)
 
     def AsDict(self):
-        """A dict representation of this Shake instance.
+        """
+        A dict representation of this Shake instance.
 
         The return value uses the same key names as the JSON representation.
 
@@ -239,7 +236,8 @@ class Shake(object):
 
     @staticmethod
     def NewFromJSON(data):
-        """ Create a new Shake instance from a JSON dict.
+        """
+        Create a new Shake instance from a JSON dict.
 
         Args:
             data (dict): JSON dictionary representing a Shake.
@@ -262,7 +260,8 @@ class Shake(object):
 
 class SharedFile(object):
 
-    """ A class representing a file shared on MLKSHK.
+    """
+    A class representing a file shared on MLKSHK.
 
     Exposes the following properties of a sharedfile:
         sharedfile.sharekey
@@ -331,7 +330,8 @@ class SharedFile(object):
 
     @staticmethod
     def NewFromJSON(data):
-        """ Create a new SharedFile instance from a JSON dict.
+        """
+        Create a new SharedFile instance from a JSON dict.
 
         Args:
             data (dict): JSON dictionary representing a SharedFile.
@@ -359,3 +359,29 @@ class SharedFile(object):
             saved=data.get('saved', False),
             liked=data.get('liked', False),
         )
+
+    def __eq__(self, other):
+        """
+        Compare two SharedFiles on all attributes **except** saved status
+        and liked status.
+        """
+        try:
+            return other and \
+                self.sharekey == other.sharekey and \
+                self.name == other.name and \
+                self.user == other.user and \
+                self.title == other.title and \
+                self.description == other.description and \
+                self.posted_at == other.posted_at and \
+                self.permalink == other.permalink and \
+                self.width == other.width and \
+                self.height == other.height and \
+                self.views == other.views and \
+                self.likes == other.likes and \
+                self.saves == other.saves and \
+                self.comments == other.comments and \
+                self.nsfw == other.nsfw and \
+                self.image_url == other.image_url and \
+                self.source_url == other.source_url
+        except AttributeError:
+            return False
