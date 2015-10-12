@@ -12,7 +12,7 @@ class ModelTests(unittest.TestCase):
         with open('tests/test_data/api/user') as f:
             data = json.load(f)
             u = models.User.NewFromJSON(data)
-            self.assertEqual(u.Id, 67136)
+            self.assertEqual(u.id, 67136)
             self.assertEqual(len(u.Shakes), 1)
             self.assertEqual(len(u.Shakes), u.ShakeCount)
             self.assertEqual(u.Name, 'jcbl')
@@ -24,7 +24,7 @@ class ModelTests(unittest.TestCase):
             self.assertEqual(u.MlkShkUrl, 'https://mlkshk.com/user/jcbl')
 
             shk = u.Shakes[0]
-            self.assertEqual(shk.Id, 68435)
+            self.assertEqual(shk.id, 68435)
 
     def test_create_user_dict(self):
         with open('tests/test_data/api/user') as f:
@@ -38,7 +38,8 @@ class ModelTests(unittest.TestCase):
             tmp_shk.description = 'New Shake'
             tmp_shk.id = 68435
             tmp_shk.name = 'jcbl'
-            tmp_shk.thumbnail_url = 'http://mlkshk.com/static/images/default-icon-venti.png'
+            tmp_shk.thumbnail_url = ('http://mlkshk.com'
+                                     '/static/images/default-icon-venti.png')
             tmp_shk.type = 'user'
             tmp_shk.updated_at = '2015-04-27T17:22:54Z'
             tmp_shk.url = 'http://mlkshk.com/user/jcbl'

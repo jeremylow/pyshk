@@ -3,14 +3,6 @@ from __future__ import print_function
 import re
 
 
-def get_api_errors(test_str):
-    err_code_search = re.compile(r'error="([\w]*)"')
-    err_desc_search = re.compile(r'error_description="(.*)"')
-    error_code = re.search(err_code_search, test_str).groups()[0]
-    error_description = re.search(err_desc_search, test_str).groups()[0]
-    return (error_code, error_description)
-
-
 class ApiResponseUnauthorized(Exception):
 
     """ Handle errors with authenticating the API instance """
