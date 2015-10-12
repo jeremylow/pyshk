@@ -202,6 +202,11 @@ class Api(object):
         except:
             return req
 
+        # try:
+        #     return req.json()
+        # except:
+        #     return req
+
     @staticmethod
     def get_nonce():
         nonce = md5(

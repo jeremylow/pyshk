@@ -13,12 +13,37 @@ class ApiTests(unittest.TestCase):
     """ Test various API functions """
 
     def test_api_creation(self):
-        self.assertRaises(errors.ApiInstanceUnauthorized, Api)
         a = Api(consumer_key='test',
                 consumer_secret='test',
                 access_token_key='test',
                 access_token_secret='supersecret')
         self.assertEqual(a.base_url, 'http://mlkshk.com')
+        a = Api(base_url='http://example.com')
+        self.assertEqual(a.base_url, 'http://example.com')
+
+    def test_api_unauthorized(self):
+        a = Api(consumer_key='test', consumer_secret='test')
+        self.assertRaises(errors.ApiInstanceUnauthorized, a.get_user)
+
+    # @responses.activate
+    # def test_api_auth(self):
+    #     auth_url = (
+    #         'https://mlkshk.com/api/authorize?response_type='
+    #         'code&client_id=test&redirect_uri=http://localhost:8000')
+
+    #     with open('tests/test_data/api/authorize') as f:
+    #         resp_data = f.read()
+    #         responses.add(
+    #             responses.POST,
+    #             auth_url,
+    #             body=resp_data,
+    #             status_code=200)
+
+    #         a = Api(
+    #             consumer_key='test',
+    #             consumer_key='test',
+    #             redirect_uri='http://localhost:8000')
+    #         req = a.get_auth()
 
 
 class TestAPIResponses(unittest.TestCase):
@@ -41,20 +66,48 @@ class TestAPIResponses(unittest.TestCase):
                 body=resp_data,
                 status=200)
             user = self.api.get_user()
-            print(user.Name)
+        self.assertEqual(user.name, 'jcbl')
+
+        # By user_id
+        with open('tests/test_data/api/user_id/67136') as f:
+            resp_data = f.read()
+
+            responses.add(
+                responses.GET,
+                'http://mlkshk.com/api/user_id/67136',
+                body=resp_data,
+                status=200)
+            user = self.api.get_user(user_id=67136)
+        self.assertEqual(user.name, 'jcbl')
+
+        # By user_name
+        with open('tests/test_data/api/user_name/jcbl') as f:
+            resp_data = f.read()
+
+            responses.add(
+                responses.GET,
+                'http://mlkshk.com/api/user_name/jcbl',
+                body=resp_data,
+                status=200)
+            user = self.api.get_user(user_name='jcbl')
+        self.assertEqual(user.name, 'jcbl')
 
     @responses.activate
     def test_get_authd_user_shakes(self):
         with open('tests/test_data/api/shakes') as api_shakes:
             resp_data = api_shakes.read()
 
-            responses.add(
-                responses.GET,
-                'http://mlkshk.com/api/shakes',
-                body=resp_data,
-                status=200)
-            shakes = self.api.get_user_shakes()
-            self.assertEqual(len(shakes), 1)
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/shakes',
+            body=resp_data,
+            status=200)
+        shakes = self.api.get_user_shakes()
+        self.assertEqual(len(shakes), 1)
+
+    @responses.activate
+    def test_get_sharedfiles_from_shake(self):
+        pass
 
     @responses.activate
     def test_upload(self):
