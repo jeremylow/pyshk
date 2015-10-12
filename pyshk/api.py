@@ -49,6 +49,7 @@ class Api(object):
             self.base_url = base_url
 
         self.port = 80
+        self.authenticated = False
 
         # Set headers, client info for requests.
         # default_headers = {'User-Agent': 'PyShk v0.0.1'}
@@ -76,6 +77,7 @@ class Api(object):
     def get_auth(self, redirect_uri=None):
         if not redirect_uri:
             redirect_uri = "http://localhost:8000"
+
         authentication_url = (
             "https://mlkshk.com/api/authorize"
             "?response_type=code&client_id={key}&redirect_uri={uri}").format(
@@ -132,9 +134,8 @@ class Api(object):
         auth_list = [consumer_key, consumer_secret,
                      access_token_key, access_token_secret]
 
-        if not all(auth_list):
-            raise ApiInstanceUnauthorized
-        self.authenticated = True
+        if all(auth_list):
+            self.authenticated = True
 
     def _get_url_endpoint(self, endpoint):
         return self.base_url + endpoint
@@ -195,8 +196,6 @@ class Api(object):
             raise NotFound404(req)
         elif req.status_code == 500:
             raise Exception(req)
-
-        print(req)
 
         try:
             return req.json()
@@ -337,8 +336,24 @@ class Api(object):
         return data
 
     def like_shared_file(self, sharekey=None):
+        """ 'Like' a SharedFile. mlkshk doesn't allow you to unlike a
+        sharedfile, so this is ~~permanent~~.
+
+        Args:
+            sharekey (str): Sharekey for the file you want to 'like'.
+
+        Returns:
+            Either a SharedFile on success, or an exception on error.
+        """
         endpoint = '/api/sharedfile/{sharekey}/like'.format(sharekey=sharekey)
         data = self._make_request("POST", endpoint=endpoint, data=None)
+
+        return data
+
+        if data.status_code == 200:
+            return SharedFile.NewFromJSON(data)
+        elif data.status_code == 400:
+            raise ("{0}".format(data['error']))
 
     def post_comment(self, comment=None):
         pass
