@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/jeremylow/pyshk.svg?branch=master)](https://travis-ci.org/jeremylow/pyshk)
+[![Coverage Status](https://coveralls.io/repos/jeremylow/pyshk/badge.svg?branch=master&service=github)](https://coveralls.io/github/jeremylow/pyshk?branch=master)
 
 Pyshk is a python client for the mlkshk.com api.
 
