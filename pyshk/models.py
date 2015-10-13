@@ -25,44 +25,44 @@ class User(object):
             'shakes': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
+    #
+    # @property
+    # def Id(self):
+    #     return self.id
+
+    # @property
+    # def Name(self):
+    #     return self.name
+    #
+    # @property
+    # def ProfileImageUrl(self):
+    #     return self.profile_image_url
+    #
+    # @property
+    # def About(self):
+    #     return self.about
+    #
+    # @property
+    # def Website(self):
+    #     return self.website
 
     @property
-    def Id(self):
-        return self.id
-
-    @property
-    def Name(self):
-        return self.name
-
-    @property
-    def ProfileImageUrl(self):
-        return self.profile_image_url
-
-    @property
-    def About(self):
-        return self.about
-
-    @property
-    def Website(self):
-        return self.website
-
-    @property
-    def MlkShkUrl(self):
+    def mlkshk_url(self):
         return "https://mlkshk.com/user/{0}".format(self.name)
 
-    @property
-    def Shakes(self):
-        """ Return a list of Shake objects if shakes are given in the response.
-        Shakes are **not** returned with the full User information if you are
-        getting the user data from an endpoint such as ``/api/sharedfile/[id]``
-        """
-        if self.shakes:
-            return self.shakes
-        else:
-            return None
+    # @property
+    # def Shakes(self):
+    #     """ Return a list of Shake objects if shakes are given in the response.
+    #     Shakes are **not** returned with the full User information if you are
+    #     getting the user data from an endpoint such as ``/api/sharedfile/[id]``
+    #     """
+    #     if self.shakes:
+    #         return self.shakes
+    #     else:
+    #         return None
 
     @property
-    def ShakeCount(self):
+    def shake_count(self):
         if self.shakes:
             return len(self.shakes)
         else:
@@ -88,15 +88,15 @@ class User(object):
         data = {}
         if self.name:
             data['name'] = self.name
-            data['mlkshk_url'] = self.MlkShkUrl
+            data['mlkshk_url'] = self.mlkshk_url
         if self.id:
             data['id'] = self.id
         if self.about:
             data['about'] = self.about
         if self.website:
             data['website'] = self.Website
-        data['shakes'] = self.Shakes
-        data['shake_count'] = self.ShakeCount
+        data['shakes'] = self.shakes
+        data['shake_count'] = self.shake_count
         return data
 
     @staticmethod
@@ -114,6 +114,7 @@ class User(object):
             shakes = [Shake.NewFromJSON(shk) for shk in data.get('shakes')]
         else:
             shakes = None
+
         return User(
             id=data.get('id', None),
             name=data.get('name', None),
@@ -130,25 +131,17 @@ class User(object):
         """
         Compare two user objects against one another.
 
-        TODO:
-            I have mixed feelings about comparing such things as
-            self.shakes and other.shakes (or, even worse, profile images)
-            because those are not, to be dramatic, intrinsic to the other.
-            If I update my profile picture, I am not ontologically
-            different from myself before the update. My preference
-            is that attributes that cannot be changed, for example,
-            my id and name, should be the basis for equality. I guess
-            that is a question of the library's usage?
-
-            omg worst todo ever.
+        Args:
+            other (User): another User object against which to compare the
+                current user.
         """
         try:
             return other and \
-                self.id == other.id  and \
-                self.name == other.name  and \
-                self.profile_image_url == other.profile_image_url  and \
-                self.about == other.about  and \
-                self.website == other.website  and \
+                self.id == other.id and \
+                self.name == other.name and \
+                self.profile_image_url == other.profile_image_url and \
+                self.about == other.about and \
+                self.website == other.website and \
                 self.shakes == other.shakes
         except AttributeError:
             return False
@@ -257,6 +250,21 @@ class Shake(object):
             updated_at=data.get('updated_at', None)
         )
 
+    def __eq__(self, other):
+        try:
+            return other and \
+                self.id == other.id and \
+                self.name == other.name and \
+                self.owner == other.owner and \
+                self.url == other.url and \
+                self.thumbnail_url == other.thumbnail_url and \
+                self.description == other.description and \
+                self.type == other.type and \
+                self.created_at == other.created_at and \
+                self.updated_at == other.updated_at
+        except AttributeError:
+            return False
+
 
 class SharedFile(object):
 
@@ -359,6 +367,61 @@ class SharedFile(object):
             saved=data.get('saved', False),
             liked=data.get('liked', False),
         )
+
+    def AsDict(self):
+        """
+        A dict representation of this Shake instance.
+
+        The return value uses the same key names as the JSON representation.
+
+        Return:
+          A dict representing this Shake instance
+        """
+        data = {}
+
+        if self.sharekey:
+            data['sharekey'] = self.sharekey
+        if self.name:
+            data['name'] = self.name
+        if self.user:
+            data['user'] = self.user
+        if self.title:
+            data['title'] = self.title
+        if self.description:
+            data['description'] = self.description
+        if self.posted_at:
+            data['posted_at'] = self.posted_at
+        if self.permalink:
+            data['permalink'] = self.permalink
+        if self.width:
+            data['width'] = self.width
+        if self.height:
+            data['height'] = self.height
+        if self.views:
+            data['views'] = self.views
+        if self.likes:
+            data['likes'] = self.likes
+        if self.saves:
+            data['saves'] = self.saves
+        if self.comments:
+            data['comments'] = self.comments
+        if self.nsfw:
+            data['nsfw'] = self.nsfw
+        if self.image_url:
+            data['image_url'] = self.image_url
+        if self.source_url:
+            data['source_url'] = self.source_url
+        if self.saved:
+            data['saved'] = self.saved
+        if self.liked:
+            data['liked'] = self.liked
+
+        return data
+
+    def __repr__(self):
+        return json.dumps(self.AsDict(), sort_keys=True)
+        return "SharedFile(key={key}, title={title})".format(
+            key=self.sharekey, title=self.title)
 
     def __eq__(self, other):
         """

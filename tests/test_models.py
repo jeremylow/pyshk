@@ -13,17 +13,17 @@ class ModelTests(unittest.TestCase):
             data = json.load(f)
             u = models.User.NewFromJSON(data)
             self.assertEqual(u.id, 67136)
-            self.assertEqual(len(u.Shakes), 1)
-            self.assertEqual(len(u.Shakes), u.ShakeCount)
-            self.assertEqual(u.Name, 'jcbl')
+            self.assertEqual(len(u.shakes), 1)
+            self.assertEqual(len(u.shakes), u.shake_count)
+            self.assertEqual(u.name, 'jcbl')
             self.assertEqual(
-                u.ProfileImageUrl,
+                u.profile_image_url,
                 "http://mlkshk.com/static/images/default-icon-venti.png")
-            self.assertEqual(u.About, '')
-            self.assertEqual(u.Website, '')
-            self.assertEqual(u.MlkShkUrl, 'https://mlkshk.com/user/jcbl')
+            self.assertEqual(u.about, '')
+            self.assertEqual(u.website, '')
+            self.assertEqual(u.mlkshk_url, 'https://mlkshk.com/user/jcbl')
 
-            shk = u.Shakes[0]
+            shk = u.shakes[0]
             self.assertEqual(shk.id, 68435)
 
     def test_create_user_dict(self):
@@ -57,3 +57,22 @@ class ModelTests(unittest.TestCase):
             user_dict.pop('shakes', None)
 
             self.assertDictEqual(user_dict, user)
+
+    def test_user_equality(self):
+        with open('tests/test_data/api/user') as f:
+            u1 = models.User.NewFromJSON(json.load(f))
+            f.seek(0)
+            u2 = models.User.NewFromJSON(json.load(f))
+
+            self.assertTrue(u1 == u2)
+
+            # self.fail(u1.__dict__)
+            # self.fail(u2.__dict__)
+
+    def test_shake_equality(self):
+        with open('tests/test_data/api/shakes') as f:
+            shake1 = models.Shake.NewFromJSON(json.load(f))
+            f.seek(0)
+            shake2 = models.Shake.NewFromJSON(json.load(f))
+
+            self.assertTrue(shake1 == shake2)
