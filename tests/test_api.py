@@ -183,3 +183,4 @@ class TestAPIResponses(unittest.TestCase):
             width=500,
             views=0)
         self.assertTrue(sf == sf2)
+

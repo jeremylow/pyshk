@@ -41,7 +41,8 @@ class Api(object):
                  consumer_secret=None,
                  access_token_key=None,
                  access_token_secret=None,
-                 base_url=None):
+                 base_url=None,
+                 testing=False):
 
         if base_url is None:
             self.base_url = 'http://mlkshk.com'
@@ -50,6 +51,9 @@ class Api(object):
 
         self.port = 80
         self.authenticated = False
+
+        if testing:
+            self.testing = True
 
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
@@ -89,18 +93,24 @@ class Api(object):
                 uri=redirect_uri)
 
         access_token_url = 'https://mlkshk.com/api/token'
-        webbrowser.open(authentication_url, new=1)
-        authorization_code = input("Enter the code from the redirected URL: ")
+
+        if not self.testing:
+            webbrowser.open(authentication_url, new=1)
+            authorization_code = input("Enter the code from the redirected URL: ")
+        else:
+            authorization_code = 123456
+
         message = {
             'grant_type': "authorization_code",
             'code': authorization_code,
             'redirect_uri': redirect_uri,
             'client_id': self.consumer_key,
-            'client_secret': self.consumer_secret
-        }
+            'client_secret': self.consumer_secret}
+
         data = urlencode(message)
         req = requests.post(access_token_url, params=data, verify=False)
         json_resp = req.json()
+
         print("""
             {full_token}
             >>> Your access token is: {token}
