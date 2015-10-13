@@ -12,7 +12,7 @@ class ApiResponseUnauthorized(Exception):
         [setattr(self, var, getattr(response, var))
             for var in vars(response) if var in vals]
 
-    def __str__(self):
+    def __repr__(self):
         return (
             "Mlkshk Error: {status} {reason}").format(
                 status=self.status_code,
@@ -38,7 +38,7 @@ class NotFound404(Exception):
             for var in vars(response) if var in vals]
         self.url = response.url
 
-    def __str__(self):
+    def __repr__(self):
         return (
             "404 Not Found: ({url})").format(
                 url=self.url)
