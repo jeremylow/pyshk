@@ -1,4 +1,7 @@
 [report]
 omit =
-    */python?.?/*
-    */site-packages/*
+   */python?.?/*
+   */site-packages/*
+
+exclude_lines =
+   def __repr__
