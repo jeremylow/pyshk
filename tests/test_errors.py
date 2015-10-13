@@ -51,3 +51,7 @@ class ErrorTests(unittest.TestCase):
             Exception,
             lambda: self.api._make_request(
                 'GET', '/api/token'))
+
+    def test_post_shared_file_error(self):
+        self.assertRaises(Exception, lambda: self.api.post_shared_file(
+            image_file='test.jpg', source_file='test.link'))

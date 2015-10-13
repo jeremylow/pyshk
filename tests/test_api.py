@@ -150,3 +150,36 @@ class TestAPIResponses(unittest.TestCase):
             'nonce="bcbd15da3e38847ebad5655231912ac8", '
             'signature="vdjjGj07papwf0H28Nkc3SbWuUQ="')
         self.assertEqual(test_headers, std_headers)
+
+    @responses.activate
+    def test_get_shared_file(self):
+        with open('tests/test_data/api/sharedfile/164DW') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/sharedfile/164DW',
+            body=resp_data,
+            status=200
+        )
+        sf = self.api.get_shared_file(sharekey='164DW')
+        sf.user = None
+        sf2 = models.SharedFile(
+            comments=0,
+            pivot_id="164DW",
+            title="Shakeys",
+            name="tumblr_ntg61qKrOe1rtr67io1_500.jpg",
+            posted_at="2015-10-10T15:14:30Z",
+            like=False,
+            saved=False,
+            permalink_page="http://mlkshk.com/p/164DW",
+            nsfw=False,
+            height=645,
+            likes=1,
+            description=None,
+            sharekey="164DW",
+            original_image_url="http://s.mlkshk.com/r/164DW",
+            saves=0,
+            width=500,
+            views=0)
+        self.assertTrue(sf == sf2)
