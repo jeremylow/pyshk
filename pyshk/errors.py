@@ -11,18 +11,12 @@ class ApiResponseUnauthorized(Exception):
         vals = ['status_code', 'headers', 'reason']
         [setattr(self, var, getattr(response, var))
             for var in vars(response) if var in vals]
-        www = self.headers['www-authenticate']
-        self.error_code, self.error_description = get_api_errors(www)
 
     def __str__(self):
         return (
-            "Mlkshk Error: {status} {reason} "
-            "(Error code: {errcode}: {errdesc})").format(
+            "Mlkshk Error: {status} {reason}").format(
                 status=self.status_code,
-                reason=self.reason,
-                errcode=self.error_code,
-                errdesc=self.error_description)
-
+                reason=self.reason)
 
 class ApiInstanceUnauthorized(Exception):
     def __init__(self):

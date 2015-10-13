@@ -53,7 +53,7 @@ class TestAPIResponses(unittest.TestCase):
             consumer_key='test',
             consumer_secret='test',
             access_token_key='test',
-            access_token_secret='supersecret')
+            access_token_secret='test')
 
     @responses.activate
     def test_get_user(self):
@@ -140,3 +140,13 @@ class TestAPIResponses(unittest.TestCase):
                 image_file='tests/test_data/like-tiny.gif')
         expected_resp = {"share_key": "164L4", "name": "like-tiny.gif"}
         self.assertEqual(resp['share_key'], expected_resp['share_key'])
+
+    def test_headers(self):
+        test_headers = self.api._make_headers(
+            nonce='bcbd15da3e38847ebad5655231912ac8',
+            timestamp=1444770686)
+        std_headers = (
+            'MAC token="test", timestamp="1444770686", '
+            'nonce="bcbd15da3e38847ebad5655231912ac8", '
+            'signature="vdjjGj07papwf0H28Nkc3SbWuUQ="')
+        self.assertEqual(test_headers, std_headers)

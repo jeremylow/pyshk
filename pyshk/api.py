@@ -115,10 +115,7 @@ class Api(object):
     def _get_url_endpoint(self, endpoint):
         return self.base_url + endpoint
 
-    def _make_headers(self, verb=None, endpoint=None):
-        timestamp = int(time.mktime(datetime.datetime.utcnow().timetuple()))
-        nonce = self.get_nonce()
-
+    def _make_headers(self, verb=None, endpoint=None, nonce=None, timestamp=None):
         normalized_string = "{0}\n".format(self.access_token_key)
         normalized_string += "{0}\n".format(timestamp)
         normalized_string += "{0}\n".format(nonce)
@@ -154,7 +151,14 @@ class Api(object):
 
         resource_url = self._get_url_endpoint(endpoint)
 
-        authorization_header = self._make_headers(verb=verb, endpoint=endpoint)
+        timestamp = int(time.mktime(datetime.datetime.utcnow().timetuple()))
+        nonce = self.get_nonce()
+
+        authorization_header = self._make_headers(
+            verb=verb,
+            endpoint=endpoint,
+            nonce=nonce,
+            timestamp=timestamp)
 
         if verb == "GET":
             req = requests.get(

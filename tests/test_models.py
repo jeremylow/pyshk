@@ -76,3 +76,39 @@ class ModelTests(unittest.TestCase):
             shake2 = models.Shake.NewFromJSON(json.load(f))
 
             self.assertTrue(shake1 == shake2)
+            shake1.id = 2
+            self.assertFalse(shake1 == shake2)
+            delattr(shake1, 'id')
+            self.assertFalse(shake1 == shake2)
+
+    def test_json_representation(self):
+        u = models.User(id=67136,
+            name='jcbl',
+            profile_image_url='http://example.com',
+            about='me', website='http://example.com',
+            shakes=None)
+        u_json_str = (
+            '{"about": "me", "id": 67136, '
+            '"mlkshk_url": "https://mlkshk.com/user/jcbl", '
+            '"name": "jcbl", "shake_count": 0, "shakes": null, '
+            '"website": "http://example.com"}')
+        self.assertEqual(u.AsJsonString(), u_json_str)
+        self.assertEqual(u.__repr__(), u_json_str)
+        s = models.Shake(
+            id=1,
+            name='noone shake',
+            owner='noone',
+            url='http://example.com',
+            thumbnail_url='http://example.com',
+            description='test',
+            type='user',
+            created_at=None,
+            updated_at=None
+        )
+        s_json_str = (
+            '{"description": "test", "id": 1, "name": "noone shake", '
+            '"owner": "noone", "thumbnail_url": "http://example.com", '
+            '"type": "user", "url": "http://example.com"}'
+        )
+        self.assertEqual(s.AsJsonString(), s_json_str)
+        self.assertEqual(s.AsJsonString(), s.__repr__())
