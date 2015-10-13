@@ -51,6 +51,16 @@ class Api(object):
         self.port = 80
         self.authenticated = False
 
+        self.consumer_key = consumer_key
+        self.consumer_secret = consumer_secret
+        self.access_token_key = access_token_key
+        self.access_token_secret = access_token_secret
+        auth_list = [consumer_key, consumer_secret,
+                     access_token_key, access_token_secret]
+
+        if all(auth_list):
+            self.authenticated = True
+
         # Set headers, client info for requests.
         # default_headers = {'User-Agent': 'PyShk v0.0.1'}
         # self.client_args = {}
@@ -67,12 +77,6 @@ class Api(object):
         #     self.auth = OAuth2(self.consumer_key, token=token)
         # self.client = requests.Session()
         # self.client.auth = self.auth
-
-        self._set_credentials(
-            consumer_key,
-            consumer_secret,
-            access_token_key,
-            access_token_secret)
 
     def get_auth(self, redirect_uri=None):
         if not redirect_uri:
@@ -108,35 +112,6 @@ class Api(object):
         self.access_token_key = json_resp['access_token']
         self.access_token_secret = json_resp['secret']
 
-    def _set_credentials(self,
-                         consumer_key=None,
-                         consumer_secret=None,
-                         access_token_key=None,
-                         access_token_secret=None):
-        """Set the consumer_key and consumer_secret for this instance
-
-        Args:
-          consumer_key:
-            The consumer_key of the MLKSHK app.
-          consumer_secret:
-            The consumer_secret for the MLKSHK app.
-          access_token_key:
-            The oAuth access token key value you retrieved
-            from running get_auth().
-          access_token_secret:
-            The oAuth access token's secret, also retrieved
-            from the get_auth() run.
-        """
-        self.consumer_key = consumer_key
-        self.consumer_secret = consumer_secret
-        self.access_token_key = access_token_key
-        self.access_token_secret = access_token_secret
-        auth_list = [consumer_key, consumer_secret,
-                     access_token_key, access_token_secret]
-
-        if all(auth_list):
-            self.authenticated = True
-
     def _get_url_endpoint(self, endpoint):
         return self.base_url + endpoint
 
@@ -156,19 +131,21 @@ class Api(object):
             self.access_token_secret.encode('ascii'),
             normalized_string.encode('ascii'),
             sha1).digest()
-        if six.PY3:
-            signature = base64.encodebytes(digest).strip().decode('utf8')
-        elif six.PY2:
+
+        if six.PY2:
             signature = base64.encodestring(digest).strip().decode('utf8')
+        else:
+            signature = base64.encodebytes(digest).strip().decode('utf8')
+
         auth_str = (
             'MAC token="{0}", '
             'timestamp="{1}", '
             'nonce="{2}", '
             'signature="{3}"').format(
-                self.access_token_key,
-                str(timestamp),
-                nonce,
-                signature)
+            self.access_token_key,
+            str(timestamp),
+            nonce,
+            signature)
         return auth_str
 
     def _make_request(self, verb, endpoint=None, data=None):
@@ -201,11 +178,6 @@ class Api(object):
             return req.json()
         except:
             return req
-
-        # try:
-        #     return req.json()
-        # except:
-        #     return req
 
     @staticmethod
     def get_nonce():
@@ -285,11 +257,16 @@ class Api(object):
         Returns:
             List (list) of SharedFiles.
         """
-        endpoint = '/api/shakes/{shake_id}'.format(
+        if not shake_id:
+            shake_id = ''
+        else:
+            shake_id = '/' + str(shake_id)
+
+        endpoint = '/api/shakes{shake_id}'.format(
             shake_id=shake_id)
 
         data = self._make_request(verb="GET", endpoint=endpoint)
-        return data
+        return [SharedFile.NewFromJSON(f) for f in data['sharedfiles']]
 
     def get_shared_file(self, sharekey=None):
         endpoint = '/api/sharedfile/{0}'.format(sharekey)
@@ -320,11 +297,10 @@ class Api(object):
             SharedFile key.
         """
         if image_file and source_link:
-            raise Exception("You can only specify an image file or "
-                            "a source link, not both.")
+            raise Exception('You can only specify an image file or '
+                            'a source link, not both.')
         if not image_file and not source_link:
-            raise Exception("You must specify an image file or a source "
-                            "link")
+            raise Exception('You must specify an image file or a source link')
 
         content_type = self._get_image_type(image_file)
 
@@ -335,7 +311,7 @@ class Api(object):
         endpoint = '/api/upload'
 
         files = {'file': (title, f, content_type)}
-        data = self._make_request("POST", endpoint=endpoint, data=files)
+        data = self._make_request('POST', endpoint=endpoint, data=files)
 
         f.close()
         return data
@@ -353,12 +329,12 @@ class Api(object):
         endpoint = '/api/sharedfile/{sharekey}/like'.format(sharekey=sharekey)
         data = self._make_request("POST", endpoint=endpoint, data=None)
 
-        return data
+        # return data
 
         if data.status_code == 200:
             return SharedFile.NewFromJSON(data)
         elif data.status_code == 400:
-            raise ("{0}".format(data['error']))
+            raise Exception("{0}".format(data['error']))
 
     def post_comment(self, comment=None):
         pass

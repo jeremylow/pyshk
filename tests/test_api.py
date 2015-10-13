@@ -107,7 +107,23 @@ class TestAPIResponses(unittest.TestCase):
 
     @responses.activate
     def test_get_sharedfiles_from_shake(self):
-        pass
+        with open('tests/test_data/api/shakes-59884') as api_shakes:
+            resp_data = api_shakes.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/shakes/59884',
+            body=resp_data,
+            status=200)
+        files = self.api.get_shared_files_from_shake(shake_id=59884)
+        self.assertEqual(len(files), 10)
+
+        # SharedFile 16509 should be the first one in the list of files from
+        # above.
+        with open('tests/test_data/api/sharedfile/16509') as f:
+            sharedfile = models.SharedFile.NewFromJSON(json.load(f))
+
+        self.assertTrue(sharedfile == files[0])
 
     @responses.activate
     def test_upload(self):

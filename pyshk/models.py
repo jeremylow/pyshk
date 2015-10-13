@@ -25,41 +25,10 @@ class User(object):
             'shakes': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
-    #
-    # @property
-    # def Id(self):
-    #     return self.id
-
-    # @property
-    # def Name(self):
-    #     return self.name
-    #
-    # @property
-    # def ProfileImageUrl(self):
-    #     return self.profile_image_url
-    #
-    # @property
-    # def About(self):
-    #     return self.about
-    #
-    # @property
-    # def Website(self):
-    #     return self.website
 
     @property
     def mlkshk_url(self):
         return "https://mlkshk.com/user/{0}".format(self.name)
-
-    # @property
-    # def Shakes(self):
-    #     """ Return a list of Shake objects if shakes are given in the response.
-    #     Shakes are **not** returned with the full User information if you are
-    #     getting the user data from an endpoint such as ``/api/sharedfile/[id]``
-    #     """
-    #     if self.shakes:
-    #         return self.shakes
-    #     else:
-    #         return None
 
     @property
     def shake_count(self):
@@ -94,7 +63,7 @@ class User(object):
         if self.about:
             data['about'] = self.about
         if self.website:
-            data['website'] = self.Website
+            data['website'] = self.website
         data['shakes'] = self.shakes
         data['shake_count'] = self.shake_count
         return data
@@ -420,8 +389,6 @@ class SharedFile(object):
 
     def __repr__(self):
         return json.dumps(self.AsDict(), sort_keys=True)
-        return "SharedFile(key={key}, title={title})".format(
-            key=self.sharekey, title=self.title)
 
     def __eq__(self, other):
         """
