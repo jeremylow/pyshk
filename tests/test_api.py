@@ -183,3 +183,17 @@ class TestAPIResponses(unittest.TestCase):
             width=500,
             views=0)
         self.assertTrue(sf == sf2)
+
+    @responses.activate
+    def test_like_shared_file(self):
+        with open('tests/test_data/api/sharedfile/164DW') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.POST,
+            'http://mlkshk.com/api/sharedfile/164DW/like',
+            body=resp_data,
+            status=200)
+        sf = self.api.like_shared_file(sharekey='164DW')
+
+        self.assertTrue(sf.liked)

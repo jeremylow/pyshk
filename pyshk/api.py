@@ -350,9 +350,11 @@ class Api(object):
 
         # return data
 
-        if data.status_code == 200:
-            return SharedFile.NewFromJSON(data)
-        elif data.status_code == 400:
+        try:
+            sf = SharedFile.NewFromJSON(data)
+            sf.liked = True
+            return sf
+        except:
             raise Exception("{0}".format(data['error']))
 
     def get_comments_on_shared_file(self, sharekey=None):
