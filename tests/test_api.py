@@ -257,3 +257,37 @@ class TestAPIResponses(unittest.TestCase):
         magic_files = self.api.get_magic_shake()
         self.assertIsInstance(magic_files[0], models.SharedFile)
         self.assertIsInstance(magic_files, list)
+
+    @responses.activate
+    def test_get_magic_files_after(self):
+        with open('tests/test_data/api/magicfiles.after') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/magicfiles/after/1643X',
+            body=resp_data,
+            status=200
+        )
+        magic_files = self.api.get_magic_shake(after='1643X')
+        self.assertIsInstance(magic_files[0], models.SharedFile)
+        self.assertEqual(magic_files[0].sharekey, 'CO04')
+        self.assertIsInstance(magic_files, list)
+        self.assertEqual(len(magic_files), 10)
+
+    @responses.activate
+    def test_get_magic_files_before(self):
+        with open('tests/test_data/api/magicfiles.before') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/magicfiles/before/1643X',
+            body=resp_data,
+            status=200
+        )
+        magic_files = self.api.get_magic_shake(before='1643X')
+        self.assertIsInstance(magic_files[0], models.SharedFile)
+        self.assertEqual(magic_files[0].sharekey, 'CO0E')
+        self.assertIsInstance(magic_files, list)
+        self.assertEqual(len(magic_files), 10)

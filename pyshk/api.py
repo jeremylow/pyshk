@@ -200,7 +200,6 @@ class Api(object):
             return req.json()
         except:
             print('returning req')
-            # print(req.json())
             return req
 
     @staticmethod
@@ -409,8 +408,6 @@ class Api(object):
         Returns the 10 most recent files accepted by the 'magic' file selection
         algorithm. Currently any files with 10 or more likes are magic.
 
-        TODO: implement before/after
-
         Returns:
             List of SharedFile objects
         """
@@ -424,6 +421,7 @@ class Api(object):
         else:
             endpoint = '/api/magicfiles'
         data = self._make_request("GET", endpoint=endpoint)
+
         return [SharedFile.NewFromJSON(sf) for sf in data['magicfiles']]
 
     def save_shared_file(self, sharekey=None):
