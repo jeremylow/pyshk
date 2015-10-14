@@ -52,6 +52,7 @@ class Api(object):
         self.port = 80
         self.authenticated = False
 
+        self.testing = False
         if testing:
             self.testing = True
 
@@ -196,6 +197,7 @@ class Api(object):
             return req.json()
         except:
             print('returning req')
+            # print(req.json())
             return req
 
     @staticmethod
@@ -374,6 +376,43 @@ class Api(object):
         endpoint = '/api/favorites'
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['favorites']]
+
+    def get_friends_shake(self):
+        """
+        Contrary to the endpoint naming, this resource is for a list of
+        SharedFiles from your friends on mlkshk.
+
+        Returns:
+            List of SharedFiles.
+        """
+        endpoint = '/api/friends'
+        data = self._make_request("GET", endpoint=endpoint)
+        return [SharedFile.NewFromJSON(sf) for sf in data['friend_shake']]
+
+    def get_incoming_shake(self):
+        """
+        Returns a list of the most recent SharedFiles on mlkshk.com
+
+        Returns:
+            List of SharedFile objects.
+        """
+        endpoint = '/api/incoming'
+        data = self._make_request("GET", endpoint=endpoint)
+        return [SharedFile.NewFromJSON(sf) for sf in data['incoming']]
+
+    def get_magic_shake(self):
+        """
+        From the API:
+
+        Returns the 10 most recent files accepted by the “magic” file selection
+        algorithm. Currently any files with 10 or more likes are magic.
+
+        Returns:
+            List of SharedFile objects
+        """
+        endpoint = '/api/magicfiles'
+        data = self._make_request("GET", endpoint=endpoint)
+        return [SharedFile.NewFromJSON(sf) for sf in data['magicfiles']]
 
     def post_comment(self, comment=None):
         pass

@@ -212,3 +212,48 @@ class TestAPIResponses(unittest.TestCase):
 
         self.assertEqual(len(favs), 10)
         self.assertIsInstance(favs[0], models.SharedFile)
+
+    @responses.activate
+    def test_get_friends_shake(self):
+        with open('tests/test_data/api/friends') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/friends',
+            body=resp_data,
+            status=200
+        )
+        friends_shake = self.api.get_friends_shake()
+        self.assertIsInstance(friends_shake[0], models.SharedFile)
+        self.assertIsInstance(friends_shake, list)
+
+    @responses.activate
+    def test_get_incoming_shake(self):
+        with open('tests/test_data/api/incoming') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/incoming',
+            body=resp_data,
+            status=200
+        )
+        incoming_shake = self.api.get_incoming_shake()
+        self.assertIsInstance(incoming_shake[0], models.SharedFile)
+        self.assertIsInstance(incoming_shake, list)
+
+    @responses.activate
+    def test_get_magic_files(self):
+        with open('tests/test_data/api/magicfiles') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/magicfiles',
+            body=resp_data,
+            status=200
+        )
+        magic_files = self.api.get_magic_shake()
+        self.assertIsInstance(magic_files[0], models.SharedFile)
+        self.assertIsInstance(magic_files, list)

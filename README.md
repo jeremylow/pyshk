@@ -44,11 +44,11 @@ At this point, the API is authenticated and you can start making calls to the ml
 * `GET /api/incoming`
 * `GET /api/magicfiles`
 * `GET /api/shakes`
+* `GET /api/shakes/(id)`
 * `GET /api/sharedfile/(sharekey)`
 * `GET /api/sharedfile/(sharekey)/comments`
-* `GET /api/shakes/(id)`
-* `POST /api/upload`
 * `POST /api/sharedfile/(sharekey)/like`
+* `POST /api/upload`
 
 #### Untested resources
 * `GET /api/favorites/after/(afterkey)`
