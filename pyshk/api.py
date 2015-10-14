@@ -270,7 +270,10 @@ class Api(object):
         shakes = [Shake.NewFromJSON(shk) for shk in data['shakes']]
         return shakes
 
-    def get_shared_files_from_shake(self, shake_id=None):
+    def get_shared_files_from_shake(self,
+                                    shake_id=None,
+                                    before=None,
+                                    after=None):
         """
         Returns a list of SharedFile objects from a particular shake.
 
@@ -280,13 +283,18 @@ class Api(object):
         Returns:
             List (list) of SharedFiles.
         """
-        if not shake_id:
-            shake_id = ''
-        else:
-            shake_id = '/' + str(shake_id)
+        if before and after:
+            raise Exception("You can only specify before **or** after key")
 
-        endpoint = '/api/shakes{shake_id}'.format(
-            shake_id=shake_id)
+        endpoint = '/api/shakes'
+
+        if shake_id:
+            endpoint += '/{0}'.format(shake_id)
+
+        if before:
+            endpoint += '/before/{0}'.format(before)
+        elif after:
+            endpoint += '/after/{0}'.format(after)
 
         data = self._make_request(verb="GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(f) for f in data['sharedfiles']]

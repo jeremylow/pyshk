@@ -118,8 +118,6 @@ class TestAPIResponses(unittest.TestCase):
         files = self.api.get_shared_files_from_shake(shake_id=59884)
         self.assertEqual(len(files), 10)
 
-        # SharedFile 16509 should be the first one in the list of files from
-        # above.
         with open('tests/test_data/api/sharedfile/16509') as f:
             sharedfile = models.SharedFile.NewFromJSON(json.load(f))
 

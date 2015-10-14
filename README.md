@@ -43,6 +43,8 @@ At this point, the API is authenticated and you can start making calls to the ml
 * `GET /api/user_name/(username)`
 * `GET /api/incoming`
 * `GET /api/magicfiles`
+* `GET /api/magicfiles/(id)/after/(afterkey)`
+* `GET /api/magicfiles/(id)/before/(beforekey)`
 * `GET /api/shakes`
 * `GET /api/shakes/(id)`
 * `GET /api/sharedfile/(sharekey)`
@@ -57,8 +59,6 @@ At this point, the API is authenticated and you can start making calls to the ml
 * `GET /api/friends/before/(beforekey)`
 * `GET /api/incoming/(id)/after/(afterkey)`
 * `GET /api/incoming/(id)/before/(beforekey)`
-* `GET /api/magicfiles/(id)/after/(afterkey)`
-* `GET /api/magicfiles/(id)/before/(beforekey)`
 * `GET /api/shakes/(id)/after/(afterkey)`
 * `GET /api/shakes/(id)/before/(beforekey)`
 * `POST /api/sharedfile/(sharekey)`
