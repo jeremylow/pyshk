@@ -82,7 +82,8 @@ class ModelTests(unittest.TestCase):
             self.assertFalse(shake1 == shake2)
 
     def test_json_representation(self):
-        u = models.User(id=67136,
+        u = models.User(
+            id=67136,
             name='jcbl',
             profile_image_url='http://example.com',
             about='me', website='http://example.com',
@@ -90,14 +91,14 @@ class ModelTests(unittest.TestCase):
         u_json_str = (
             '{"about": "me", "id": 67136, '
             '"mlkshk_url": "https://mlkshk.com/user/jcbl", '
-            '"name": "jcbl", "shake_count": 0, "shakes": null, '
+            '"name": "jcbl", "shake_count": 0, '
             '"website": "http://example.com"}')
         self.assertEqual(u.AsJsonString(), u_json_str)
         self.assertEqual(u.__repr__(), u_json_str)
         s = models.Shake(
             id=1,
             name='noone shake',
-            owner='noone',
+            owner=u,
             url='http://example.com',
             thumbnail_url='http://example.com',
             description='test',
@@ -107,8 +108,11 @@ class ModelTests(unittest.TestCase):
         )
         s_json_str = (
             '{"description": "test", "id": 1, "name": "noone shake", '
-            '"owner": "noone", "thumbnail_url": "http://example.com", '
-            '"type": "user", "url": "http://example.com"}'
+            '"owner": {"about": "me", "id": 67136, "mlkshk_url": '
+            '"https://mlkshk.com/user/jcbl", "name": "jcbl", "shake_count": '
+            '0, "website": "http://example.com"}, "thumbnail_url": '
+            '"http://example.com", "type": "user", "url": "http://example.com"}'
+
         )
         self.assertEqual(s.AsJsonString(), s_json_str)
         self.assertEqual(s.AsJsonString(), s.__repr__())

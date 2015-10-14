@@ -125,7 +125,11 @@ class Api(object):
     def _get_url_endpoint(self, endpoint):
         return self.base_url + endpoint
 
-    def _make_headers(self, verb=None, endpoint=None, nonce=None, timestamp=None):
+    def _make_headers(self,
+                      verb=None,
+                      endpoint=None,
+                      nonce=None,
+                      timestamp=None):
         normalized_string = "{0}\n".format(self.access_token_key)
         normalized_string += "{0}\n".format(timestamp)
         normalized_string += "{0}\n".format(nonce)
@@ -191,6 +195,7 @@ class Api(object):
         try:
             return req.json()
         except:
+            print('returning req')
             return req
 
     @staticmethod
@@ -349,6 +354,10 @@ class Api(object):
             return SharedFile.NewFromJSON(data)
         elif data.status_code == 400:
             raise Exception("{0}".format(data['error']))
+
+    def get_comments_on_shared_file(self, sharekey=None):
+        pass
+
 
     def post_comment(self, comment=None):
         pass

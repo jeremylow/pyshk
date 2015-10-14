@@ -42,7 +42,7 @@ class User(object):
 
         Returns:
           A JSON string representation of this User instance
-       """
+        """
         return json.dumps(self.AsDict(), sort_keys=True)
 
     def AsDict(self):
@@ -64,7 +64,8 @@ class User(object):
             data['about'] = self.about
         if self.website:
             data['website'] = self.website
-        data['shakes'] = self.shakes
+        if self.shakes:
+            data['shakes'] = [shk.AsDict() for shk in self.shakes]
         data['shake_count'] = self.shake_count
         return data
 
@@ -180,7 +181,7 @@ class Shake(object):
         if self.name:
             data['name'] = self.name
         if self.owner:
-            data['owner'] = self.owner
+            data['owner'] = self.owner.AsDict()
         if self.url:
             data['url'] = self.url
         if self.thumbnail_url:
@@ -353,7 +354,7 @@ class SharedFile(object):
         if self.name:
             data['name'] = self.name
         if self.user:
-            data['user'] = self.user
+            data['user'] = self.user.AsDict()
         if self.title:
             data['title'] = self.title
         if self.description:
