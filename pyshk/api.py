@@ -267,6 +267,9 @@ class Api(object):
         else:
             endpoint = '/api/shakes'
         data = self._make_request(verb="GET", endpoint=endpoint)
+
+        if not user_id and user_name:
+            pass
         shakes = [Shake.NewFromJSON(shk) for shk in data['shakes']]
         return shakes
 
