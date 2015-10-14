@@ -367,24 +367,17 @@ class SharedFile(object):
             data['width'] = self.width
         if self.height:
             data['height'] = self.height
-        if self.views:
-            data['views'] = self.views
-        if self.likes:
-            data['likes'] = self.likes
-        if self.saves:
-            data['saves'] = self.saves
-        if self.comments:
-            data['comments'] = self.comments
-        if self.nsfw:
-            data['nsfw'] = self.nsfw
         if self.image_url:
             data['image_url'] = self.image_url
         if self.source_url:
             data['source_url'] = self.source_url
-        if self.saved:
-            data['saved'] = self.saved
-        if self.liked:
-            data['liked'] = self.liked
+        data['views'] = self.views
+        data['likes'] = self.likes
+        data['saves'] = self.saves
+        data['comments'] = self.comments
+        data['nsfw'] = self.nsfw
+        data['saved'] = self.saved
+        data['liked'] = self.liked
 
         return data
 

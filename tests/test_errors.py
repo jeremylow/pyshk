@@ -55,3 +55,4 @@ class ErrorTests(unittest.TestCase):
     def test_post_shared_file_error(self):
         self.assertRaises(Exception, lambda: self.api.post_shared_file(
             image_file='test.jpg', source_file='test.link'))
+        self.assertRaises(Exception, lambda: self.api.post_shared_file())
