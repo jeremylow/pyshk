@@ -197,3 +197,18 @@ class TestAPIResponses(unittest.TestCase):
         sf = self.api.like_shared_file(sharekey='164DW')
 
         self.assertTrue(sf.liked)
+
+    @responses.activate
+    def test_get_favorites(self):
+        with open('tests/test_data/api/favorites') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/favorites',
+            body=resp_data,
+            status=200)
+        favs = self.api.get_favorites()
+
+        self.assertEqual(len(favs), 10)
+        self.assertIsInstance(favs[0], models.SharedFile)

@@ -360,6 +360,20 @@ class Api(object):
     def get_comments_on_shared_file(self, sharekey=None):
         pass
 
+    def get_favorites(self):
+        """
+        Get a list of the authenticated user's 10 most recent favorites
+        (likes).
+
+        Args:
+            None
+
+        Returns:
+            List of SharedFile objects.
+        """
+        endpoint = '/api/favorites'
+        data = self._make_request("GET", endpoint=endpoint)
+        return [SharedFile.NewFromJSON(sf) for sf in data['favorites']]
 
     def post_comment(self, comment=None):
         pass
