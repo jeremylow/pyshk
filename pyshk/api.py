@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 """ Library to provide access to MLKSHK API. """
 
 import base64
@@ -404,7 +407,7 @@ class Api(object):
         """
         From the API:
 
-        Returns the 10 most recent files accepted by the “magic” file selection
+        Returns the 10 most recent files accepted by the 'magic' file selection
         algorithm. Currently any files with 10 or more likes are magic.
 
         Returns:
