@@ -362,9 +362,6 @@ class Api(object):
         except:
             raise Exception("{0}".format(data['error']))
 
-    def get_comments_on_shared_file(self, sharekey=None):
-        pass
-
     def get_favorites(self):
         """
         Get a list of the authenticated user's 10 most recent favorites
@@ -396,6 +393,8 @@ class Api(object):
         """
         Returns a list of the most recent SharedFiles on mlkshk.com
 
+        TODO: implement before/after
+
         Returns:
             List of SharedFile objects.
         """
@@ -403,19 +402,35 @@ class Api(object):
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['incoming']]
 
-    def get_magic_shake(self):
+    def get_magic_shake(self, before=None, after=None):
         """
         From the API:
 
         Returns the 10 most recent files accepted by the 'magic' file selection
         algorithm. Currently any files with 10 or more likes are magic.
 
+        TODO: implement before/after
+
         Returns:
             List of SharedFile objects
         """
-        endpoint = '/api/magicfiles'
+        if before and after:
+            raise NotImplementedError
+
+        if before:
+            endpoint = '/api/magicfiles/before/{key}'.format(key=before)
+        elif after:
+            endpoint = '/api/magicfiles/after/{key}'.format(key=after)
+        else:
+            endpoint = '/api/magicfiles'
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['magicfiles']]
+
+    def save_shared_file(self, sharekey=None):
+        pass
+
+    def get_comments(self, sharekey=None):
+        pass
 
     def post_comment(self, comment=None):
         pass

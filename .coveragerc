@@ -5,3 +5,4 @@ omit =
 
 exclude_lines =
    def __repr__
+   pass
