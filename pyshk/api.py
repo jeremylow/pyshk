@@ -196,6 +196,9 @@ class Api(object):
         elif req.status_code == 500:
             raise Exception(req)
 
+        if self.testing:
+            return req
+
         try:
             return req.json()
         except:
@@ -284,8 +287,8 @@ class Api(object):
             shake_id (int): Shake from which to get a list of SharedFiles
             before (str): get 10 SharedFile objects before (but not including)
                 the SharedFile given by `before` for the given Shake.
-            after (str): get 10 SharedFile objects after (but not including) the
-                SharedFile give by `after' for the given Shake.
+            after (str): get 10 SharedFile objects after (but not including)
+                the SharedFile give by `after' for the given Shake.
 
         Returns:
             List (list) of SharedFiles.
@@ -374,6 +377,26 @@ class Api(object):
         except:
             raise Exception("{0}".format(data['error']))
 
+    def save_shared_file(self, sharekey=None):
+        """
+        Save a SharedFile to your Shake.
+
+        Args:
+            sharekey (str): Sharekey for the file to save.
+
+        Returns:
+            SharedFile saved to your shake.
+        """
+        endpoint = '/api/sharedfile/{sharekey}/save'.format(sharekey=sharekey)
+        data = self._make_request("POST", endpoint=endpoint, data=None)
+
+        try:
+            sf = SharedFile.NewFromJSON(data)
+            sf.saved = True
+            return sf
+        except:
+            raise Exception("{0}".format(data['error']))
+
     def get_favorites(self, before=None, after=None):
         """
         Get a list of the authenticated user's 10 most recent favorites
@@ -383,9 +406,9 @@ class Api(object):
             before (str): get 10 SharedFile objects before (but not including)
                 the SharedFile given by `before` for the authenticated user's
                 set of Likes.
-            after (str): get 10 SharedFile objects after (but not including) the
-                SharedFile give by `after' for the authenticated user's set of
-                Likes.
+            after (str): get 10 SharedFile objects after (but not including)
+                the SharedFile give by `after' for the authenticated user's set
+                of Likes.
 
         Returns:
             List of SharedFile objects.
@@ -431,8 +454,8 @@ class Api(object):
         Args:
             before (str): get 10 SharedFile objects before (but not including)
                 the SharedFile given by `before` for the Incoming Shake.
-            after (str): get 10 SharedFile objects after (but not including) the
-                SharedFile give by `after' for the Incoming Shake.
+            after (str): get 10 SharedFile objects after (but not including)
+                the SharedFile give by `after' for the Incoming Shake.
 
         Returns:
             List of SharedFile objects.
@@ -473,11 +496,20 @@ class Api(object):
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['magicfiles']]
 
-    def save_shared_file(self, sharekey=None):
-        pass
-
     def get_comments(self, sharekey=None):
-        pass
+        """
+        Retrieve comments on a SharedFile
+
+        Args:
+            sharekey (str): Sharekey for the file from which you want to return
+            the set of comments.
+
+        Returns:
+            List of Comment objects.
+        """
+        endpoint = '/api/sharedfile/{0}/comments'.format(sharekey)
+        data = self._make_request("GET", endpoint=endpoint)
+        return data
 
     def post_comment(self, comment=None):
         pass

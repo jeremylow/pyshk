@@ -197,6 +197,21 @@ class TestAPIResponses(unittest.TestCase):
         self.assertTrue(sf.liked)
 
     @responses.activate
+    def test_save_shared_file(self):
+        with open('tests/test_data/api/sharedfile/165PZ/save') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.POST,
+            'http://mlkshk.com/api/sharedfile/165PZ/save',
+            body=resp_data,
+            status=200)
+
+        sf = self.api.save_shared_file(sharekey='165PZ')
+        self.assertTrue(sf.saved)
+        self.assertEqual(sf.user.id, 14430)
+
+    @responses.activate
     def test_get_favorites(self):
         with open('tests/test_data/api/favorites') as f:
             resp_data = f.read()

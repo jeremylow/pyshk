@@ -1,4 +1,5 @@
 import json
+import datetime
 
 
 class User(object):
@@ -118,7 +119,82 @@ class User(object):
 
 
 class Comment(object):
-    pass
+    """
+    A class representing a Comment on mlkshk.
+
+    Exposes the following properties of a Comment:
+        comment.body
+        comment.posted_at
+        comment.user
+    """
+
+    def __init__(self, **kwargs):
+        param_defaults = {
+            'body': None,
+            'posted_at': None,
+            'user': None}
+        for (param, default) in param_defaults.items():
+            setattr(self, param, kwargs.get(param, default))
+
+    def __repr__(self):
+        """ String representation of this Comment instance. """
+        return self.AsJsonString()
+
+    def AsJsonString(self):
+        """
+        A JSON string representation of this Comment instance.
+
+        Returns:
+          A JSON string representation of this Comment instance
+       """
+        return json.dumps(self.AsDict(), sort_keys=True)
+
+    def AsDict(self):
+        """
+        A dict representation of this Comment instance.
+
+        The return value uses the same key names as the JSON representation.
+
+        Return:
+          A dict representing this Comment instance
+        """
+        data = {}
+
+        if self.body:
+            data['body'] = self.body
+        if self.posted_at:
+            data['posted_at'] = self.posted_at
+        if self.user:
+            data['user'] = self.user.AsDict()
+
+        return data
+
+    @staticmethod
+    def NewFromJSON(data):
+        """
+        Create a new Comment instance from a JSON dict.
+
+        Args:
+            data (dict): JSON dictionary representing a Comment.
+
+        Returns:
+            A Comment instance.
+        """
+        return Comment(
+            body=data.get('body', None),
+            posted_at=datetime.datetime.strptime(
+                data.get('posted_at', ''), "%Y-%m-%dT%H:%M:%SZ"),
+            user=User.NewFromJSON(data.get('user', None))
+        )
+
+    def __eq__(self, other):
+        try:
+            return other and \
+                self.body == other.body and \
+                self.posted_at == other.posted_at and \
+                self.user == other.user
+        except AttributeError:
+            return False
 
 
 class Shake(object):

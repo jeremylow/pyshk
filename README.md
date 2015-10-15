@@ -57,6 +57,7 @@ At this point, the API is authenticated and you can start making calls to the ml
 * `GET /api/shakes/(id)`
 * `GET /api/sharedfile/(sharekey)`
 * `GET /api/sharedfile/(sharekey)/comments`
+* `POST /api/sharedfile/(sharekey)/save`
 * `GET /api/user`
 * `GET /api/user_id/(user_id)`
 * `GET /api/user_name/(username)`
@@ -68,7 +69,6 @@ At this point, the API is authenticated and you can start making calls to the ml
 * `GET /api/shakes/(id)/before/(beforekey)`
 * `POST /api/sharedfile/(sharekey)`
 * `POST /api/sharedfile/(sharekey)/comments`
-* `POST /api/sharedfile/(sharekey)/save`
 
 #### Notes
 * `POST /api/upload` returns a 200 response, not 201 as stated in mlkshk docs.
