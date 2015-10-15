@@ -2,6 +2,13 @@ import json
 import datetime
 
 
+def convert_time(dt):
+    """
+    2015-10-09T15:58:11Z -> datetime.datetime(2015, 10, 9, 15, 58, 11)
+    """
+    return datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%SZ")
+
+
 class User(object):
 
     """
@@ -131,7 +138,7 @@ class Comment(object):
     def __init__(self, **kwargs):
         param_defaults = {
             'body': None,
-            'posted_at': None,
+            'posted_at': '',
             'user': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
@@ -182,8 +189,7 @@ class Comment(object):
         """
         return Comment(
             body=data.get('body', None),
-            posted_at=datetime.datetime.strptime(
-                data.get('posted_at', ''), "%Y-%m-%dT%H:%M:%SZ"),
+            posted_at=convert_time(data.get('posted_at', '')),
             user=User.NewFromJSON(data.get('user', None))
         )
 
@@ -223,10 +229,28 @@ class Shake(object):
             'thumbnail_url': None,
             'description': None,
             'type': None,
-            'created_at': None,
-            'updated_at': None}
+            '_created_at': None,
+            '_updated_at': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
+
+    @property
+    def created_at(self):
+        try:
+            return self._created_at.isoformat()
+        except AttributeError:
+            return self._created_at
+
+    @created_at.setter
+    def created_at(self, value):
+        self._created_at = convert_time(value)
+
+    @property
+    def updated_at(self):
+        try:
+            return convert_time(self._updated_at)
+        except:
+            return None
 
     def __repr__(self):
         """ String representation of this Shake instance. """
@@ -292,8 +316,8 @@ class Shake(object):
             thumbnail_url=data.get('thumbnail_url', None),
             description=data.get('description', None),
             type=data.get('type', None),
-            created_at=data.get('created_at', None),
-            updated_at=data.get('updated_at', None)
+            _created_at=data.get('created_at', None),
+            _updated_at=data.get('updated_at', None)
         )
 
     def __eq__(self, other):
@@ -381,6 +405,15 @@ class SharedFile(object):
         }
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
+        self.posted_at = kwargs.get('posted_at', None)
+
+    @property
+    def posted_at(self):
+        return self._posted_at.isoformat()
+
+    @posted_at.setter
+    def posted_at(self, value):
+        self._posted_at = convert_time(value)
 
     @staticmethod
     def NewFromJSON(data):
@@ -388,7 +421,7 @@ class SharedFile(object):
         Create a new SharedFile instance from a JSON dict.
 
         Args:
-            data (dict): JSON dictionary representing a SharedFile.
+            data (str): JSON dictionary representing a SharedFile.
 
         Returns:
             A SharedFile instance.
@@ -485,3 +518,6 @@ class SharedFile(object):
                 self.source_url == other.source_url
         except AttributeError:
             return False
+
+    def __ne__(self, other):
+        return not self.__eq__(self, other)

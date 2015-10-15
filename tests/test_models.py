@@ -29,6 +29,7 @@ class ModelTests(unittest.TestCase):
     def test_create_user_dict(self):
         with open('tests/test_data/api/user') as f:
             user = models.User.NewFromJSON(json.load(f)).AsDict()
+
         tmp_shk = models.Shake(
             created_at='2015-04-27T17:22:54Z',
             description='New Shake',
@@ -118,7 +119,7 @@ class ModelTests(unittest.TestCase):
             name='test.jpg',
             title='test',
             description='test',
-            posted_at='test',
+            posted_at='2015-10-09T15:58:11Z',
             permalink='test',
             width=500,
             height=500,
@@ -138,7 +139,7 @@ class ModelTests(unittest.TestCase):
             'name': 'test.jpg',
             'title': 'test',
             'description': 'test',
-            'posted_at': 'test',
+            'posted_at': '2015-10-09T15:58:11',
             'permalink': 'test',
             'width': 500,
             'height': 500,
