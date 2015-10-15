@@ -14,9 +14,9 @@ and then create a virtual environment. Install the requirements with:
 
 In order to get started, you have to sign up for mlkshk (yay!) and create an application on mlkshk.com. First, you'll need to sign up for an account here: [Create Account](http://mlkshk.com/create-account).
 
-Then, create we'll create an application so that you can use the API. You should do that [here](http://mlkshk.com/developers). Give your application a title and a description. Make sure to fill in the "Redirect URL" cause we'll use that later. The redirect url has to be exactly the same on mlkshk.com and in your code or the server will return a 500 server error when you try to authenticate.
+Then, create we'll create an application so that you can use the API. You should do that [here](http://mlkshk.com/developers/new-api-application). Give your application a title and a description. Make sure to fill in the "Redirect URL" cause we'll use that later. The redirect url has to be exactly the same on mlkshk.com and in your code or the server will return a 500 server error when you try to authenticate.
 
-Once you click the big "Create" button, you'll be given a "Key" and a "Secret". Write those down. We'll need them later.
+Once you click the big "Create It!" button, you'll be given a "Key" and a "Secret". Write those down. We'll need them later.
 
 ### Usage
 
