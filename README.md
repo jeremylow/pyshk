@@ -29,9 +29,14 @@ If you don't have an access token (you won't if this is the first run), start up
     a = Api(consumer_key=[Key], consumer_secret=[Secret])
     a.get_auth(redirect_uri=[the redirect url from above])
 
-At this point, your web browser will open and you'll be prompted to allow your application (whatever you named it) to access your account. Allow the app access and you'll be redirected to whatever redirect URL you specified when creating the app. The URL bar will have something like `http://[redirect_url]?code=[code]`. Copy and paste the code back into the python interpreter and hit enter. You'll then be given an access token and secret. Write those down.
+At this point, your web browser will open and you'll be prompted to allow your application (whatever you named it) to access your account. Allow the app access and you'll be redirected to whatever redirect URL you specified when creating the app. The URL bar will have something like `http://[redirect_url]?code=[code]`. Copy and paste the `[code]` portion back into the python interpreter and hit enter. You'll then be given the access code and the access secret; you should write those down so you don't have to go through this again.
 
-At this point, the API is authenticated and you can start making calls to the mlkshk server.
+At this point, the API is authenticated and you can start making calls to the mlkshk server. If you went through this before and you already have an acces code & secret, you can pass those to the API when you instantiate it. Itl'll be something like:
+
+	api = Api(consumer_key='blah',
+			  consumer_secret='blahsecretblah',
+			  access_token_key='blah',
+			  access_token_secret='blahsupersecretblah')
 
 ### API Coverage:
 
