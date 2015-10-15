@@ -56,3 +56,18 @@ class ErrorTests(unittest.TestCase):
         self.assertRaises(Exception, lambda: self.api.post_shared_file(
             image_file='test.jpg', source_file='test.link'))
         self.assertRaises(Exception, lambda: self.api.post_shared_file())
+
+    def test_before_after_errors(self):
+        self.assertRaises(Exception, lambda: self.api.get_favorites(
+            before='0001',
+            after='0002')
+        )
+        self.assertRaises(Exception, lambda: self.api.get_incoming_shake(
+            before='0001',
+            after='0002')
+        )
+        self.assertRaises(Exception, lambda: self.api.get_magic_shake(
+            before='0001',
+            after='0002')
+        )
+

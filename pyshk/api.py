@@ -232,10 +232,8 @@ class Api(object):
         """
 
         if user_id:
-            # Return user by user_id
             endpoint = '/api/user_id/{0}'.format(user_id)
         elif user_name:
-            # Return user by user_name
             endpoint = '/api/user_name/{0}'.format(user_name)
         else:
             # Return currently authorized user
@@ -248,7 +246,9 @@ class Api(object):
         except:
             return data
 
-    def get_user_shakes(self, user_id=None, user_name=None):
+    def get_user_shakes(self,
+                        user_id=None,
+                        user_name=None):
         """ Get a list of Shake objects for a user. If no ``user_id`` or
         ``user_name`` is specified, then get a list of shakes for the currently
         authenticated user.
@@ -282,12 +282,16 @@ class Api(object):
 
         Args:
             shake_id (int): Shake from which to get a list of SharedFiles
+            before (str): get 10 SharedFile objects before (but not including)
+                the SharedFile given by `before` for the given Shake.
+            after (str): get 10 SharedFile objects after (but not including) the
+                SharedFile give by `after' for the given Shake.
 
         Returns:
             List (list) of SharedFiles.
         """
         if before and after:
-            raise Exception("You can only specify before **or** after key")
+            raise Exception("You cannot specify both before and after keys")
 
         endpoint = '/api/shakes'
 
@@ -363,8 +367,6 @@ class Api(object):
         endpoint = '/api/sharedfile/{sharekey}/like'.format(sharekey=sharekey)
         data = self._make_request("POST", endpoint=endpoint, data=None)
 
-        # return data
-
         try:
             sf = SharedFile.NewFromJSON(data)
             sf.liked = True
@@ -372,22 +374,35 @@ class Api(object):
         except:
             raise Exception("{0}".format(data['error']))
 
-    def get_favorites(self):
+    def get_favorites(self, before=None, after=None):
         """
         Get a list of the authenticated user's 10 most recent favorites
         (likes).
 
         Args:
-            None
+            before (str): get 10 SharedFile objects before (but not including)
+                the SharedFile given by `before` for the authenticated user's
+                set of Likes.
+            after (str): get 10 SharedFile objects after (but not including) the
+                SharedFile give by `after' for the authenticated user's set of
+                Likes.
 
         Returns:
             List of SharedFile objects.
         """
+        if before and after:
+            raise Exception("You cannot specify both before and after keys")
+
         endpoint = '/api/favorites'
+
+        if before:
+            endpoint += '/before/{0}'.format(before)
+        elif after:
+            endpoint += '/after/{0}'.format(after)
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['favorites']]
 
-    def get_friends_shake(self):
+    def get_friends_shake(self, before=None, after=None):
         """
         Contrary to the endpoint naming, this resource is for a list of
         SharedFiles from your friends on mlkshk.
@@ -395,20 +410,42 @@ class Api(object):
         Returns:
             List of SharedFiles.
         """
+        if before and after:
+            raise Exception("You cannot specify both before and after keys")
+
         endpoint = '/api/friends'
+
+        if before:
+            endpoint += '/before/{0}'.format(before)
+        elif after:
+            endpoint += '/after/{0}'.format(after)
+
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['friend_shake']]
 
-    def get_incoming_shake(self):
+    def get_incoming_shake(self, before=None, after=None):
         """
         Returns a list of the most recent SharedFiles on mlkshk.com
 
-        TODO: implement before/after
+        Args:
+            before (str): get 10 SharedFile objects before (but not including)
+                the SharedFile given by `before` for the Incoming Shake.
+            after (str): get 10 SharedFile objects after (but not including) the
+                SharedFile give by `after' for the Incoming Shake.
 
         Returns:
             List of SharedFile objects.
         """
+        if before and after:
+            raise Exception("You cannot specify both before and after keys")
+
         endpoint = '/api/incoming'
+
+        if before:
+            endpoint += '/before/{0}'.format(before)
+        elif after:
+            endpoint += '/after/{0}'.format(after)
+
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['incoming']]
 
@@ -423,16 +460,16 @@ class Api(object):
             List of SharedFile objects
         """
         if before and after:
-            raise NotImplementedError
+            raise Exception("You cannot specify both before and after keys")
+
+        endpoint = '/api/magicfiles'
 
         if before:
-            endpoint = '/api/magicfiles/before/{key}'.format(key=before)
+            endpoint += '/before/{key}'.format(key=before)
         elif after:
-            endpoint = '/api/magicfiles/after/{key}'.format(key=after)
-        else:
-            endpoint = '/api/magicfiles'
-        data = self._make_request("GET", endpoint=endpoint)
+            endpoint += '/after/{key}'.format(key=after)
 
+        data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['magicfiles']]
 
     def save_shared_file(self, sharekey=None):
