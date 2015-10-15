@@ -399,6 +399,7 @@ class Api(object):
             endpoint += '/before/{0}'.format(before)
         elif after:
             endpoint += '/after/{0}'.format(after)
+
         data = self._make_request("GET", endpoint=endpoint)
         return [SharedFile.NewFromJSON(sf) for sf in data['favorites']]
 
