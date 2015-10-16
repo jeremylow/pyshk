@@ -1,6 +1,6 @@
 requests
+requests_toolbelt
 requests_oauthlib
-pytest
 tox
 coverage
 nose
