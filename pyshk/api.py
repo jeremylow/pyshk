@@ -524,7 +524,7 @@ class Api(object):
         """
         endpoint = '/api/sharedfile/{0}/comments'.format(sharekey)
         data = self._make_request("GET", endpoint=endpoint)
-        return data
+        return [Comment.NewFromJSON(c) for c in data['comments']]
 
     def post_comment(self, sharekey=None, comment=None):
         endpoint = '/api/sharedfile/{0}/comments'.format(sharekey)
@@ -532,4 +532,4 @@ class Api(object):
         post_data = {'body': comment}
 
         data = self._make_request("POST", endpoint=endpoint, data=post_data)
-        return data
+        return Comment.NewFromJSON(data)

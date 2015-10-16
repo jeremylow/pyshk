@@ -38,14 +38,6 @@ class User(object):
         else:
             return 0
 
-    def AsJsonString(self):
-        """A JSON string representation of this User instance.
-
-        Returns:
-          A JSON string representation of this User instance
-        """
-        return json.dumps(self.AsDict(), sort_keys=True)
-
     def AsDict(self):
         """
         A dict representation of this User instance.
@@ -69,6 +61,14 @@ class User(object):
             data['shakes'] = [shk.AsDict() for shk in self.shakes]
         data['shake_count'] = self.shake_count
         return data
+
+    def AsJsonString(self):
+        """A JSON string representation of this User instance.
+
+        Returns:
+          A JSON string representation of this User instance
+        """
+        return json.dumps(self.AsDict(), sort_keys=True)
 
     @staticmethod
     def NewFromJSON(data):
@@ -94,10 +94,6 @@ class User(object):
             website=data.get('website', None),
             shakes=shakes)
 
-    def __repr__(self):
-        """ String representation of this User instance. """
-        return self.AsJsonString()
-
     def __eq__(self, other):
         """
         Compare two user objects against one another.
@@ -117,8 +113,16 @@ class User(object):
         except AttributeError:
             return False
 
+    def __ne__(self, other):
+        return not self.__eq__(self, other)
+
+    def __repr__(self):
+        """ String representation of this User instance. """
+        return self.AsJsonString()
+
 
 class Comment(object):
+
     """
     A class representing a Comment on mlkshk.
 
@@ -135,10 +139,6 @@ class Comment(object):
             'user': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
-
-    def __repr__(self):
-        """ String representation of this Comment instance. """
-        return self.AsJsonString()
 
     def AsJsonString(self):
         """
@@ -182,8 +182,7 @@ class Comment(object):
         """
         return Comment(
             body=data.get('body', None),
-            posted_at=datetime.datetime.strptime(
-                data.get('posted_at', ''), "%Y-%m-%dT%H:%M:%SZ"),
+            posted_at=data.get('posted_at', None),
             user=User.NewFromJSON(data.get('user', None))
         )
 
@@ -195,6 +194,13 @@ class Comment(object):
                 self.user == other.user
         except AttributeError:
             return False
+
+    def __ne__(self, other):
+        return not self.__eq__(self, other)
+
+    def __repr__(self):
+        """ String representation of this Comment instance. """
+        return self.AsJsonString()
 
 
 class Shake(object):
@@ -228,19 +234,6 @@ class Shake(object):
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
 
-    def __repr__(self):
-        """ String representation of this Shake instance. """
-        return self.AsJsonString()
-
-    def AsJsonString(self):
-        """
-        A JSON string representation of this Shake instance.
-
-        Returns:
-          A JSON string representation of this Shake instance
-       """
-        return json.dumps(self.AsDict(), sort_keys=True)
-
     def AsDict(self):
         """
         A dict representation of this Shake instance.
@@ -272,6 +265,15 @@ class Shake(object):
             data['updated_at'] = self.updated_at
 
         return data
+
+    def AsJsonString(self):
+        """
+        A JSON string representation of this Shake instance.
+
+        Returns:
+          A JSON string representation of this Shake instance
+       """
+        return json.dumps(self.AsDict(), sort_keys=True)
 
     @staticmethod
     def NewFromJSON(data):
@@ -310,6 +312,13 @@ class Shake(object):
                 self.updated_at == other.updated_at
         except AttributeError:
             return False
+
+    def __ne__(self, other):
+        return not self.__eq__(self, other)
+
+    def __repr__(self):
+        """ String representation of this Shake instance. """
+        return self.AsJsonString()
 
 
 class SharedFile(object):
@@ -382,38 +391,6 @@ class SharedFile(object):
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
 
-    @staticmethod
-    def NewFromJSON(data):
-        """
-        Create a new SharedFile instance from a JSON dict.
-
-        Args:
-            data (dict): JSON dictionary representing a SharedFile.
-
-        Returns:
-            A SharedFile instance.
-        """
-        return SharedFile(
-            sharekey=data.get('sharekey', None),
-            name=data.get('name', None),
-            user=User.NewFromJSON(data.get('user', None)),
-            title=data.get('title', None),
-            description=data.get('description', None),
-            posted_at=data.get('posted_at', None),
-            permalink=data.get('permalink', None),
-            width=data.get('width', None),
-            height=data.get('height', None),
-            views=data.get('views', 0),
-            likes=data.get('likes', 0),
-            saves=data.get('saves', 0),
-            comments=data.get('comments', None),
-            nsfw=data.get('nsfw', False),
-            image_url=data.get('image_url', None),
-            source_url=data.get('source_url', None),
-            saved=data.get('saved', False),
-            liked=data.get('liked', False),
-        )
-
     def AsDict(self):
         """
         A dict representation of this Shake instance.
@@ -457,8 +434,40 @@ class SharedFile(object):
 
         return data
 
-    def __repr__(self):
+    def AsJsonString(self):
         return json.dumps(self.AsDict(), sort_keys=True)
+
+    @staticmethod
+    def NewFromJSON(data):
+        """
+        Create a new SharedFile instance from a JSON dict.
+
+        Args:
+            data (dict): JSON dictionary representing a SharedFile.
+
+        Returns:
+            A SharedFile instance.
+        """
+        return SharedFile(
+            sharekey=data.get('sharekey', None),
+            name=data.get('name', None),
+            user=User.NewFromJSON(data.get('user', None)),
+            title=data.get('title', None),
+            description=data.get('description', None),
+            posted_at=data.get('posted_at', None),
+            permalink=data.get('permalink', None),
+            width=data.get('width', None),
+            height=data.get('height', None),
+            views=data.get('views', 0),
+            likes=data.get('likes', 0),
+            saves=data.get('saves', 0),
+            comments=data.get('comments', None),
+            nsfw=data.get('nsfw', False),
+            image_url=data.get('image_url', None),
+            source_url=data.get('source_url', None),
+            saved=data.get('saved', False),
+            liked=data.get('liked', False),
+        )
 
     def __eq__(self, other):
         """
@@ -485,3 +494,9 @@ class SharedFile(object):
                 self.source_url == other.source_url
         except AttributeError:
             return False
+
+    def __ne__(self, other):
+        return not self.__eq__(self, other)
+
+    def __repr__(self):
+        return self.AsJsonString()

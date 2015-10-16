@@ -106,7 +106,8 @@ class ModelTests(unittest.TestCase):
             '"owner": {"about": "me", "id": 67136, "mlkshk_url": '
             '"https://mlkshk.com/user/jcbl", "name": "jcbl", "shake_count": '
             '0, "website": "http://example.com"}, "thumbnail_url": '
-            '"http://example.com", "type": "user", "url": "http://example.com"}'
+            '"http://example.com", "type": "user", "url": '
+            '"http://example.com"}'
 
         )
         self.assertEqual(s.AsJsonString(), s_json_str)
