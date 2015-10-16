@@ -2,6 +2,13 @@ import json
 import datetime
 
 
+def convert_time(dt):
+    """
+    2015-10-09T15:58:11Z -> datetime.datetime(2015, 10, 9, 15, 58, 11)
+    """
+    return datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%SZ")
+
+
 class User(object):
 
     """
@@ -135,7 +142,7 @@ class Comment(object):
     def __init__(self, **kwargs):
         param_defaults = {
             'body': None,
-            'posted_at': None,
+            'posted_at': '',
             'user': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
@@ -229,10 +236,41 @@ class Shake(object):
             'thumbnail_url': None,
             'description': None,
             'type': None,
-            'created_at': None,
-            'updated_at': None}
+            '_created_at': None,
+            '_updated_at': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
+
+    @property
+    def created_at(self):
+        try:
+            return self._created_at.isoformat()
+        except AttributeError:
+            return self._created_at
+
+    @created_at.setter
+    def created_at(self, value):
+        self._created_at = convert_time(value)
+
+    @property
+    def updated_at(self):
+        try:
+            return convert_time(self._updated_at)
+        except:
+            return None
+
+    def __repr__(self):
+        """ String representation of this Shake instance. """
+        return self.AsJsonString()
+
+    def AsJsonString(self):
+        """
+        A JSON string representation of this Shake instance.
+
+        Returns:
+          A JSON string representation of this Shake instance
+       """
+        return json.dumps(self.AsDict(), sort_keys=True)
 
     def AsDict(self):
         """
@@ -294,8 +332,8 @@ class Shake(object):
             thumbnail_url=data.get('thumbnail_url', None),
             description=data.get('description', None),
             type=data.get('type', None),
-            created_at=data.get('created_at', None),
-            updated_at=data.get('updated_at', None)
+            _created_at=data.get('created_at', None),
+            _updated_at=data.get('updated_at', None)
         )
 
     def __eq__(self, other):
@@ -390,6 +428,47 @@ class SharedFile(object):
         }
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
+        self.posted_at = kwargs.get('posted_at', None)
+
+    @property
+    def posted_at(self):
+        return self._posted_at.isoformat()
+
+    @posted_at.setter
+    def posted_at(self, value):
+        self._posted_at = convert_time(value)
+
+    @staticmethod
+    def NewFromJSON(data):
+        """
+        Create a new SharedFile instance from a JSON dict.
+
+        Args:
+            data (str): JSON dictionary representing a SharedFile.
+
+        Returns:
+            A SharedFile instance.
+        """
+        return SharedFile(
+            sharekey=data.get('sharekey', None),
+            name=data.get('name', None),
+            user=User.NewFromJSON(data.get('user', None)),
+            title=data.get('title', None),
+            description=data.get('description', None),
+            posted_at=data.get('posted_at', None),
+            permalink=data.get('permalink', None),
+            width=data.get('width', None),
+            height=data.get('height', None),
+            views=data.get('views', 0),
+            likes=data.get('likes', 0),
+            saves=data.get('saves', 0),
+            comments=data.get('comments', None),
+            nsfw=data.get('nsfw', False),
+            image_url=data.get('image_url', None),
+            source_url=data.get('source_url', None),
+            saved=data.get('saved', False),
+            liked=data.get('liked', False),
+        )
 
     def AsDict(self):
         """
