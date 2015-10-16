@@ -147,15 +147,6 @@ class Comment(object):
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
 
-    def AsJsonString(self):
-        """
-        A JSON string representation of this Comment instance.
-
-        Returns:
-          A JSON string representation of this Comment instance
-       """
-        return json.dumps(self.AsDict(), sort_keys=True)
-
     def AsDict(self):
         """
         A dict representation of this Comment instance.
@@ -175,6 +166,16 @@ class Comment(object):
             data['user'] = self.user.AsDict()
 
         return data
+
+
+    def AsJsonString(self):
+        """
+        A JSON string representation of this Comment instance.
+
+        Returns:
+          A JSON string representation of this Comment instance
+       """
+        return json.dumps(self.AsDict(), sort_keys=True)
 
     @staticmethod
     def NewFromJSON(data):
@@ -258,19 +259,6 @@ class Shake(object):
             return convert_time(self._updated_at)
         except:
             return None
-
-    def __repr__(self):
-        """ String representation of this Shake instance. """
-        return self.AsJsonString()
-
-    def AsJsonString(self):
-        """
-        A JSON string representation of this Shake instance.
-
-        Returns:
-          A JSON string representation of this Shake instance
-       """
-        return json.dumps(self.AsDict(), sort_keys=True)
 
     def AsDict(self):
         """
