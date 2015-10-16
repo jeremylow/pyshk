@@ -44,33 +44,54 @@ At this point, the API is authenticated and you can start making calls to the ml
 * `GET /api/favorites`
 * `GET /api/favorites/after/(afterkey)`
 * `GET /api/favorites/before/(beforekey)`
+
+--------------------
+
 * `GET /api/friends`
 * `GET /api/friends/after/(afterkey)`
 * `GET /api/friends/before/(beforekey)`
+
+--------------------
+
 * `GET /api/incoming`
 * `GET /api/incoming/(id)/after/(afterkey)`
 * `GET /api/incoming/(id)/before/(beforekey)`
+
+--------------------
+
 * `GET /api/magicfiles`
 * `GET /api/magicfiles/(id)/after/(afterkey)`
 * `GET /api/magicfiles/(id)/before/(beforekey)`
+
+--------------------
+
 * `GET /api/shakes`
 * `GET /api/shakes/(id)`
+
+--------------------
+
 * `GET /api/sharedfile/(sharekey)`
 * `GET /api/sharedfile/(sharekey)/comments`
+* `POST /api/sharedfile/(sharekey)/comments`
+* `POST /api/sharedfile/(sharekey)/like`
 * `POST /api/sharedfile/(sharekey)/save`
+
+--------------------
+
 * `GET /api/user`
 * `GET /api/user_id/(user_id)`
 * `GET /api/user_name/(username)`
-* `POST /api/sharedfile/(sharekey)/like`
+
+--------------------
+
 * `POST /api/upload`
 
 #### Untested resources
 * `GET /api/shakes/(id)/after/(afterkey)`
 * `GET /api/shakes/(id)/before/(beforekey)`
 * `POST /api/sharedfile/(sharekey)`
-* `POST /api/sharedfile/(sharekey)/comments`
 
 #### Notes
 * `POST /api/upload` returns a 200 response, not 201 as stated in mlkshk docs.
 * `GET /api/user_id/[x]` & `GET /api/user_name[x]` for user x who does not exist raises a 500 Server Error, not 404 as in the API docs.
-* `GET /api/user[/user_id or /user_name]`: get_user_shakes() returns shake **info** for the currently authenticated user and returns a shake for the other cases. This is inconsistent and should be fixed.
+* `GET /api/user[/user_id or /user_name]`: get_user_shakes() returns shake **info** for the currently authenticated user and returns a **shake** for the other cases. This is inconsistent and should be fixed.
