@@ -6,7 +6,10 @@ def convert_time(dt):
     """
     2015-10-09T15:58:11Z -> datetime.datetime(2015, 10, 9, 15, 58, 11)
     """
-    return datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%SZ")
+    try:
+        return datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%SZ")
+    except:
+        return None
 
 
 class User(object):
@@ -45,14 +48,18 @@ class User(object):
         else:
             return 0
 
-    def AsDict(self):
+    def AsDict(self, dt=True):
         """
         A dict representation of this User instance.
 
         The return value uses the same key names as the JSON representation.
 
+        Args:
+            dt (bool): If True, return dates as python datetime objects. If
+            False, return dates as ISO strings.
+
         Return:
-          A dict representing this User instance
+            A dict representing this User instance
         """
         data = {}
         if self.name:
@@ -75,7 +82,7 @@ class User(object):
         Returns:
           A JSON string representation of this User instance
         """
-        return json.dumps(self.AsDict(), sort_keys=True)
+        return json.dumps(self.AsDict(dt=False), sort_keys=True)
 
     @staticmethod
     def NewFromJSON(data):
@@ -142,16 +149,20 @@ class Comment(object):
     def __init__(self, **kwargs):
         param_defaults = {
             'body': None,
-            'posted_at': '',
+            'posted_at': None,
             'user': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
 
-    def AsDict(self):
+    def AsDict(self, dt=True):
         """
         A dict representation of this Comment instance.
 
         The return value uses the same key names as the JSON representation.
+
+        Args:
+            dt (bool): If True, return dates as python datetime objects. If
+            False, return dates as ISO strings.
 
         Return:
           A dict representing this Comment instance
@@ -174,7 +185,7 @@ class Comment(object):
         Returns:
           A JSON string representation of this Comment instance
        """
-        return json.dumps(self.AsDict(), sort_keys=True)
+        return json.dumps(self.AsDict(dt=False), sort_keys=True)
 
     @staticmethod
     def NewFromJSON(data):
@@ -236,37 +247,45 @@ class Shake(object):
             'thumbnail_url': None,
             'description': None,
             'type': None,
-            '_created_at': None,
-            '_updated_at': None}
+            'created_at': None,
+            'updated_at': None}
         for (param, default) in param_defaults.items():
             setattr(self, param, kwargs.get(param, default))
+        self.created_at = kwargs.get('created_at', None)
+        self.updated_at = kwargs.get('updated_at', None)
 
     @property
     def created_at(self):
-        try:
-            return self._created_at.isoformat()
-        except AttributeError:
-            return self._created_at
+        return self._created_at
 
     @created_at.setter
     def created_at(self, value):
         self._created_at = convert_time(value)
 
     @property
-    def updated_at(self):
-        try:
-            return convert_time(self._updated_at)
-        except:
-            return None
+    def created_at_iso(self):
+        return self._created_at.isoformat()
 
-    def AsDict(self):
+    @property
+    def updated_at(self):
+        return self._updated_at
+
+    @updated_at.setter
+    def updated_at(self, value):
+        self._updated_at = convert_time(value)
+
+    @property
+    def updated_at_iso(self):
+        return self._updated_at.isoformat()
+
+    def AsDict(self, dt=True):
         """
         A dict representation of this Shake instance.
 
         The return value uses the same key names as the JSON representation.
 
         Return:
-          A dict representing this Shake instance
+            A dict representing this Shake instance
         """
         data = {}
 
@@ -284,10 +303,17 @@ class Shake(object):
             data['description'] = self.description
         if self.type:
             data['type'] = self.type
-        if self.created_at:
-            data['created_at'] = self.created_at
-        if self.updated_at:
-            data['updated_at'] = self.updated_at
+
+        if dt:
+            if self.created_at:
+                data['created_at'] = self.created_at
+            if self.updated_at:
+                data['updated_at'] = self.updated_at
+        else:
+            if self.created_at:
+                data['created_at'] = self.created_at_iso
+            if self.updated_at:
+                data['updated_at'] = self.updated_at_iso
 
         return data
 
@@ -298,7 +324,7 @@ class Shake(object):
         Returns:
           A JSON string representation of this Shake instance
        """
-        return json.dumps(self.AsDict(), sort_keys=True)
+        return json.dumps(self.AsDict(dt=False), sort_keys=True)
 
     @staticmethod
     def NewFromJSON(data):
@@ -319,8 +345,8 @@ class Shake(object):
             thumbnail_url=data.get('thumbnail_url', None),
             description=data.get('description', None),
             type=data.get('type', None),
-            _created_at=data.get('created_at', None),
-            _updated_at=data.get('updated_at', None)
+            created_at=data.get('created_at', None),
+            updated_at=data.get('updated_at', None)
         )
 
     def __eq__(self, other):
@@ -419,49 +445,25 @@ class SharedFile(object):
 
     @property
     def posted_at(self):
-        return self._posted_at.isoformat()
+        return self._posted_at
 
     @posted_at.setter
     def posted_at(self, value):
         self._posted_at = convert_time(value)
 
-    @staticmethod
-    def NewFromJSON(data):
-        """
-        Create a new SharedFile instance from a JSON dict.
+    @property
+    def posted_at_iso(self):
+        return self._posted_at.isoformat()
 
-        Args:
-            data (str): JSON dictionary representing a SharedFile.
-
-        Returns:
-            A SharedFile instance.
-        """
-        return SharedFile(
-            sharekey=data.get('sharekey', None),
-            name=data.get('name', None),
-            user=User.NewFromJSON(data.get('user', None)),
-            title=data.get('title', None),
-            description=data.get('description', None),
-            posted_at=data.get('posted_at', None),
-            permalink=data.get('permalink', None),
-            width=data.get('width', None),
-            height=data.get('height', None),
-            views=data.get('views', 0),
-            likes=data.get('likes', 0),
-            saves=data.get('saves', 0),
-            comments=data.get('comments', None),
-            nsfw=data.get('nsfw', False),
-            image_url=data.get('image_url', None),
-            source_url=data.get('source_url', None),
-            saved=data.get('saved', False),
-            liked=data.get('liked', False),
-        )
-
-    def AsDict(self):
+    def AsDict(self, dt=True):
         """
         A dict representation of this Shake instance.
 
         The return value uses the same key names as the JSON representation.
+
+        Args:
+            dt (bool): If True, return dates as python datetime objects. If
+            False, return dates as ISO strings.
 
         Return:
           A dict representing this Shake instance
@@ -479,7 +481,10 @@ class SharedFile(object):
         if self.description:
             data['description'] = self.description
         if self.posted_at:
-            data['posted_at'] = self.posted_at
+            if dt:
+                data['posted_at'] = self.posted_at
+            else:
+                data['posted_at'] = self.posted_at_iso
         if self.permalink:
             data['permalink'] = self.permalink
         if self.width:
@@ -501,7 +506,13 @@ class SharedFile(object):
         return data
 
     def AsJsonString(self):
-        return json.dumps(self.AsDict(), sort_keys=True)
+        """
+        A JSON string representation of this SharedFile instance.
+
+        Returns:
+            A JSON string representation of this SharedFile instance
+        """
+        return json.dumps(self.AsDict(dt=False), sort_keys=True)
 
     @staticmethod
     def NewFromJSON(data):

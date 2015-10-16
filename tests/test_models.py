@@ -1,5 +1,6 @@
-import unittest
+import datetime
 import json
+import unittest
 
 from pyshk import models
 
@@ -140,7 +141,7 @@ class ModelTests(unittest.TestCase):
             'name': 'test.jpg',
             'title': 'test',
             'description': 'test',
-            'posted_at': '2015-10-09T15:58:11',
+            'posted_at': datetime.datetime(2015, 10, 9, 15, 58, 11),
             'permalink': 'test',
             'width': 500,
             'height': 500,

@@ -234,6 +234,35 @@ class Api(object):
         elif imghdr.what(image) == 'gif':
             return 'image/gif'
 
+    def get_favorites(self, before=None, after=None):
+        """
+        Get a list of the authenticated user's 10 most recent favorites
+        (likes).
+
+        Args:
+            before (str): get 10 SharedFile objects before (but not including)
+                the SharedFile given by `before` for the authenticated user's
+                set of Likes.
+            after (str): get 10 SharedFile objects after (but not including)
+                the SharedFile give by `after' for the authenticated user's set
+                of Likes.
+
+        Returns:
+            List of SharedFile objects.
+        """
+        if before and after:
+            raise Exception("You cannot specify both before and after keys")
+
+        endpoint = '/api/favorites'
+
+        if before:
+            endpoint += '/before/{0}'.format(before)
+        elif after:
+            endpoint += '/after/{0}'.format(after)
+
+        data = self._make_request("GET", endpoint=endpoint)
+        return [SharedFile.NewFromJSON(sf) for sf in data['favorites']]
+
     def get_user(self, user_id=None, user_name=None):
         """ Get a user object from the API. If no ``user_id`` or ``user_name``
         is specified, it will return the User object for the currently
@@ -264,30 +293,15 @@ class Api(object):
         except:
             return data
 
-    def get_user_shakes(self,
-                        user_id=None,
-                        user_name=None):
-        """ Get a list of Shake objects for a user. If no ``user_id`` or
-        ``user_name`` is specified, then get a list of shakes for the currently
-        authenticated user.
-
-        Args:
-            user_id (int): User id for which to grab shakes. [Optional]
-            user_name (str): Username for which to grab shakes. [Optional]
+    def get_user_shakes(self):
+        """ Get a list of Shake objects for the currently authenticated user.
 
         Returns:
             A list of Shake objects.
         """
-        if user_id:
-            endpoint = '/api/user_id/{0}'.format(user_id)
-        elif user_name:
-            endpoint = '/api/user_name/{0}'.format(user_name)
-        else:
-            endpoint = '/api/shakes'
+        endpoint = '/api/shakes'
         data = self._make_request(verb="GET", endpoint=endpoint)
 
-        if not user_id and user_name:
-            pass
         shakes = [Shake.NewFromJSON(shk) for shk in data['shakes']]
         return shakes
 
@@ -411,35 +425,6 @@ class Api(object):
             return sf
         except:
             raise Exception("{0}".format(data['error']))
-
-    def get_favorites(self, before=None, after=None):
-        """
-        Get a list of the authenticated user's 10 most recent favorites
-        (likes).
-
-        Args:
-            before (str): get 10 SharedFile objects before (but not including)
-                the SharedFile given by `before` for the authenticated user's
-                set of Likes.
-            after (str): get 10 SharedFile objects after (but not including)
-                the SharedFile give by `after' for the authenticated user's set
-                of Likes.
-
-        Returns:
-            List of SharedFile objects.
-        """
-        if before and after:
-            raise Exception("You cannot specify both before and after keys")
-
-        endpoint = '/api/favorites'
-
-        if before:
-            endpoint += '/before/{0}'.format(before)
-        elif after:
-            endpoint += '/after/{0}'.format(after)
-
-        data = self._make_request("GET", endpoint=endpoint)
-        return [SharedFile.NewFromJSON(sf) for sf in data['favorites']]
 
     def get_friends_shake(self, before=None, after=None):
         """
