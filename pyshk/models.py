@@ -337,10 +337,9 @@ class Shake(object):
         Returns:
             A Shake instance.
         """
-        return Shake(
+        s = Shake(
             id=data.get('id', None),
             name=data.get('name', None),
-            owner=data.get('owner', None),
             url=data.get('url', None),
             thumbnail_url=data.get('thumbnail_url', None),
             description=data.get('description', None),
@@ -348,6 +347,9 @@ class Shake(object):
             created_at=data.get('created_at', None),
             updated_at=data.get('updated_at', None)
         )
+        if data.get('owner', None):
+            s.owner = User.NewFromJSON(data.get('owner', None))
+        return s
 
     def __eq__(self, other):
         try:

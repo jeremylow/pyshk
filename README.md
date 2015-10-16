@@ -67,6 +67,8 @@ At this point, the API is authenticated and you can start making calls to the ml
 
 * `GET /api/shakes`
 * `GET /api/shakes/(id)`
+* `GET /api/shakes/(id)/after/(afterkey)`
+* `GET /api/shakes/(id)/before/(beforekey)`
 
 --------------------
 
@@ -87,8 +89,6 @@ At this point, the API is authenticated and you can start making calls to the ml
 * `POST /api/upload`
 
 #### Untested resources
-* `GET /api/shakes/(id)/after/(afterkey)`
-* `GET /api/shakes/(id)/before/(beforekey)`
 * `POST /api/sharedfile/(sharekey)`
 
 #### Notes

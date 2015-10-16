@@ -94,8 +94,8 @@ class TestAPIResponses(unittest.TestCase):
 
     @responses.activate
     def test_get_authd_user_shakes(self):
-        with open('tests/test_data/api/shakes') as api_shakes:
-            resp_data = api_shakes.read()
+        with open('tests/test_data/api/shakes') as f:
+            resp_data = f.read()
 
         responses.add(
             responses.GET,
@@ -107,8 +107,8 @@ class TestAPIResponses(unittest.TestCase):
 
     @responses.activate
     def test_get_sharedfiles_from_shake(self):
-        with open('tests/test_data/api/shakes-59884') as api_shakes:
-            resp_data = api_shakes.read()
+        with open('tests/test_data/api/shakes-59884') as f:
+            resp_data = f.read()
 
         responses.add(
             responses.GET,
@@ -125,8 +125,8 @@ class TestAPIResponses(unittest.TestCase):
 
     @responses.activate
     def test_upload(self):
-        with open('tests/test_data/api/upload') as upload:
-            resp_data = upload.read().encode('utf8')
+        with open('tests/test_data/api/upload') as f:
+            resp_data = f.read().encode('utf8')
 
             responses.add(
                 responses.POST,
@@ -304,3 +304,19 @@ class TestAPIResponses(unittest.TestCase):
         self.assertEqual(magic_files[0].sharekey, 'CO0E')
         self.assertIsInstance(magic_files, list)
         self.assertEqual(len(magic_files), 10)
+
+    @responses.activate
+    def test_get_user_shakes(self):
+        with open('tests/test_data/api/shakes') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/shakes',
+            body=resp_data,
+            status=200
+        )
+        shakes = self.api.get_user_shakes()
+        self.assertIsInstance(shakes[0], models.Shake)
+        self.assertIsInstance(shakes[0].owner, models.User)
+        self.assertEqual(len(shakes), 1)
