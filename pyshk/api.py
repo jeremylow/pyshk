@@ -343,49 +343,6 @@ class Api(object):
         data = self._make_request('GET', endpoint)
         return SharedFile.NewFromJSON(data)
 
-    def post_shared_file(self,
-                         image_file=None,
-                         source_link=None,
-                         shake_id=None,
-                         title=None,
-                         description=None):
-        """ Upload an image.
-
-        TODO:
-        Don't have a pro account to test (or even write) code to upload a
-        shared filed to a particular shake.
-
-        Args:
-            image_file (str): path to an image (jpg/gif) on your computer.
-            source_link (str): URL of a source (youtube/vine/etc.)
-            shake_id (int): shake to which to upload the file or
-                source_link [optional]
-            title (str): title of the SharedFile [optional]
-            description (str): description of the SharedFile
-
-        Returns:
-            SharedFile key.
-        """
-        if image_file and source_link:
-            raise Exception('You can only specify an image file or '
-                            'a source link, not both.')
-        if not image_file and not source_link:
-            raise Exception('You must specify an image file or a source link')
-
-        content_type = self._get_image_type(image_file)
-
-        if not title:
-            title = os.path.basename(image_file)
-
-        f = open(image_file, 'rb')
-        endpoint = '/api/upload'
-
-        files = {'file': (title, f, content_type)}
-        data = self._make_request('POST', endpoint=endpoint, files=files)
-
-        f.close()
-        return data
-
     def like_shared_file(self, sharekey=None):
         """ 'Like' a SharedFile. mlkshk doesn't allow you to unlike a
         sharedfile, so this is ~~permanent~~.
@@ -518,3 +475,62 @@ class Api(object):
 
         data = self._make_request("POST", endpoint=endpoint, data=post_data)
         return Comment.NewFromJSON(data)
+
+    def post_shared_file(self,
+                         image_file=None,
+                         source_link=None,
+                         shake_id=None,
+                         title=None,
+                         description=None):
+        """ Upload an image.
+
+        TODO:
+        Don't have a pro account to test (or even write) code to upload a
+        shared filed to a particular shake.
+
+        Args:
+            image_file (str): path to an image (jpg/gif) on your computer.
+            source_link (str): URL of a source (youtube/vine/etc.)
+            shake_id (int): shake to which to upload the file or
+                source_link [optional]
+            title (str): title of the SharedFile [optional]
+            description (str): description of the SharedFile
+
+        Returns:
+            SharedFile key.
+        """
+        if image_file and source_link:
+            raise Exception('You can only specify an image file or '
+                            'a source link, not both.')
+        if not image_file and not source_link:
+            raise Exception('You must specify an image file or a source link')
+
+        content_type = self._get_image_type(image_file)
+
+        if not title:
+            title = os.path.basename(image_file)
+
+        f = open(image_file, 'rb')
+        endpoint = '/api/upload'
+
+        files = {'file': (title, f, content_type)}
+        data = self._make_request('POST', endpoint=endpoint, files=files)
+
+        f.close()
+        return data
+
+    def update_shared_file(self,
+                           title=None,
+                           description=None):
+        """
+        Update the editable details (just the title and description) of a
+        SharedFile.
+
+        Args:
+            title (str): Title of the SharedFile.
+            description (str): Description of the SharedFile
+
+        Returns:
+            200
+        """
+        pass
