@@ -167,7 +167,6 @@ class Comment(object):
 
         return data
 
-
     def AsJsonString(self):
         """
         A JSON string representation of this Comment instance.
