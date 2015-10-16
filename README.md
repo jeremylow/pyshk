@@ -73,3 +73,4 @@ At this point, the API is authenticated and you can start making calls to the ml
 #### Notes
 * `POST /api/upload` returns a 200 response, not 201 as stated in mlkshk docs.
 * `GET /api/user_id/[x]` & `GET /api/user_name[x]` for user x who does not exist raises a 500 Server Error, not 404 as in the API docs.
+* `GET /api/user[/user_id or /user_name]`: get_user_shakes() returns shake **info** for the currently authenticated user and returns a shake for the other cases. This is inconsistent and should be fixed.
