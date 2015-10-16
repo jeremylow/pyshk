@@ -7,12 +7,11 @@ import base64
 import datetime
 from hashlib import md5, sha1
 import hmac
-# import json
-# from requests_oauthlib import OAuth2
 import imghdr
 import os
 import random
 import requests
+import requests_toolbelt
 import six
 import time
 
@@ -163,7 +162,7 @@ class Api(object):
             signature)
         return auth_str
 
-    def _make_request(self, verb, endpoint=None, data=None):
+    def _make_request(self, verb, endpoint=None, data=None, files=None):
         if not self.authenticated:
             raise ApiInstanceUnauthorized
 
@@ -184,10 +183,26 @@ class Api(object):
                 headers={'Authorization': authorization_header},
                 verify=False)
         elif verb == "POST":
-            req = requests.post(
-                resource_url,
-                headers={'Authorization': authorization_header},
-                files=data)
+            if data:
+                req = requests.post(
+                    resource_url,
+                    headers={'Authorization': authorization_header},
+                    data=data)
+            elif files:
+                req = requests.post(
+                    resource_url,
+                    headers={'Authorization': authorization_header},
+                    files=files)
+            elif data and files:
+                req = requests.post(
+                    resource_url,
+                    headers={'Authorization': authorization_header},
+                    files=files,
+                    data=data)
+            else:
+                req = requests.post(
+                    resource_url,
+                    headers={'Authorization': authorization_header})
 
         if req.status_code == 401:
             raise ApiResponseUnauthorized(req)
@@ -352,7 +367,7 @@ class Api(object):
         endpoint = '/api/upload'
 
         files = {'file': (title, f, content_type)}
-        data = self._make_request('POST', endpoint=endpoint, data=files)
+        data = self._make_request('POST', endpoint=endpoint, files=files)
 
         f.close()
         return data
@@ -511,5 +526,10 @@ class Api(object):
         data = self._make_request("GET", endpoint=endpoint)
         return data
 
-    def post_comment(self, comment=None):
-        pass
+    def post_comment(self, sharekey=None, comment=None):
+        endpoint = '/api/sharedfile/{0}/comments'.format(sharekey)
+
+        post_data = {'body': comment}
+
+        data = self._make_request("POST", endpoint=endpoint, data=post_data)
+        return data
