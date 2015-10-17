@@ -123,8 +123,13 @@ class TestAPIResponses(unittest.TestCase):
 
         self.assertTrue(sharedfile == files[0])
 
+        self.assertRaises(
+            Exception,
+            lambda: self.api.get_shared_files_from_shake(
+                before='0001', after='0002'))
+
     @responses.activate
-    def test_upload(self):
+    def test_post_shared_file(self):
         with open('tests/test_data/api/upload') as f:
             resp_data = f.read().encode('utf8')
 
@@ -138,6 +143,11 @@ class TestAPIResponses(unittest.TestCase):
                 image_file='tests/test_data/like-tiny.gif')
         expected_resp = {"share_key": "164L4", "name": "like-tiny.gif"}
         self.assertEqual(resp['share_key'], expected_resp['share_key'])
+        self.assertRaises(
+            Exception,
+            lambda: self.api.post_shared_file(
+                image_file='1.jpg',
+                source_link='http://example.com'))
 
     def test_headers(self):
         test_headers = self.api._make_headers(
@@ -241,6 +251,10 @@ class TestAPIResponses(unittest.TestCase):
         friends_shake = self.api.get_friends_shake()
         self.assertIsInstance(friends_shake[0], models.SharedFile)
         self.assertIsInstance(friends_shake, list)
+        self.assertRaises(
+            Exception,
+            lambda: self.api.get_friends_shake(
+                before='0001', after='0002'))
 
     @responses.activate
     def test_get_incoming_shake(self):
@@ -375,3 +389,5 @@ class TestAPIResponses(unittest.TestCase):
         self.assertEqual(len(comments), 4)
         self.assertIsInstance(comments[0], models.Comment)
         self.assertEqual(comments[0].body, '!!!!!!!')
+        self.assertRaises(Exception,
+                          lambda: self.api.get_comments())
