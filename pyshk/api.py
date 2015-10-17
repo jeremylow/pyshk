@@ -341,6 +341,17 @@ class Api(object):
         return [SharedFile.NewFromJSON(f) for f in data['sharedfiles']]
 
     def get_shared_file(self, sharekey=None):
+        """
+        Returns a SharedFile object given by the sharekey.
+
+        Args:
+            sharekey (str): Sharekey of the SharedFile you want to retrieve.
+
+        Returns:
+            SharedFile
+        """
+        if not sharekey:
+            raise Exception("You must specify a sharekey.")
         endpoint = '/api/sharedfile/{0}'.format(sharekey)
         data = self._make_request('GET', endpoint)
         return SharedFile.NewFromJSON(data)
@@ -552,10 +563,11 @@ class Api(object):
             unauthorized.
         """
         if not sharekey:
-            raise Exception("You must specify a sharekey for the sharedfile"
+            raise Exception(
+                "You must specify a sharekey for the sharedfile"
                 "you wish to update.")
 
-        if not title and not description:
+        if not (title or description):
             raise Exception("You must specify a title or description.")
 
         post_data = {}
