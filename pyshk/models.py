@@ -65,6 +65,8 @@ class User(object):
         if self.name:
             data['name'] = self.name
             data['mlkshk_url'] = self.mlkshk_url
+        if self.profile_image_url:
+            data['profile_image_url'] = self.profile_image_url
         if self.id:
             data['id'] = self.id
         if self.about:
@@ -128,7 +130,7 @@ class User(object):
             return False
 
     def __ne__(self, other):
-        return not self.__eq__(self, other)
+        return not self.__eq__(other)
 
     def __repr__(self):
         """ String representation of this User instance. """
@@ -214,7 +216,7 @@ class Comment(object):
             return False
 
     def __ne__(self, other):
-        return not self.__eq__(self, other)
+        return not self.__eq__(other)
 
     def __repr__(self):
         """ String representation of this Comment instance. """
@@ -367,7 +369,7 @@ class Shake(object):
             return False
 
     def __ne__(self, other):
-        return not self.__eq__(self, other)
+        return not self.__eq__(other)
 
     def __repr__(self):
         """ String representation of this Shake instance. """
@@ -575,7 +577,7 @@ class SharedFile(object):
             return False
 
     def __ne__(self, other):
-        return not self.__eq__(self, other)
+        return not self.__eq__(other)
 
     def __repr__(self):
         return self.AsJsonString()

@@ -44,6 +44,7 @@ class ModelTests(unittest.TestCase):
 
         user_dict = {'name': 'jcbl',
                      'mlkshk_url': 'https://mlkshk.com/user/jcbl',
+                     'profile_image_url': 'http://mlkshk.com/static/images/default-icon-venti.png',
                      'id': 67136,
                      'shakes': [tmp_shk],
                      'shake_count': 1}
@@ -66,6 +67,22 @@ class ModelTests(unittest.TestCase):
 
             self.assertTrue(u1 == u2)
 
+    def test_json_representation(self):
+        self.maxDiff = None
+        u = models.User(id=67136, name='jcbl', about='me', shakes=None,
+                        profile_image_url='http://example.com',
+                        website='http://example.com')
+        u_json_str = '{"about": "me", "id": 67136, "mlkshk_url": "https://mlkshk.com/user/jcbl", "name": "jcbl", "profile_image_url": "http://example.com", "shake_count": 0, "website": "http://example.com"}'
+        self.assertEqual(u.AsJsonString(), u_json_str)
+        self.assertEqual(u.__repr__(), u_json_str)
+
+
+class TestShake(unittest.TestCase):
+
+    """
+    Test Shake objects
+    """
+
     def test_shake_equality(self):
         with open('tests/test_data/api/shakes') as f:
             shake1 = models.Shake.NewFromJSON(json.load(f))
@@ -77,21 +94,34 @@ class ModelTests(unittest.TestCase):
             self.assertFalse(shake1 == shake2)
             delattr(shake1, 'id')
             self.assertFalse(shake1 == shake2)
+            self.assertTrue(shake1 != shake2)
 
-    def test_json_representation(self):
-        u = models.User(
-            id=67136,
-            name='jcbl',
-            profile_image_url='http://example.com',
-            about='me', website='http://example.com',
-            shakes=None)
-        u_json_str = (
-            '{"about": "me", "id": 67136, '
-            '"mlkshk_url": "https://mlkshk.com/user/jcbl", '
-            '"name": "jcbl", "shake_count": 0, '
-            '"website": "http://example.com"}')
-        self.assertEqual(u.AsJsonString(), u_json_str)
-        self.assertEqual(u.__repr__(), u_json_str)
+    def test_shake_as_dict(self):
+        sf = models.SharedFile(sharekey='test', name='test.jpg', title='test',
+                               description='test',
+                               posted_at='2015-10-09T15:58:11Z',
+                               permalink='test', width=500, height=500,
+                               views=1, likes=1, saves=1, nsfw=False,
+                               comments=0,
+                               image_url='http://example.com/test.jpg',
+                               source_url='http://example.com/test.jpg',
+                               saved=True, liked=True)
+
+        sf_dict = {'sharekey': 'test', 'name': 'test.jpg', 'title': 'test',
+                   'description': 'test',
+                   'posted_at': datetime.datetime(2015, 10, 9, 15, 58, 11),
+                   'permalink': 'test', 'width': 500, 'height': 500,
+                   'views': 1, 'likes': 1, 'saves': 1, 'nsfw': False,
+                   'comments': 0, 'image_url': 'http://example.com/test.jpg',
+                   'source_url': 'http://example.com/test.jpg', 'saved': True,
+                   'liked': True}
+
+        self.assertDictEqual(sf.AsDict(), sf_dict)
+
+    def test_shake_json(self):
+        u = models.User(id=67136, name='jcbl', about='me', shakes=None,
+                        profile_image_url='http://example.com',
+                        website='http://example.com')
         s = models.Shake(
             id=1,
             name='noone shake',
@@ -103,57 +133,37 @@ class ModelTests(unittest.TestCase):
             created_at=None,
             updated_at=None
         )
-        s_json_str = (
-            '{"description": "test", "id": 1, "name": "noone shake", '
-            '"owner": {"about": "me", "id": 67136, "mlkshk_url": '
-            '"https://mlkshk.com/user/jcbl", "name": "jcbl", "shake_count": '
-            '0, "website": "http://example.com"}, "thumbnail_url": '
-            '"http://example.com", "type": "user", "url": '
-            '"http://example.com"}'
-
-        )
+        s_json_str = '{"description": "test", "id": 1, "name": "noone shake", "owner": {"about": "me", "id": 67136, "mlkshk_url": "https://mlkshk.com/user/jcbl", "name": "jcbl", "profile_image_url": "http://example.com", "shake_count": 0, "website": "http://example.com"}, "thumbnail_url": "http://example.com", "type": "user", "url": "http://example.com"}'
         self.assertEqual(s.AsJsonString(), s_json_str)
         self.assertEqual(s.AsJsonString(), s.__repr__())
 
-    def test_shake_as_dict(self):
-        sf = models.SharedFile(
-            sharekey='test',
-            name='test.jpg',
-            title='test',
-            description='test',
-            posted_at='2015-10-09T15:58:11Z',
-            permalink='test',
-            width=500,
-            height=500,
-            views=1,
-            likes=1,
-            saves=1,
-            nsfw=False,
-            comments=0,
-            image_url='http://example.com/test.jpg',
-            source_url='http://example.com/test.jpg',
-            saved=True,
-            liked=True,
-        )
 
-        sf_dict = {
-            'sharekey': 'test',
-            'name': 'test.jpg',
-            'title': 'test',
-            'description': 'test',
-            'posted_at': datetime.datetime(2015, 10, 9, 15, 58, 11),
-            'permalink': 'test',
-            'width': 500,
-            'height': 500,
-            'views': 1,
-            'likes': 1,
-            'saves': 1,
-            'nsfw': False,
-            'comments': 0,
-            'image_url': 'http://example.com/test.jpg',
-            'source_url': 'http://example.com/test.jpg',
-            'saved': True,
-            'liked': True,
-        }
+class TestComment(unittest.TestCase):
 
-        self.assertDictEqual(sf.AsDict(), sf_dict)
+    """
+    Test Comments object
+    """
+
+    def test_comment_creation(self):
+        with open('tests/test_data/api/comments') as f:
+            data = json.load(f)
+        comments = [models.Comment.NewFromJSON(d) for d in data['comments']]
+
+        self.assertEqual(len(comments), 2)
+        self.assertIsInstance(comments[0], models.Comment)
+        self.assertIsInstance(comments[0].user, models.User)
+        self.assertEqual(comments[0].body, 'api test')
+
+    def test_json_str(self):
+        self.maxDiff = None
+        with open('tests/test_data/api/comments') as f:
+            data = json.load(f)
+        comment = [models.Comment.NewFromJSON(d) for d in data['comments']][0]
+        c_json_string = comment.AsJsonString()
+
+        # This isn't strictly correct since we try to determine the number of
+        # Shakes that a user has. This is somewhat unavoidable since the API
+        # doesn't return the user's shakes when just looking at a User object
+        # from the comment endpoint.
+        json_string = '{"body": "api test", "posted_at": "2015-10-16T01:05:54Z", "user": {"id": 67136, "mlkshk_url": "https://mlkshk.com/user/jcbl", "name": "jcbl", "profile_image_url": "http://mlkshk-production.s3.amazonaws.com/account/67136/profile.jpg", "shake_count": 0}}'
+        self.assertEqual(c_json_string, json_string)
