@@ -107,7 +107,7 @@ class TestAPIResponses(unittest.TestCase):
 
     @responses.activate
     def test_get_sharedfiles_from_shake(self):
-        with open('tests/test_data/api/shakes-59884') as f:
+        with open('tests/test_data/api/shakes.59884') as f:
             resp_data = f.read()
 
         responses.add(
@@ -195,6 +195,7 @@ class TestAPIResponses(unittest.TestCase):
         sf = self.api.like_shared_file(sharekey='164DW')
 
         self.assertTrue(sf.liked)
+        self.assertRaises(Exception, lambda: self.api.like_shared_file())
 
     @responses.activate
     def test_save_shared_file(self):
@@ -320,3 +321,57 @@ class TestAPIResponses(unittest.TestCase):
         self.assertIsInstance(shakes[0], models.Shake)
         self.assertIsInstance(shakes[0].owner, models.User)
         self.assertEqual(len(shakes), 1)
+
+    @responses.activate
+    def test_update_shared_file(self):
+        with open('tests/test_data/api/sharedfile/1669X.POST') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.POST,
+            'http://mlkshk.com/api/sharedfile/1669X',
+            body=resp_data,
+            status=200
+        )
+
+        sf = self.api.update_shared_file(sharekey='1669X', description='test')
+
+        self.assertIsInstance(sf, models.SharedFile)
+        self.assertEqual(sf.description, 'test')
+
+        with open('tests/test_data/api/sharedfile/1669X.POST.title') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.POST,
+            'http://mlkshk.com/api/sharedfile/1669X',
+            body=resp_data,
+            status=200
+        )
+        sf = self.api.update_shared_file(sharekey='1669X',
+                                         title='journalism')
+        self.assertIsInstance(sf, models.SharedFile)
+        self.assertEqual(sf.title, 'journalism')
+
+        self.assertRaises(
+            Exception,
+            lambda: self.api.update_shared_file(sharekey='1669X'))
+        self.assertRaises(
+            Exception,
+            lambda: self.api.update_shared_file())
+
+    @responses.activate
+    def test_get_comments(self):
+        with open('tests/test_data/api/sharedfile/162LG/comments') as f:
+            resp_data = f.read()
+
+        responses.add(
+            responses.GET,
+            'http://mlkshk.com/api/sharedfile/162LG/comments',
+            body=resp_data,
+            status=200
+        )
+        comments = self.api.get_comments(sharekey='162LG')
+        self.assertEqual(len(comments), 4)
+        self.assertIsInstance(comments[0], models.Comment)
+        self.assertEqual(comments[0].body, '!!!!!!!')

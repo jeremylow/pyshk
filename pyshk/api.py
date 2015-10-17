@@ -217,7 +217,7 @@ class Api(object):
         try:
             return req.json()
         except:
-            print('returning req')
+            print('returning req', req._content)
             return req
 
     @staticmethod
@@ -233,6 +233,8 @@ class Api(object):
             return 'image/jpeg'
         elif imghdr.what(image) == 'gif':
             return 'image/gif'
+        elif imghdr.what(image) == 'png':
+            return 'image/png'
 
     def get_favorites(self, before=None, after=None):
         """
@@ -353,6 +355,12 @@ class Api(object):
         Returns:
             Either a SharedFile on success, or an exception on error.
         """
+
+        if not sharekey:
+            raise Exception(
+                "You must specify a sharekey of the file you"
+                "want to 'like'.")
+
         endpoint = '/api/sharedfile/{sharekey}/like'.format(sharekey=sharekey)
         data = self._make_request("POST", endpoint=endpoint, data=None)
 
@@ -464,8 +472,15 @@ class Api(object):
         Returns:
             List of Comment objects.
         """
+        if not sharekey:
+            raise Exception(
+                "You must specify a sharekey of the file you"
+                "want to 'like'.")
+
         endpoint = '/api/sharedfile/{0}/comments'.format(sharekey)
+
         data = self._make_request("GET", endpoint=endpoint)
+
         return [Comment.NewFromJSON(c) for c in data['comments']]
 
     def post_comment(self, sharekey=None, comment=None):
@@ -520,6 +535,7 @@ class Api(object):
         return data
 
     def update_shared_file(self,
+                           sharekey=None,
                            title=None,
                            description=None):
         """
@@ -527,10 +543,30 @@ class Api(object):
         SharedFile.
 
         Args:
-            title (str): Title of the SharedFile.
-            description (str): Description of the SharedFile
+            sharekey (str): Sharekey of the SharedFile to update.
+            title (Optional[str]): Title of the SharedFile.
+            description (Optional[str]): Description of the SharedFile
 
         Returns:
-            200
+            SharedFile on success, 404 on Sharekey not found, 403 on
+            unauthorized.
         """
-        pass
+        if not sharekey:
+            raise Exception("You must specify a sharekey for the sharedfile"
+                "you wish to update.")
+
+        if not title and not description:
+            raise Exception("You must specify a title or description.")
+
+        post_data = {}
+
+        if title:
+            post_data['title'] = title
+        if description:
+            post_data['description'] = description
+
+        endpoint = '/api/sharedfile/{0}'.format(sharekey)
+
+        data = self._make_request('POST', endpoint=endpoint, data=post_data)
+
+        return SharedFile.NewFromJSON(data)
