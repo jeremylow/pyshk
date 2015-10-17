@@ -66,6 +66,8 @@ class ModelTests(unittest.TestCase):
             u2 = models.User.NewFromJSON(json.load(f))
 
             self.assertTrue(u1 == u2)
+            u2.id = 110202
+            self.assertTrue(u1 != u2)
 
     def test_json_representation(self):
         self.maxDiff = None
@@ -167,3 +169,12 @@ class TestComment(unittest.TestCase):
         # from the comment endpoint.
         json_string = '{"body": "api test", "posted_at": "2015-10-16T01:05:54Z", "user": {"id": 67136, "mlkshk_url": "https://mlkshk.com/user/jcbl", "name": "jcbl", "profile_image_url": "http://mlkshk-production.s3.amazonaws.com/account/67136/profile.jpg", "shake_count": 0}}'
         self.assertEqual(c_json_string, json_string)
+
+    def test_comment_equality(self):
+        with open('tests/test_data/api/comments') as f:
+            data = json.load(f)
+
+        comment1 = models.Comment.NewFromJSON(data['comments'][0])
+        comment2 = models.Comment.NewFromJSON(data['comments'][1])
+        self.assertFalse(comment1 == comment2)
+        self.assertTrue(comment1 != comment2)
