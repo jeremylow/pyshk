@@ -478,7 +478,7 @@ class Api(object):
 
         Args:
             sharekey (str): Sharekey for the file from which you want to return
-            the set of comments.
+                the set of comments.
 
         Returns:
             List of Comment objects.
@@ -495,6 +495,18 @@ class Api(object):
         return [Comment.NewFromJSON(c) for c in data['comments']]
 
     def post_comment(self, sharekey=None, comment=None):
+        """
+        Post a comment on behalf of the current user to the
+        SharedFile with the given sharekey.
+
+        Args:
+            sharekey (str): Sharekey of the SharedFile to which you'd like
+                to post a comment.
+            comment (str): Text of the comment to post.
+
+        Returns:
+            Comment object.
+        """
         endpoint = '/api/sharedfile/{0}/comments'.format(sharekey)
 
         post_data = {'body': comment}

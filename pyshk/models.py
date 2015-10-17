@@ -467,7 +467,7 @@ class SharedFile(object):
 
         Args:
             dt (bool): If True, return dates as python datetime objects. If
-            False, return dates as ISO strings.
+                False, return dates as ISO strings.
 
         Return:
           A dict representing this Shake instance

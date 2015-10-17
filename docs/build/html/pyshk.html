@@ -1,0 +1,913 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyshk package &mdash; pyshk 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pyshk 0.0.1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyshk
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="simple">
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyshk</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>pyshk package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/pyshk.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyshk-package">
+<h1>pyshk package<a class="headerlink" href="#pyshk-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyshk.api">
+<span id="pyshk-api-module"></span><h2>pyshk.api module<a class="headerlink" href="#module-pyshk.api" title="Permalink to this headline">¶</a></h2>
+<p>Library to provide access to MLKSHK API.</p>
+<dl class="class">
+<dt id="pyshk.api.Api">
+<em class="property">class </em><code class="descclassname">pyshk.api.</code><code class="descname">Api</code><span class="sig-paren">(</span><em>consumer_key=None</em>, <em>consumer_secret=None</em>, <em>access_token_key=None</em>, <em>access_token_secret=None</em>, <em>base_url=None</em>, <em>testing=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="pyshk.api.Api.get_auth">
+<code class="descname">get_auth</code><span class="sig-paren">(</span><em>redirect_uri=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_auth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_auth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_comments">
+<code class="descname">get_comments</code><span class="sig-paren">(</span><em>sharekey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_comments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_comments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve comments on a SharedFile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sharekey</strong> (<em>str</em>) &#8211; Sharekey for the file from which you want to return
+the set of comments.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of Comment objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_favorites">
+<code class="descname">get_favorites</code><span class="sig-paren">(</span><em>before=None</em>, <em>after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_favorites"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_favorites" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of the authenticated user&#8217;s 10 most recent favorites
+(likes).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>before</strong> (<em>str</em>) &#8211; get 10 SharedFile objects before (but not including)
+the SharedFile given by <cite>before</cite> for the authenticated user&#8217;s
+set of Likes.</li>
+<li><strong>after</strong> (<em>str</em>) &#8211; get 10 SharedFile objects after (but not including)
+the SharedFile give by <a href="#id1"><span class="problematic" id="id2">`</span></a>after&#8217; for the authenticated user&#8217;s set
+of Likes.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of SharedFile objects.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_friends_shake">
+<code class="descname">get_friends_shake</code><span class="sig-paren">(</span><em>before=None</em>, <em>after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_friends_shake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_friends_shake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contrary to the endpoint naming, this resource is for a list of
+SharedFiles from your friends on mlkshk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of SharedFiles.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_incoming_shake">
+<code class="descname">get_incoming_shake</code><span class="sig-paren">(</span><em>before=None</em>, <em>after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_incoming_shake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_incoming_shake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of the most recent SharedFiles on mlkshk.com</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>before</strong> (<em>str</em>) &#8211; get 10 SharedFile objects before (but not including)
+the SharedFile given by <cite>before</cite> for the Incoming Shake.</li>
+<li><strong>after</strong> (<em>str</em>) &#8211; get 10 SharedFile objects after (but not including)
+the SharedFile give by <a href="#id3"><span class="problematic" id="id4">`</span></a>after&#8217; for the Incoming Shake.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of SharedFile objects.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_magic_shake">
+<code class="descname">get_magic_shake</code><span class="sig-paren">(</span><em>before=None</em>, <em>after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_magic_shake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_magic_shake" title="Permalink to this definition">¶</a></dt>
+<dd><p>From the API:</p>
+<p>Returns the 10 most recent files accepted by the &#8216;magic&#8217; file selection
+algorithm. Currently any files with 10 or more likes are magic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of SharedFile objects</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyshk.api.Api.get_nonce">
+<em class="property">static </em><code class="descname">get_nonce</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_nonce"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_nonce" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_shared_file">
+<code class="descname">get_shared_file</code><span class="sig-paren">(</span><em>sharekey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_shared_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_shared_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a SharedFile object given by the sharekey.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sharekey</strong> (<em>str</em>) &#8211; Sharekey of the SharedFile you want to retrieve.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SharedFile</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_shared_files_from_shake">
+<code class="descname">get_shared_files_from_shake</code><span class="sig-paren">(</span><em>shake_id=None</em>, <em>before=None</em>, <em>after=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_shared_files_from_shake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_shared_files_from_shake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of SharedFile objects from a particular shake.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>shake_id</strong> (<em>int</em>) &#8211; Shake from which to get a list of SharedFiles</li>
+<li><strong>before</strong> (<em>str</em>) &#8211; get 10 SharedFile objects before (but not including)
+the SharedFile given by <cite>before</cite> for the given Shake.</li>
+<li><strong>after</strong> (<em>str</em>) &#8211; get 10 SharedFile objects after (but not including)
+the SharedFile give by <a href="#id5"><span class="problematic" id="id6">`</span></a>after&#8217; for the given Shake.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List (list) of SharedFiles.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_user">
+<code class="descname">get_user</code><span class="sig-paren">(</span><em>user_id=None</em>, <em>user_name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a user object from the API. If no <code class="docutils literal"><span class="pre">user_id</span></code> or <code class="docutils literal"><span class="pre">user_name</span></code>
+is specified, it will return the User object for the currently
+authenticated user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> (<em>int</em>) &#8211; User ID of the user for whom you want to get
+information. [Optional]</li>
+<li><strong>user_name</strong> (<em>str</em>) &#8211; Username for the user for whom you want to get
+information. [Optional]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A User object.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.get_user_shakes">
+<code class="descname">get_user_shakes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.get_user_shakes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.get_user_shakes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of Shake objects for the currently authenticated user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of Shake objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.like_shared_file">
+<code class="descname">like_shared_file</code><span class="sig-paren">(</span><em>sharekey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.like_shared_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.like_shared_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8216;Like&#8217; a SharedFile. mlkshk doesn&#8217;t allow you to unlike a
+sharedfile, so this is ~~permanent~~.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sharekey</strong> (<em>str</em>) &#8211; Sharekey for the file you want to &#8216;like&#8217;.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Either a SharedFile on success, or an exception on error.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.post_comment">
+<code class="descname">post_comment</code><span class="sig-paren">(</span><em>sharekey=None</em>, <em>comment=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.post_comment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.post_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post a comment on behalf of the current user to the
+SharedFile with the given sharekey.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sharekey</strong> (<em>str</em>) &#8211; Sharekey of the SharedFile to which you&#8217;d like
+to post a comment.</li>
+<li><strong>comment</strong> (<em>str</em>) &#8211; Text of the comment to post.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Comment object.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.post_shared_file">
+<code class="descname">post_shared_file</code><span class="sig-paren">(</span><em>image_file=None</em>, <em>source_link=None</em>, <em>shake_id=None</em>, <em>title=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.post_shared_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.post_shared_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload an image.</p>
+<p>TODO:
+Don&#8217;t have a pro account to test (or even write) code to upload a
+shared filed to a particular shake.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>image_file</strong> (<em>str</em>) &#8211; path to an image (jpg/gif) on your computer.</li>
+<li><strong>source_link</strong> (<em>str</em>) &#8211; URL of a source (youtube/vine/etc.)</li>
+<li><strong>shake_id</strong> (<em>int</em>) &#8211; shake to which to upload the file or
+source_link [optional]</li>
+<li><strong>title</strong> (<em>str</em>) &#8211; title of the SharedFile [optional]</li>
+<li><strong>description</strong> (<em>str</em>) &#8211; description of the SharedFile</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">SharedFile key.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.save_shared_file">
+<code class="descname">save_shared_file</code><span class="sig-paren">(</span><em>sharekey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.save_shared_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.save_shared_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a SharedFile to your Shake.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sharekey</strong> (<em>str</em>) &#8211; Sharekey for the file to save.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SharedFile saved to your shake.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.api.Api.update_shared_file">
+<code class="descname">update_shared_file</code><span class="sig-paren">(</span><em>sharekey=None</em>, <em>title=None</em>, <em>description=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/api.html#Api.update_shared_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.api.Api.update_shared_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the editable details (just the title and description) of a
+SharedFile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sharekey</strong> (<em>str</em>) &#8211; Sharekey of the SharedFile to update.</li>
+<li><strong>title</strong> (<em>Optional[str]</em>) &#8211; Title of the SharedFile.</li>
+<li><strong>description</strong> (<em>Optional[str]</em>) &#8211; Description of the SharedFile</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">SharedFile on success, 404 on Sharekey not found, 403 on
+unauthorized.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyshk.errors">
+<span id="pyshk-errors-module"></span><h2>pyshk.errors module<a class="headerlink" href="#module-pyshk.errors" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="pyshk.errors.ApiInstanceUnauthorized">
+<em class="property">exception </em><code class="descclassname">pyshk.errors.</code><code class="descname">ApiInstanceUnauthorized</code><a class="reference internal" href="_modules/pyshk/errors.html#ApiInstanceUnauthorized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.errors.ApiInstanceUnauthorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyshk.errors.ApiResponseUnauthorized">
+<em class="property">exception </em><code class="descclassname">pyshk.errors.</code><code class="descname">ApiResponseUnauthorized</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/errors.html#ApiResponseUnauthorized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.errors.ApiResponseUnauthorized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Handle errors with authenticating the API instance</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="pyshk.errors.NotFound404">
+<em class="property">exception </em><code class="descclassname">pyshk.errors.</code><code class="descname">NotFound404</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/errors.html#NotFound404"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.errors.NotFound404" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>Handle errors with 404 Not Found Status Codes</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyshk.models">
+<span id="pyshk-models-module"></span><h2>pyshk.models module<a class="headerlink" href="#module-pyshk.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="pyshk.models.Comment">
+<em class="property">class </em><code class="descclassname">pyshk.models.</code><code class="descname">Comment</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Comment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A class representing a Comment on mlkshk.</p>
+<dl class="docutils">
+<dt>Exposes the following properties of a Comment:</dt>
+<dd>comment.body
+comment.posted_at
+comment.user</dd>
+</dl>
+<dl class="method">
+<dt id="pyshk.models.Comment.AsDict">
+<code class="descname">AsDict</code><span class="sig-paren">(</span><em>dt=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Comment.AsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Comment.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict representation of this Comment instance.</p>
+<p>The return value uses the same key names as the JSON representation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dt</strong> (<em>bool</em>) &#8211; If True, return dates as python datetime objects. If</li>
+<li><strong>return dates as ISO strings.</strong> (<em>False,</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A dict representing this Comment instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.Comment.AsJsonString">
+<code class="descname">AsJsonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Comment.AsJsonString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Comment.AsJsonString" title="Permalink to this definition">¶</a></dt>
+<dd><p>A JSON string representation of this Comment instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A JSON string representation of this Comment instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyshk.models.Comment.NewFromJSON">
+<em class="property">static </em><code class="descname">NewFromJSON</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Comment.NewFromJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Comment.NewFromJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Comment instance from a JSON dict.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>dict</em>) &#8211; JSON dictionary representing a Comment.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A Comment instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.Comment.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Comment.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Comment.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of this Comment instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyshk.models.Shake">
+<em class="property">class </em><code class="descclassname">pyshk.models.</code><code class="descname">Shake</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Shake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Shake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A class representing a Shake on mlkshk.</p>
+<dl class="docutils">
+<dt>Exposes the following properties of a Shake:</dt>
+<dd>shake.id
+shake.name
+shake.owner
+shake.url
+shake.thumbnail_url
+shake.description
+shake.type
+shake.created_at
+shake.updated_at</dd>
+</dl>
+<dl class="method">
+<dt id="pyshk.models.Shake.AsDict">
+<code class="descname">AsDict</code><span class="sig-paren">(</span><em>dt=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Shake.AsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Shake.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict representation of this Shake instance.</p>
+<p>The return value uses the same key names as the JSON representation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dict representing this Shake instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.Shake.AsJsonString">
+<code class="descname">AsJsonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Shake.AsJsonString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Shake.AsJsonString" title="Permalink to this definition">¶</a></dt>
+<dd><p>A JSON string representation of this Shake instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A JSON string representation of this Shake instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyshk.models.Shake.NewFromJSON">
+<em class="property">static </em><code class="descname">NewFromJSON</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Shake.NewFromJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Shake.NewFromJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new Shake instance from a JSON dict.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>dict</em>) &#8211; JSON dictionary representing a Shake.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A Shake instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.Shake.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#Shake.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.Shake.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of this Shake instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.Shake.created_at">
+<code class="descname">created_at</code><a class="headerlink" href="#pyshk.models.Shake.created_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.Shake.created_at_iso">
+<code class="descname">created_at_iso</code><a class="headerlink" href="#pyshk.models.Shake.created_at_iso" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.Shake.updated_at">
+<code class="descname">updated_at</code><a class="headerlink" href="#pyshk.models.Shake.updated_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.Shake.updated_at_iso">
+<code class="descname">updated_at_iso</code><a class="headerlink" href="#pyshk.models.Shake.updated_at_iso" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyshk.models.SharedFile">
+<em class="property">class </em><code class="descclassname">pyshk.models.</code><code class="descname">SharedFile</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#SharedFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.SharedFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A class representing a file shared on MLKSHK.</p>
+<dl class="docutils">
+<dt>Exposes the following properties of a sharedfile:</dt>
+<dd>sharedfile.sharekey
+sharedfile.name
+sharedfile.user
+sharedfile.title
+sharedfile.description
+sharedfile.posted_at
+sharedfile.permalink
+sharedfile.width
+sharedfile.height
+sharedfile.views
+sharedfile.likes
+sharedfile.saves
+sharedfile.comments
+sharedfile.nsfw
+sharedfile.image_url
+sharedfile.source_url
+sharedfile.saved
+sharedfile.liked</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sharedfile.sharekey</strong> &#8211; </li>
+<li><strong>sharedfile.name</strong> &#8211; </li>
+<li><strong>sharedfile.user</strong> &#8211; </li>
+<li><strong>sharedfile.title</strong> &#8211; </li>
+<li><strong>sharedfile.description</strong> &#8211; </li>
+<li><strong>sharedfile.posted_at</strong> &#8211; </li>
+<li><strong>sharedfile.permalink</strong> &#8211; </li>
+<li><strong>sharedfile.width</strong> &#8211; </li>
+<li><strong>sharedfile.height</strong> &#8211; </li>
+<li><strong>sharedfile.views</strong> &#8211; </li>
+<li><strong>sharedfile.likes</strong> &#8211; </li>
+<li><strong>sharedfile.saves</strong> &#8211; </li>
+<li><strong>sharedfile.comments</strong> &#8211; </li>
+<li><strong>sharedfile.nsfw</strong> &#8211; </li>
+<li><strong>sharedfile.image_url</strong> &#8211; </li>
+<li><strong>sharedfile.source_url</strong> &#8211; </li>
+<li><strong>sharedfile.saved</strong> &#8211; </li>
+<li><strong>sharedfile.liked</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="pyshk.models.SharedFile.AsDict">
+<code class="descname">AsDict</code><span class="sig-paren">(</span><em>dt=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#SharedFile.AsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.SharedFile.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict representation of this Shake instance.</p>
+<p>The return value uses the same key names as the JSON representation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dt</strong> (<em>bool</em>) &#8211; If True, return dates as python datetime objects. If
+False, return dates as ISO strings.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dict representing this Shake instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.SharedFile.AsJsonString">
+<code class="descname">AsJsonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#SharedFile.AsJsonString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.SharedFile.AsJsonString" title="Permalink to this definition">¶</a></dt>
+<dd><p>A JSON string representation of this SharedFile instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A JSON string representation of this SharedFile instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyshk.models.SharedFile.NewFromJSON">
+<em class="property">static </em><code class="descname">NewFromJSON</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#SharedFile.NewFromJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.SharedFile.NewFromJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new SharedFile instance from a JSON dict.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>dict</em>) &#8211; JSON dictionary representing a SharedFile.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A SharedFile instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.SharedFile.__eq__">
+<code class="descname">__eq__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#SharedFile.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.SharedFile.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two SharedFiles on all attributes <strong>except</strong> saved status
+and liked status.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.SharedFile.posted_at">
+<code class="descname">posted_at</code><a class="headerlink" href="#pyshk.models.SharedFile.posted_at" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.SharedFile.posted_at_iso">
+<code class="descname">posted_at_iso</code><a class="headerlink" href="#pyshk.models.SharedFile.posted_at_iso" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pyshk.models.User">
+<em class="property">class </em><code class="descclassname">pyshk.models.</code><code class="descname">User</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#User"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.User" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A class representing a MLKSHK user.</p>
+<dl class="docutils">
+<dt>Exposes the following properties of a user:</dt>
+<dd>user.id
+user.name
+user.profile_image_url
+user.about
+user.website
+user.shakes</dd>
+</dl>
+<dl class="method">
+<dt id="pyshk.models.User.AsDict">
+<code class="descname">AsDict</code><span class="sig-paren">(</span><em>dt=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#User.AsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.User.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict representation of this User instance.</p>
+<p>The return value uses the same key names as the JSON representation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dt</strong> (<em>bool</em>) &#8211; If True, return dates as python datetime objects. If</li>
+<li><strong>return dates as ISO strings.</strong> (<em>False,</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A dict representing this User instance</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.User.AsJsonString">
+<code class="descname">AsJsonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#User.AsJsonString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.User.AsJsonString" title="Permalink to this definition">¶</a></dt>
+<dd><p>A JSON string representation of this User instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A JSON string representation of this User instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="pyshk.models.User.NewFromJSON">
+<em class="property">static </em><code class="descname">NewFromJSON</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#User.NewFromJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.User.NewFromJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new User instance from a JSON dict.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>dict</em>) &#8211; JSON dictionary representing a user.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A User instance.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.User.__eq__">
+<code class="descname">__eq__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#User.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.User.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two user objects against one another.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> (<a class="reference internal" href="#pyshk.models.User" title="pyshk.models.User"><em>User</em></a>) &#8211; another User object against which to compare the
+current user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pyshk.models.User.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#User.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.User.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of this User instance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.User.mlkshk_url">
+<code class="descname">mlkshk_url</code><a class="headerlink" href="#pyshk.models.User.mlkshk_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pyshk.models.User.shake_count">
+<code class="descname">shake_count</code><a class="headerlink" href="#pyshk.models.User.shake_count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pyshk.models.convert_time">
+<code class="descclassname">pyshk.models.</code><code class="descname">convert_time</code><span class="sig-paren">(</span><em>dt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyshk/models.html#convert_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pyshk.models.convert_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>2015-10-09T15:58:11Z -&gt; datetime.datetime(2015, 10, 9, 15, 58, 11)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyshk">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyshk" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jeremy Low.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

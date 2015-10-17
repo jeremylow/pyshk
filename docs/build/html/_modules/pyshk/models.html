@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pyshk.models &mdash; pyshk 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pyshk 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> pyshk
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auth_tutorial.html">Authentication Tutorial</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">pyshk</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>pyshk.models</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pyshk.models</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<div class="viewcode-block" id="convert_time"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.convert_time">[docs]</a><span class="k">def</span> <span class="nf">convert_time</span><span class="p">(</span><span class="n">dt</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    2015-10-09T15:58:11Z -&gt; datetime.datetime(2015, 10, 9, 15, 58, 11)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%SZ&quot;</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+</div>
+<div class="viewcode-block" id="User"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class representing a MLKSHK user.</span>
+
+<span class="sd">    Exposes the following properties of a user:</span>
+<span class="sd">        user.id</span>
+<span class="sd">        user.name</span>
+<span class="sd">        user.profile_image_url</span>
+<span class="sd">        user.about</span>
+<span class="sd">        user.website</span>
+<span class="sd">        user.shakes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">param_defaults</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;about&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;website&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;shakes&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span> <span class="ow">in</span> <span class="n">param_defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mlkshk_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;https://mlkshk.com/user/{0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">shake_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shakes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shakes</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="User.AsDict"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.User.AsDict">[docs]</a>    <span class="k">def</span> <span class="nf">AsDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A dict representation of this User instance.</span>
+
+<span class="sd">        The return value uses the same key names as the JSON representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dt (bool): If True, return dates as python datetime objects. If</span>
+<span class="sd">            False, return dates as ISO strings.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            A dict representing this User instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;mlkshk_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlkshk_url</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_image_url</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;profile_image_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">profile_image_url</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">about</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;about&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">about</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">website</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;website&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">website</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shakes</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;shakes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">shk</span><span class="o">.</span><span class="n">AsDict</span><span class="p">()</span> <span class="k">for</span> <span class="n">shk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shakes</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;shake_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shake_count</span>
+        <span class="k">return</span> <span class="n">data</span>
+</div>
+<div class="viewcode-block" id="User.AsJsonString"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.User.AsJsonString">[docs]</a>    <span class="k">def</span> <span class="nf">AsJsonString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;A JSON string representation of this User instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          A JSON string representation of this User instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AsDict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="User.NewFromJSON"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.User.NewFromJSON">[docs]</a>    <span class="k">def</span> <span class="nf">NewFromJSON</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new User instance from a JSON dict.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (dict): JSON dictionary representing a user.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A User instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;shakes&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">shakes</span> <span class="o">=</span> <span class="p">[</span><span class="n">Shake</span><span class="o">.</span><span class="n">NewFromJSON</span><span class="p">(</span><span class="n">shk</span><span class="p">)</span> <span class="k">for</span> <span class="n">shk</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;shakes&#39;</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shakes</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">return</span> <span class="n">User</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">profile_image_url</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;profile_image_url&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">about</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;about&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">website</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;website&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">shakes</span><span class="o">=</span><span class="n">shakes</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="User.__eq__"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.User.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare two user objects against one another.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other (User): another User object against which to compare the</span>
+<span class="sd">                current user.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">other</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">id</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">profile_image_url</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">profile_image_url</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">about</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">about</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">website</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">website</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">shakes</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">shakes</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+</div>
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+<div class="viewcode-block" id="User.__repr__"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.User.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; String representation of this User instance. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AsJsonString</span><span class="p">()</span>
+
+</div></div>
+<div class="viewcode-block" id="Comment"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Comment">[docs]</a><span class="k">class</span> <span class="nc">Comment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class representing a Comment on mlkshk.</span>
+
+<span class="sd">    Exposes the following properties of a Comment:</span>
+<span class="sd">        comment.body</span>
+<span class="sd">        comment.posted_at</span>
+<span class="sd">        comment.user</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">param_defaults</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;body&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;posted_at&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span> <span class="ow">in</span> <span class="n">param_defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Comment.AsDict"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Comment.AsDict">[docs]</a>    <span class="k">def</span> <span class="nf">AsDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A dict representation of this Comment instance.</span>
+
+<span class="sd">        The return value uses the same key names as the JSON representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dt (bool): If True, return dates as python datetime objects. If</span>
+<span class="sd">            False, return dates as ISO strings.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">          A dict representing this Comment instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">posted_at</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;posted_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posted_at</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">AsDict</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+</div>
+<div class="viewcode-block" id="Comment.AsJsonString"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Comment.AsJsonString">[docs]</a>    <span class="k">def</span> <span class="nf">AsJsonString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A JSON string representation of this Comment instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          A JSON string representation of this Comment instance</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AsDict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Comment.NewFromJSON"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Comment.NewFromJSON">[docs]</a>    <span class="k">def</span> <span class="nf">NewFromJSON</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new Comment instance from a JSON dict.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (dict): JSON dictionary representing a Comment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A Comment instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Comment</span><span class="p">(</span>
+            <span class="n">body</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;body&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">posted_at</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;posted_at&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">User</span><span class="o">.</span><span class="n">NewFromJSON</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+        <span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">other</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">body</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">posted_at</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">posted_at</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Comment.__repr__"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Comment.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; String representation of this Comment instance. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AsJsonString</span><span class="p">()</span>
+
+</div></div>
+<div class="viewcode-block" id="Shake"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Shake">[docs]</a><span class="k">class</span> <span class="nc">Shake</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class representing a Shake on mlkshk.</span>
+
+<span class="sd">    Exposes the following properties of a Shake:</span>
+<span class="sd">        shake.id</span>
+<span class="sd">        shake.name</span>
+<span class="sd">        shake.owner</span>
+<span class="sd">        shake.url</span>
+<span class="sd">        shake.thumbnail_url</span>
+<span class="sd">        shake.description</span>
+<span class="sd">        shake.type</span>
+<span class="sd">        shake.created_at</span>
+<span class="sd">        shake.updated_at</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">param_defaults</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;id&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;owner&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;url&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;thumbnail_url&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;description&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;created_at&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;updated_at&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span> <span class="ow">in</span> <span class="n">param_defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;created_at&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;updated_at&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">created_at</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_at</span>
+
+    <span class="nd">@created_at.setter</span>
+    <span class="k">def</span> <span class="nf">created_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_created_at</span> <span class="o">=</span> <span class="n">convert_time</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">created_at_iso</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">updated_at</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updated_at</span>
+
+    <span class="nd">@updated_at.setter</span>
+    <span class="k">def</span> <span class="nf">updated_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_updated_at</span> <span class="o">=</span> <span class="n">convert_time</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">updated_at_iso</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_updated_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Shake.AsDict"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Shake.AsDict">[docs]</a>    <span class="k">def</span> <span class="nf">AsDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A dict representation of this Shake instance.</span>
+
+<span class="sd">        The return value uses the same key names as the JSON representation.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">            A dict representing this Shake instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;owner&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">AsDict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">thumbnail_url</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;thumbnail_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">thumbnail_url</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span>
+
+        <span class="k">if</span> <span class="n">dt</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s">&#39;created_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s">&#39;updated_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s">&#39;created_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_at_iso</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s">&#39;updated_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated_at_iso</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+</div>
+<div class="viewcode-block" id="Shake.AsJsonString"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Shake.AsJsonString">[docs]</a>    <span class="k">def</span> <span class="nf">AsJsonString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A JSON string representation of this Shake instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">          A JSON string representation of this Shake instance</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AsDict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Shake.NewFromJSON"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Shake.NewFromJSON">[docs]</a>    <span class="k">def</span> <span class="nf">NewFromJSON</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new Shake instance from a JSON dict.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (dict): JSON dictionary representing a Shake.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A Shake instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">Shake</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;id&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">thumbnail_url</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;thumbnail_url&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;description&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">created_at</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;created_at&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">updated_at</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;updated_at&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;owner&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">NewFromJSON</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;owner&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">s</span>
+</div>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">other</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">id</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">owner</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">url</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">thumbnail_url</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">thumbnail_url</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">description</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">created_at</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">updated_at</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">updated_at</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Shake.__repr__"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.Shake.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; String representation of this Shake instance. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AsJsonString</span><span class="p">()</span>
+
+</div></div>
+<div class="viewcode-block" id="SharedFile"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.SharedFile">[docs]</a><span class="k">class</span> <span class="nc">SharedFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class representing a file shared on MLKSHK.</span>
+
+<span class="sd">    Exposes the following properties of a sharedfile:</span>
+<span class="sd">        sharedfile.sharekey</span>
+<span class="sd">        sharedfile.name</span>
+<span class="sd">        sharedfile.user</span>
+<span class="sd">        sharedfile.title</span>
+<span class="sd">        sharedfile.description</span>
+<span class="sd">        sharedfile.posted_at</span>
+<span class="sd">        sharedfile.permalink</span>
+<span class="sd">        sharedfile.width</span>
+<span class="sd">        sharedfile.height</span>
+<span class="sd">        sharedfile.views</span>
+<span class="sd">        sharedfile.likes</span>
+<span class="sd">        sharedfile.saves</span>
+<span class="sd">        sharedfile.comments</span>
+<span class="sd">        sharedfile.nsfw</span>
+<span class="sd">        sharedfile.image_url</span>
+<span class="sd">        sharedfile.source_url</span>
+<span class="sd">        sharedfile.saved</span>
+<span class="sd">        sharedfile.liked</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sharedfile.sharekey</span>
+<span class="sd">        sharedfile.name</span>
+<span class="sd">        sharedfile.user</span>
+<span class="sd">        sharedfile.title</span>
+<span class="sd">        sharedfile.description</span>
+<span class="sd">        sharedfile.posted_at</span>
+<span class="sd">        sharedfile.permalink</span>
+<span class="sd">        sharedfile.width</span>
+<span class="sd">        sharedfile.height</span>
+<span class="sd">        sharedfile.views</span>
+<span class="sd">        sharedfile.likes</span>
+<span class="sd">        sharedfile.saves</span>
+<span class="sd">        sharedfile.comments</span>
+<span class="sd">        sharedfile.nsfw</span>
+<span class="sd">        sharedfile.image_url</span>
+<span class="sd">        sharedfile.source_url</span>
+<span class="sd">        sharedfile.saved</span>
+<span class="sd">        sharedfile.liked</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">param_defaults</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;sharekey&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;description&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;posted_at&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;permalink&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;width&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;height&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;views&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;likes&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;saves&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;comments&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;nsfw&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;image_url&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;source_url&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;saved&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;liked&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span> <span class="ow">in</span> <span class="n">param_defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">default</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">posted_at</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;posted_at&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">posted_at</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_posted_at</span>
+
+    <span class="nd">@posted_at.setter</span>
+    <span class="k">def</span> <span class="nf">posted_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_posted_at</span> <span class="o">=</span> <span class="n">convert_time</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">posted_at_iso</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_posted_at</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SharedFile.AsDict"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.SharedFile.AsDict">[docs]</a>    <span class="k">def</span> <span class="nf">AsDict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A dict representation of this Shake instance.</span>
+
+<span class="sd">        The return value uses the same key names as the JSON representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dt (bool): If True, return dates as python datetime objects. If</span>
+<span class="sd">                False, return dates as ISO strings.</span>
+
+<span class="sd">        Return:</span>
+<span class="sd">          A dict representing this Shake instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharekey</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;sharekey&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sharekey</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">AsDict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;description&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">posted_at</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dt</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s">&#39;posted_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posted_at</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s">&#39;posted_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">posted_at_iso</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">permalink</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;permalink&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">permalink</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;width&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;height&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_url</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;image_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_url</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_url</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;source_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_url</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;views&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">views</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;likes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">likes</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;saves&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">saves</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;comments&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">comments</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;nsfw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nsfw</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;saved&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">saved</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;liked&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">liked</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+</div>
+<div class="viewcode-block" id="SharedFile.AsJsonString"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.SharedFile.AsJsonString">[docs]</a>    <span class="k">def</span> <span class="nf">AsJsonString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A JSON string representation of this SharedFile instance.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A JSON string representation of this SharedFile instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">AsDict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SharedFile.NewFromJSON"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.SharedFile.NewFromJSON">[docs]</a>    <span class="k">def</span> <span class="nf">NewFromJSON</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new SharedFile instance from a JSON dict.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data (dict): JSON dictionary representing a SharedFile.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A SharedFile instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SharedFile</span><span class="p">(</span>
+            <span class="n">sharekey</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sharekey&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">user</span><span class="o">=</span><span class="n">User</span><span class="o">.</span><span class="n">NewFromJSON</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)),</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;description&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">posted_at</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;posted_at&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">permalink</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;permalink&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;width&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">height</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;height&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">views</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;views&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">likes</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;likes&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">saves</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;saves&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">comments</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;comments&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">nsfw</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;nsfw&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">),</span>
+            <span class="n">image_url</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;image_url&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">source_url</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;source_url&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+            <span class="n">saved</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;saved&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">),</span>
+            <span class="n">liked</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;liked&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">),</span>
+        <span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SharedFile.__eq__"><a class="viewcode-back" href="../../pyshk.html#pyshk.models.SharedFile.__eq__">[docs]</a>    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compare two SharedFiles on all attributes **except** saved status</span>
+<span class="sd">        and liked status.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">other</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">sharekey</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">sharekey</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">user</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">title</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">description</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">posted_at</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">posted_at</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">permalink</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">permalink</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">views</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">views</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">likes</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">likes</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">saves</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">saves</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">comments</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">comments</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">nsfw</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">nsfw</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">image_url</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">image_url</span> <span class="ow">and</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">source_url</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">source_url</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+</div>
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">AsJsonString</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jeremy Low.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
