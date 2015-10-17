@@ -1,7 +1,10 @@
 [![Build Status](https://travis-ci.org/jeremylow/pyshk.svg?branch=master)](https://travis-ci.org/jeremylow/pyshk)
 [![Coverage Status](https://coveralls.io/repos/jeremylow/pyshk/badge.svg?branch=master&service=github)](https://coveralls.io/github/jeremylow/pyshk?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/pyshk/badge/?version=latest)](http://pyshk.readthedocs.org/en/latest/?badge=latest)
 
 Pyshk is a python client for the mlkshk.com api.
+
+Documentation is available at [read the docs](http://pyshk.readthedocs.org/en/latest/)
 
 ### Installation
 For now, clone the repository:
