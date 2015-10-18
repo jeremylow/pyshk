@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; pyshk 0.0.1 documentation</title>
+  <title>Using the API Client &mdash; pyshk 0.0.1 documentation</title>
   
 
   
@@ -30,7 +30,9 @@
   
 
   
-    <link rel="top" title="pyshk 0.0.1 documentation" href="index.html"/> 
+    <link rel="top" title="pyshk 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="pyshk" href="modules.html"/>
+        <link rel="prev" title="Authentication Tutorial" href="auth_tutorial.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,9 +81,22 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auth_tutorial.html">Authentication Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Using the API Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#users">Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shakes">Shakes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uploading-files">Uploading Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sharedfiles">SharedFiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comments-saves-likes">Comments, Saves, &amp; Likes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyshk</a></li>
 </ul>
 
             
@@ -112,7 +127,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>&lt;no title&gt;</li>
+    <li>Using the API Client</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -126,11 +141,149 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
+  <div class="section" id="using-the-api-client">
+<h1>Using the API Client<a class="headerlink" href="#using-the-api-client" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>If you haven&#8217;t, please go through the Authentication Tutorial. You&#8217;ll need an authenticated API client for the next section.</p>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s start by creating an API client to use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pyshk.api</span> <span class="kn">import</span> <span class="n">Api</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">client</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span>
+<span class="gp">... </span>   <span class="n">consumer_key</span><span class="o">=</span><span class="s">&#39;key&#39;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">consumer_secret</span><span class="o">=</span><span class="s">&#39;secret&#39;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">access_token_key</span><span class="o">=</span><span class="s">&#39;key&#39;</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="n">access_token_secret</span><span class="o">=</span><span class="s">&#39;supersecret&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="users">
+<h3>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h3>
+<p>To get a User object for the currently authenticated user, we can call <code class="docutils literal"><span class="pre">client.get_user()</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">user</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will return a User instance containing the user&#8217;s Shakes and some information about the user: The User object has the following properties:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">*</span> <span class="n">about</span>
+<span class="o">*</span> <span class="nb">id</span>
+<span class="o">*</span> <span class="n">name</span>
+<span class="o">*</span> <span class="n">profile_image_url</span>
+<span class="o">*</span> <span class="n">shakes</span>
+<span class="o">*</span> <span class="n">website</span>
+</pre></div>
+</div>
+<p>Unfortunately, you cannot post to this resource, so those properties are unable to be changed. But, we can play around with the user&#8217;s Shakes, so let&#8217;s do that.</p>
+</div>
+<div class="section" id="shakes">
+<h3>Shakes<a class="headerlink" href="#shakes" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">user.shakes</span></code> property from above is a list of Shake objects. If the user has a pro account, they can have more than one Shake; if not, the only Shake will be their User Shake. To get the user&#8217;s Shakes directly, there&#8217;s another method, which will return a list of Shakes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">shakes</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_user_shakes</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Getting the first Shake in that list, we can print some info about it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">shake</span> <span class="o">=</span> <span class="n">shakes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shake</span><span class="o">.</span><span class="n">id</span>
+<span class="go">68435</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">shake</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span>
+<span class="go">2015-04-27 17:22:54</span>
+
+<span class="go"># The time fields are actually stored as python datetime objects:</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shake</span><span class="o">.</span><span class="n">created_at</span>
+<span class="go">datetime.datetime(2015, 4, 27, 17, 22, 54)</span>
+
+<span class="go"># The Shake object contains a User object as well stored as &#39;owner&#39;:</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shake</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">id</span>
+<span class="go">67136</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shake</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">name</span>
+<span class="go">&#39;jcbl&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="uploading-files">
+<h3>Uploading Files<a class="headerlink" href="#uploading-files" title="Permalink to this headline">¶</a></h3>
+<p>Now that we have a Shake object, we can start posting files to it. The client method for this is <code class="docutils literal"><span class="pre">client.post_shared_file()</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">uploaded_file</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">post_shared_file</span><span class="p">(</span>
+<span class="go">        image_file=&#39;scully.gif&#39;,</span>
+<span class="go">        title=&#39;scully.gif&#39;,</span>
+<span class="go">        description=&quot;this is an excellent gif&quot;)</span>
+</pre></div>
+</div>
+<p>What we&#8217;ll get back is the name of the ShareFile and the sharekey.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;scully.gif&#39;</span><span class="p">,</span> <span class="s">&#39;share_key&#39;</span><span class="p">:</span> <span class="s">&#39;1645C&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">While most methods return an object, this one doesn&#8217;t &#8211; it just returns some info.</p>
+</div>
+<p>From there, we can get some info on the uploaded file and maybe post a comment or two.</p>
+</div>
+<div class="section" id="sharedfiles">
+<h3>SharedFiles<a class="headerlink" href="#sharedfiles" title="Permalink to this headline">¶</a></h3>
+<p>SharedFiles on mlkshk have a bunch of properties; we won&#8217;t go into detail, but you can check out the modules page to see what&#8217;s up. So now that we have the sharekey from above, we can get some more info on our awesome gif.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">awesome_gif</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_shared_file</span><span class="p">(</span><span class="n">sharekey</span><span class="o">=</span><span class="s">&#39;1645C&#39;</span><span class="p">)</span>
+
+<span class="go"># Let&#39;s see how many people liked this GIF:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">awesome_gif</span><span class="o">.</span><span class="n">likes</span>
+<span class="go">1</span>
+
+<span class="go"># This is a crime, but moving on, let&#39;s just see what all awesome_gif contains:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">vars</span><span class="p">(</span><span class="n">awesome_gif</span><span class="p">)</span>
+<span class="go">{&#39;_posted_at&#39;: datetime.datetime(2015, 10, 9, 20, 34, 34),</span>
+<span class="go"> &#39;comments&#39;: 0,</span>
+<span class="go"> &#39;description&#39;: None,</span>
+<span class="go"> &#39;height&#39;: 180,</span>
+<span class="go"> &#39;image_url&#39;: None,</span>
+<span class="go"> &#39;liked&#39;: False,</span>
+<span class="go"> &#39;likes&#39;: 1,</span>
+<span class="go"> &#39;name&#39;: &#39;tumblr_mo6ur4bPUm1rxfs8ro5_250.gif&#39;,</span>
+<span class="go"> &#39;nsfw&#39;: False,</span>
+<span class="go"> &#39;permalink&#39;: None,</span>
+<span class="go"> &#39;saved&#39;: False,</span>
+<span class="go"> &#39;saves&#39;: 0,</span>
+<span class="go"> &#39;sharekey&#39;: &#39;1645C&#39;,</span>
+<span class="go"> &#39;source_url&#39;: None,</span>
+<span class="go"> &#39;title&#39;: &#39;scully.gif&#39;,</span>
+<span class="go"> &#39;user&#39;: {</span>
+<span class="go">    &quot;id&quot;: 67136,</span>
+<span class="go">    &quot;mlkshk_url&quot;: &quot;https://mlkshk.com/user/jcbl&quot;,</span>
+<span class="go">    &quot;name&quot;: &quot;jcbl&quot;,</span>
+<span class="go">    &quot;profile_image_url&quot;: &quot;[...]&quot;,</span>
+<span class="go">    &quot;shake_count&quot;: 0},</span>
+<span class="go"> &#39;views&#39;: 0,</span>
+<span class="go"> &#39;width&#39;: 245}</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">A couple of things to note before moving on: <code class="docutils literal"><span class="pre">awesome_gif.views</span></code> is wrong. At the time of this writing, it&#8217;s off by 142 views. Everything else about the SharedFile seems to be correct, except that now <code class="docutils literal"><span class="pre">user.shake_count</span></code> is <code class="docutils literal"><span class="pre">0</span></code>. This is a function of the fact that the endpoint (<code class="docutils literal"><span class="pre">/api/sharedfile/:id</span></code>) returns information about the user, but it doesn&#8217;t return information about the user&#8217;s shakes.</p>
+</div>
+</div>
+<div class="section" id="comments-saves-likes">
+<h3>Comments, Saves, &amp; Likes<a class="headerlink" href="#comments-saves-likes" title="Permalink to this headline">¶</a></h3>
+<p>TKTK</p>
+</div>
+</div>
+</div>
+
 
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="pyshk" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="auth_tutorial.html" class="btn btn-neutral" title="Authentication Tutorial" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

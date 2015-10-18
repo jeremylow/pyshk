@@ -31,6 +31,7 @@
 
   
     <link rel="top" title="pyshk 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="Using the API Client" href="using_api.html"/>
         <link rel="prev" title="Installation" href="installation.html"/> 
 
   
@@ -88,6 +89,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#starting-the-api-client">Starting the API Client</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="using_api.html">Using the API Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">pyshk</a></li>
 </ul>
 
             
@@ -137,7 +140,11 @@
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Mlkshk uses draft 12 of the OAuth2 specification. After we create an instance of the API, we authenticate against mlkshk.com. Thereafter, the API instance is authenticated. In order to access the mlkshk API, you need to create an application.</p>
-<p>You should do that <a class="reference external" href="http://mlkshk.com/developers/new-api-application">http://mlkshk.com/developers/new-api-application</a>. Give your application a title and a description. Make sure to fill in the &#8220;Redirect URL&#8221; cause we&#8217;ll use that later. The redirect url has to be exactly the same on mlkshk.com and in your code or the server will return a 500 server error when you try to authenticate.</p>
+<p>You should do that <a class="reference external" href="http://mlkshk.com/developers/new-api-application">http://mlkshk.com/developers/new-api-application</a>. Give your application a title and a description. Make sure to fill in the &#8220;Redirect URL&#8221; cause we&#8217;ll use that later.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The redirect url has to be exactly the same on mlkshk.com and in your code or the server will return a 500 server error when you try to authenticate.</p>
+</div>
 <p>Once you click the big &#8220;Create It!&#8221; button, you&#8217;ll be given a &#8220;Key&#8221; and a &#8220;Secret&#8221;. Write those down. We&#8217;ll need them later in this tutorial.</p>
 </div>
 <div class="section" id="getting-authentication-tokens">
@@ -174,6 +181,8 @@ a.get_auth(redirect_uri=[the redirect url])
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="using_api.html" class="btn btn-neutral float-right" title="Using the API Client" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

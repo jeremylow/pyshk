@@ -7,7 +7,10 @@ Introduction
 
 Mlkshk uses draft 12 of the OAuth2 specification. After we create an instance of the API, we authenticate against mlkshk.com. Thereafter, the API instance is authenticated. In order to access the mlkshk API, you need to create an application.
 
-You should do that http://mlkshk.com/developers/new-api-application. Give your application a title and a description. Make sure to fill in the "Redirect URL" cause we'll use that later. The redirect url has to be exactly the same on mlkshk.com and in your code or the server will return a 500 server error when you try to authenticate.
+You should do that http://mlkshk.com/developers/new-api-application. Give your application a title and a description. Make sure to fill in the "Redirect URL" cause we'll use that later.
+
+.. warning::
+    The redirect url has to be exactly the same on mlkshk.com and in your code or the server will return a 500 server error when you try to authenticate.
 
 Once you click the big "Create It!" button, you'll be given a "Key" and a "Secret". Write those down. We'll need them later in this tutorial.
 

@@ -13,6 +13,8 @@ Contents:
 
    installation.rst
    auth_tutorial.rst
+   using_api.rst
+   modules.rst
 
 
 Indices and tables

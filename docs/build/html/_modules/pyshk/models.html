@@ -83,6 +83,8 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../auth_tutorial.html">Authentication Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using_api.html">Using the API Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pyshk</a></li>
 </ul>
 
             
@@ -204,7 +206,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">website</span><span class="p">:</span>
             <span class="n">data</span><span class="p">[</span><span class="s">&#39;website&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">website</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shakes</span><span class="p">:</span>
-            <span class="n">data</span><span class="p">[</span><span class="s">&#39;shakes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">shk</span><span class="o">.</span><span class="n">AsDict</span><span class="p">()</span> <span class="k">for</span> <span class="n">shk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shakes</span><span class="p">]</span>
+            <span class="n">data</span><span class="p">[</span><span class="s">&#39;shakes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">shk</span><span class="o">.</span><span class="n">AsDict</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">)</span> <span class="k">for</span> <span class="n">shk</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shakes</span><span class="p">]</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;shake_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shake_count</span>
         <span class="k">return</span> <span class="n">data</span>
 </div>
