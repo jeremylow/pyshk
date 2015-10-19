@@ -74,7 +74,7 @@ class User(object):
         if self.website:
             data['website'] = self.website
         if self.shakes:
-            data['shakes'] = [shk.AsDict() for shk in self.shakes]
+            data['shakes'] = [shk.AsDict(dt=dt) for shk in self.shakes]
         data['shake_count'] = self.shake_count
         return data
 

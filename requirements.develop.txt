@@ -4,19 +4,29 @@
 #
 #    pip-compile requirements.develop.in
 #
+alabaster==0.7.6          # via sphinx
+babel==2.1.1              # via sphinx
 cookies==2.2.1            # via responses
 coverage==4.0.1
+docutils==0.12            # via sphinx
 funcsigs==0.4             # via mock
+jinja2==2.8               # via sphinx
+markupsafe==0.23          # via jinja2
 mock==1.3.0               # via responses
 nose==1.3.7
 oauthlib==1.0.3           # via requests-oauthlib
 pbr==1.8.1                # via mock
 pluggy==0.3.1             # via tox
 py==1.4.30                # via tox
+pygments==2.0.2           # via sphinx
+pytz==2015.6              # via babel
 requests-oauthlib==0.5.0
 requests-toolbelt==0.4.0
 requests==2.8.1
 responses==0.5.0
 six==1.10.0
+snowballstemmer==1.2.0    # via sphinx
+sphinx-rtd-theme==0.1.9   # via sphinx
+sphinx==1.3.1
 tox==2.1.1
 virtualenv==13.1.2        # via tox

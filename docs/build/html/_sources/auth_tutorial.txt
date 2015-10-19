@@ -28,7 +28,7 @@ Next, we will create the API instance and get the access tokens. Here we'll use 
 
 If everything went well, your browser opened and asked you to allow access to your account. Allow the app access and you'll be redirected to whatever redirect URL you specified when creating the app.
 
-The URL bar will have something like `http://[redirect_url]?code=[code]`. Copy and paste the `[code]` portion back into the python interpreter and hit enter. You'll then be given the access code and the access secret; you should write those down so you don't have to go through this again.
+The URL bar will have something like ``http://[redirect_url]?code=[code]``. Copy and paste the ``[code]`` portion back into the python interpreter and hit enter. You'll then be given the access code and the access secret; you should write those down so you don't have to go through this again.
 
 Starting the API Client
 =======================
