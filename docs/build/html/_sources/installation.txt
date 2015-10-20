@@ -1,5 +1,8 @@
+.. _installation:
+
+************
 Installation
-============
+************
 
 Until distribution by PyPi is setup, please clone the repository::
 

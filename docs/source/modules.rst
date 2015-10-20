@@ -1,5 +1,8 @@
-pyshk
-=====
+.. _modules:
+
+*******
+Modules
+*******
 
 .. toctree::
    :maxdepth: 4

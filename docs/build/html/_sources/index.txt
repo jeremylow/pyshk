@@ -14,6 +14,7 @@ Contents:
    installation.rst
    auth_tutorial.rst
    using_api.rst
+   models.rst
    modules.rst
 
 

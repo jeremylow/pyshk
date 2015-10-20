@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Models &mdash; pyshk 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="pyshk 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="Modules" href="modules.html"/>
+        <link rel="prev" title="Using the API Client" href="using_api.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyshk
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auth_tutorial.html">Authentication Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_api.html">Using the API Client</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">pyshk</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Models</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/models.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="models">
+<span id="id1"></span><h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="models-user"></span><dl class="class">
+<dt id="User">
+<em class="property">class </em><code class="descname">User</code><span class="sig-paren">(</span><span class="optional">[</span><em>id=None</em><span class="optional">]</span><span class="optional">[</span>, <em>name=None</em><span class="optional">]</span><span class="optional">[</span>, <em>profile_image_url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>about=None</em><span class="optional">]</span><span class="optional">[</span>, <em>website=None</em><span class="optional">]</span><span class="optional">[</span>, <em>shakes=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#User" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a User on mlkshk and has the properties listed below. User information cannot be changed via the API as there is no endpoint for this functionality.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> &#8211; (int) ID of the user for mlkshk; unable to be changed via mlkshk.com or the API.</li>
+<li><strong>name</strong> &#8211; (str): Username; unable to be changed via mlkshk.com or the API.</li>
+<li><strong>profile_image_url</strong> &#8211; (str): Profile picture of the user. User can change this on the website.</li>
+<li><strong>about</strong> &#8211; (str): Short description of the user.</li>
+<li><strong>website</strong> &#8211; (str): User&#8217;s website (i.e., not the user&#8217;s page on mlshk.com).</li>
+<li><strong>shakes</strong> &#8211; (list): List of <span class="xref std std-ref">models_shake</span> objects.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="models-user-methods"></span><dl class="method">
+<dt id="User.NewFromJson">
+<code class="descname">NewFromJson</code><span class="sig-paren">(</span><span class="optional">[</span><em>data=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#User.NewFromJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a User object from a JSON string. Returns a User object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="User.AsDict">
+<code class="descname">AsDict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#User.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the User object as a dictionary of values. NB: Dates will be returned as native, UTC-timezone (but not timezone aware) <code class="docutils literal"><span class="pre">datetime.datetime</span></code> objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="User.AsJsonString">
+<code class="descname">AsJsonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#User.AsJsonString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the User object as JSON string. NB: any dates will be converted to ISO strings as part of the serialization.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="models-shake"></span><dl class="class">
+<dt id="Shake">
+<em class="property">class </em><code class="descname">Shake</code><span class="sig-paren">(</span><span class="optional">[</span><em>id=None</em><span class="optional">]</span><span class="optional">[</span>, <em>name=None</em><span class="optional">]</span><span class="optional">[</span>, <em>owner=None</em><span class="optional">]</span><span class="optional">[</span>, <em>url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>thumbnail_url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>description=None</em><span class="optional">]</span><span class="optional">[</span>, <em>type=None</em><span class="optional">]</span><span class="optional">[</span>, <em>created_at=None</em><span class="optional">]</span><span class="optional">[</span>, <em>updated_at=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#Shake" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Object representing a Shake on mlkshk.com</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>id</strong> &#8211; (id): ID of the Shake</li>
+<li><strong>name</strong> &#8211; (str): Shake&#8217;s name</li>
+<li><strong>owner</strong> &#8211; (User): User object representing the owner of the Shake</li>
+<li><strong>url</strong> &#8211; (str): URL of the Shake (i.e., mlkshk.com/commute)</li>
+<li><strong>thumbnail_url</strong> &#8211; (str): &#8220;Avatar&#8221; for the Shake</li>
+<li><strong>description</strong> &#8211; (str): Description of the Shake</li>
+<li><strong>type</strong> &#8211; (str): <code class="docutils literal"><span class="pre">user</span></code> or <code class="docutils literal"><span class="pre">group</span></code> denoting whether the Shake is has no contributors other than the owner (<code class="docutils literal"><span class="pre">user</span></code> shake) or many (<code class="docutils literal"><span class="pre">group</span></code> shake).</li>
+<li><strong>created_at</strong> &#8211; (datetime): <code class="docutils literal"><span class="pre">datetime.datetime</span></code> representing the creation date &amp; time of the Shake.</li>
+<li><strong>updated_at</strong> &#8211; (datetime): Last modified <code class="docutils literal"><span class="pre">datetime.datetime</span></code> of the Shake.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="using_api.html" class="btn btn-neutral" title="Using the API Client" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jeremy Low.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

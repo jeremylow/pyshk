@@ -1,3 +1,5 @@
+.. _auth_tutorial:
+
 ***********************
 Authentication Tutorial
 ***********************
