@@ -85,7 +85,12 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auth_tutorial.html">Authentication Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="using_api.html">Using the API Client</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#user">User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shake">Shake</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sharedfile">SharedFile</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
 </ul>
 
@@ -133,7 +138,9 @@
             
   <div class="section" id="models">
 <span id="id1"></span><h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="models-user"></span><dl class="class">
+<div class="section" id="user">
+<span id="models-user"></span><h2>User<a class="headerlink" href="#user" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
 <dt id="User">
 <em class="property">class </em><code class="descname">User</code><span class="sig-paren">(</span><span class="optional">[</span><em>id=None</em><span class="optional">]</span><span class="optional">[</span>, <em>name=None</em><span class="optional">]</span><span class="optional">[</span>, <em>profile_image_url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>about=None</em><span class="optional">]</span><span class="optional">[</span>, <em>website=None</em><span class="optional">]</span><span class="optional">[</span>, <em>shakes=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#User" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents a User on mlkshk and has the properties listed below. User information cannot be changed via the API as there is no endpoint for this functionality.</p>
@@ -147,7 +154,7 @@
 <li><strong>profile_image_url</strong> &#8211; (str): Profile picture of the user. User can change this on the website.</li>
 <li><strong>about</strong> &#8211; (str): Short description of the user.</li>
 <li><strong>website</strong> &#8211; (str): User&#8217;s website (i.e., not the user&#8217;s page on mlshk.com).</li>
-<li><strong>shakes</strong> &#8211; (list): List of <span class="xref std std-ref">models_shake</span> objects.</li>
+<li><strong>shakes</strong> &#8211; (list): List of <a class="reference internal" href="#models-shake"><span>Shake</span></a> objects.</li>
 </ul>
 </td>
 </tr>
@@ -161,8 +168,16 @@
 
 <dl class="method">
 <dt id="User.AsDict">
-<code class="descname">AsDict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#User.AsDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the User object as a dictionary of values. NB: Dates will be returned as native, UTC-timezone (but not timezone aware) <code class="docutils literal"><span class="pre">datetime.datetime</span></code> objects.</p>
+<code class="descname">AsDict</code><span class="sig-paren">(</span><span class="optional">[</span><em>dt=True</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#User.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dt</strong> &#8211; (bool) Return dates as <code class="docutils literal"><span class="pre">datetime</span></code> objects; false to return as ISO strings.
+Return the User object as a dictionary of values. NB: Dates will be returned as native, UTC-timezone (but not timezone aware) <code class="docutils literal"><span class="pre">datetime.datetime</span></code> objects.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -173,11 +188,13 @@
 
 </dd></dl>
 
-<span class="target" id="models-shake"></span><dl class="class">
+</div>
+<div class="section" id="shake">
+<span id="models-shake"></span><h2>Shake<a class="headerlink" href="#shake" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
 <dt id="Shake">
 <em class="property">class </em><code class="descname">Shake</code><span class="sig-paren">(</span><span class="optional">[</span><em>id=None</em><span class="optional">]</span><span class="optional">[</span>, <em>name=None</em><span class="optional">]</span><span class="optional">[</span>, <em>owner=None</em><span class="optional">]</span><span class="optional">[</span>, <em>url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>thumbnail_url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>description=None</em><span class="optional">]</span><span class="optional">[</span>, <em>type=None</em><span class="optional">]</span><span class="optional">[</span>, <em>created_at=None</em><span class="optional">]</span><span class="optional">[</span>, <em>updated_at=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#Shake" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>Object representing a Shake on mlkshk.com</div></blockquote>
+<dd><p>Object representing a Shake on mlkshk.com</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -189,7 +206,7 @@
 <li><strong>url</strong> &#8211; (str): URL of the Shake (i.e., mlkshk.com/commute)</li>
 <li><strong>thumbnail_url</strong> &#8211; (str): &#8220;Avatar&#8221; for the Shake</li>
 <li><strong>description</strong> &#8211; (str): Description of the Shake</li>
-<li><strong>type</strong> &#8211; (str): <code class="docutils literal"><span class="pre">user</span></code> or <code class="docutils literal"><span class="pre">group</span></code> denoting whether the Shake is has no contributors other than the owner (<code class="docutils literal"><span class="pre">user</span></code> shake) or many (<code class="docutils literal"><span class="pre">group</span></code> shake).</li>
+<li><strong>type</strong> &#8211; (str): &#8216;user&#8217; or &#8216;group&#8217; denoting whether the Shake is has no contributors other than the owner (<code class="docutils literal"><span class="pre">user</span></code> shake) or many (<code class="docutils literal"><span class="pre">group</span></code> shake).</li>
 <li><strong>created_at</strong> &#8211; (datetime): <code class="docutils literal"><span class="pre">datetime.datetime</span></code> representing the creation date &amp; time of the Shake.</li>
 <li><strong>updated_at</strong> &#8211; (datetime): Last modified <code class="docutils literal"><span class="pre">datetime.datetime</span></code> of the Shake.</li>
 </ul>
@@ -197,8 +214,99 @@
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="Shake.NewFromJson">
+<code class="descname">NewFromJson</code><span class="sig-paren">(</span><span class="optional">[</span><em>data=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#Shake.NewFromJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Shake object from a JSON string.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="Shake.AsDict">
+<code class="descname">AsDict</code><span class="sig-paren">(</span><span class="optional">[</span><em>dt=True</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#Shake.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dt</strong> &#8211; (bool) Return dates as <code class="docutils literal"><span class="pre">datetime</span></code> objects; false to return as ISO strings.
+Return the User object as a dictionary of values. NB: Dates will be returned as native, UTC-timezone (but not timezone aware) <code class="docutils literal"><span class="pre">datetime.datetime</span></code> objects.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Shake.AsJsonString">
+<code class="descname">AsJsonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Shake.AsJsonString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a JSON string representing this Shake instance. NB: any dates will be converted to ISO strings as part of the serialization.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="sharedfile">
+<span id="models-sharedfile"></span><h2>SharedFile<a class="headerlink" href="#sharedfile" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="SharedFile">
+<em class="property">class </em><code class="descname">SharedFile</code><span class="sig-paren">(</span><span class="optional">[</span><em>sharekey=None</em><span class="optional">]</span><span class="optional">[</span>, <em>name=None</em><span class="optional">]</span><span class="optional">[</span>, <em>user=None</em><span class="optional">]</span><span class="optional">[</span>, <em>title=None</em><span class="optional">]</span><span class="optional">[</span>, <em>description=None</em><span class="optional">]</span><span class="optional">[</span>, <em>posted_at=None</em><span class="optional">]</span><span class="optional">[</span>, <em>permalink=None</em><span class="optional">]</span><span class="optional">[</span>, <em>width=None</em><span class="optional">]</span><span class="optional">[</span>, <em>height=None</em><span class="optional">]</span><span class="optional">[</span>, <em>views=None</em><span class="optional">]</span><span class="optional">[</span>, <em>likes=None</em><span class="optional">]</span><span class="optional">[</span>, <em>saves=None</em><span class="optional">]</span><span class="optional">[</span>, <em>comments=None</em><span class="optional">]</span><span class="optional">[</span>, <em>nsfw=None</em><span class="optional">]</span><span class="optional">[</span>, <em>image_url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>source_url=None</em><span class="optional">]</span><span class="optional">[</span>, <em>saved=None</em><span class="optional">]</span><span class="optional">[</span>, <em>liked=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#SharedFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representing a file or embedded video on mlkshk.com</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sharekey</strong> &#8211; (str): Sharekey of the file.</li>
+<li><strong>name</strong> &#8211; (str): Filename as uploaded to mlkshk.com</li>
+<li><strong>user</strong> &#8211; (User): User object representing user who uploaded the file</li>
+<li><strong>title</strong> &#8211; (str): Title of the SharedFile</li>
+<li><strong>description</strong> &#8211; (str): Description of the SharedFile</li>
+<li><strong>posted_at</strong> &#8211; (datetime): <code class="docutils literal"><span class="pre">datetime.datetime</span></code> object representing the time the SharedFile was uploaded</li>
+<li><strong>permalink</strong> &#8211; (str): URL of the SharedFile. Example: &#8220;<a class="reference external" href="http://mlkshk.com/1645C">http://mlkshk.com/1645C</a>&#8220;</li>
+<li><strong>width</strong> &#8211; (int): Width of the image.</li>
+<li><strong>height</strong> &#8211; (int): Height of the image</li>
+<li><strong>views</strong> &#8211; (int): How many views the SharedFile has received.</li>
+<li><strong>likes</strong> &#8211; (int): How many likes/favorites the SharedFile has received.</li>
+<li><strong>saves</strong> &#8211; (int): How many saves the SharedFile has received.</li>
+<li><strong>comments</strong> &#8211; (list): List of Comment objects posted to the SharedFile.</li>
+<li><strong>nsfw</strong> &#8211; (bool): Whether the file is not safe for work (NB: folks in the community sometimes flag very large GIFs as NSFW).</li>
+<li><strong>image_url</strong> &#8211; (str): URL for hotlinking to the image file.</li>
+<li><strong>source_url</strong> &#8211; (str): If not an image, this can be a YouTube, Vine, etc. link.</li>
+<li><strong>saved</strong> &#8211; (bool): If the currently authenticated user has saved the file.</li>
+<li><strong>liked</strong> &#8211; (bool): If the currently authenticated user has liked the file.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="SharedFile.NewFromJson">
+<code class="descname">NewFromJson</code><span class="sig-paren">(</span><span class="optional">[</span><em>data=None</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#SharedFile.NewFromJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a SharedFile object from a JSON string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SharedFile.AsDict">
+<code class="descname">AsDict</code><span class="sig-paren">(</span><span class="optional">[</span><em>dt=True</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#SharedFile.AsDict" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dt</strong> &#8211; (bool) Return dates as <code class="docutils literal"><span class="pre">datetime</span></code> objects; false to return as ISO strings.
+Return the User object as a dictionary of values. NB: Dates will be returned as native, UTC-timezone (but not timezone aware) <code class="docutils literal"><span class="pre">datetime.datetime</span></code> objects.</td>
+</tr>
+</tbody>
+</table>
+<p>Return a dictionary representing the SharedFile object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="SharedFile.AsJsonString">
+<code class="descname">AsJsonString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SharedFile.AsJsonString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a JSON string representing this SharedFile instance. NB: any dates will be converted to ISO strings as part of the serialization.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 
