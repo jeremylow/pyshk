@@ -11,6 +11,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   warnings.rst
    installation.rst
    auth_tutorial.rst
    using_api.rst

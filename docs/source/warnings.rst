@@ -1,13 +1,10 @@
-.. _installation:
+.. _warnings:
 
-************
-Installation
-************
+********
+Warnings
+********
 
-Until distribution by PyPi is setup, please clone the repository::
-
-    git clone git://github.com/jeremylow/pyshk.git
-    cd pyshk
+Just some things to be aware of prior to using this library:
 
 .. danger::
 
