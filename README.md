@@ -7,7 +7,7 @@ Pyshk is a python client for the mlkshk.com api.
 Documentation is available at [read the docs](http://pyshk.readthedocs.org/en/latest/)
 
 ### Installation
-For now, clone the repository:
+Install via pypi:
 
     pip install pyshk
 
