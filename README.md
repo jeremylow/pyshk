@@ -9,11 +9,7 @@ Documentation is available at [read the docs](http://pyshk.readthedocs.org/en/la
 ### Installation
 For now, clone the repository:
 
-    git clone git@github.com:jeremylow/pyshk.git
-
-and then create a virtual environment. Install the requirements with:
-
-    pip install -r requirements.txt
+    pip install pyshk
 
 In order to get started, you have to sign up for mlkshk (yay!) and create an application on mlkshk.com. First, you'll need to sign up for an account here: [Create Account](http://mlkshk.com/create-account).
 
