@@ -18,6 +18,7 @@ class ApiResponseUnauthorized(Exception):
                 status=self.status_code,
                 reason=self.reason)
 
+
 class ApiInstanceUnauthorized(Exception):
     def __init__(self):
         self.reason = ("API Instance is unauthorized. You must provide "

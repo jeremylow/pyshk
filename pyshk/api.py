@@ -11,7 +11,6 @@ import imghdr
 import os
 import random
 import requests
-import requests_toolbelt
 import six
 import time
 

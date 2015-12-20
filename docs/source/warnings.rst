@@ -8,7 +8,7 @@ Just some things to be aware of prior to using this library:
 
 .. danger::
 
-    This is pre-alpha software, so things **might change and break often**. Buyer beware. If there are any problems or you find a bug, please create an issue on GitHub.
+    If there are any problems or you find a bug, please create an issue on GitHub.
 
 .. danger::
 
